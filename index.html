@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supershop Bisagno S.R.L.</title>
+    <title>Supershop Bisagno S.R.L. - Articoli Regalo, Giocattoli, Casalinghi Genova</title>
+    <meta name="description" content="Supershop Bisagno S.R.L. - Articoli regalo, giocattoli, cartoleria, casalinghi, ferramenta a Genova. Dal 2019 il vostro punto di riferimento.">
+    <meta name="keywords" content="supershop bisagno, genova, articoli regalo, giocattoli, casalinghi, ferramenta, natale">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -29,7 +32,6 @@
             scroll-behavior: smooth;
         }
         
-        /* Header */
         header {
             background: linear-gradient(135deg, var(--primary-color), #00264d);
             color: white;
@@ -107,9 +109,31 @@
             cursor: pointer;
         }
         
-        /* Hero Section */
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: 2rem;
+        }
+        
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
         .hero {
-            background: linear-gradient(rgba(0,64,128,0.8), rgba(0,38,77,0.9)), url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background: linear-gradient(rgba(0,64,128,0.8), rgba(0,38,77,0.9));
             background-size: cover;
             background-position: center;
             color: white;
@@ -152,7 +176,6 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
         
-        /* Main Content */
         main {
             max-width: 1200px;
             margin: 2rem auto;
@@ -348,7 +371,6 @@
             transform: translateY(-3px);
         }
         
-        /* 本月优惠区样式 */
         .monthly-offer {
             background: #f0f7ff;
             border-left: 4px solid var(--primary-color);
@@ -396,7 +418,6 @@
             margin-top: 1.5rem;
         }
         
-        /* 产品展示区样式 */
         .products-section {
             margin-top: 2rem;
         }
@@ -553,7 +574,89 @@
             background: #003366;
         }
         
-        /* 移动端优化 */
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .sync-status.syncing {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .sync-status.error {
+            background: #dc3545;
+        }
+        
+        #privacy-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #privacy-modal > div {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            margin: 2rem;
+            position: relative;
+        }
+        
+        .admin-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .admin-btn:active {
+            transform: translateY(0);
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -579,7 +682,8 @@
                 font-size: 2rem;
             }
             
-            .info-grid, .categories-grid {
+            .info-grid,
+            .categories-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -596,8 +700,9 @@
                 min-width: 100%;
             }
             
-            /* 移动端触摸优化 */
-            .btn, .product-card, nav a {
+            .btn,
+            .product-card,
+            nav a {
                 min-height: 44px;
             }
             
@@ -605,6 +710,11 @@
                 padding: 1rem 0.8rem;
                 display: flex;
                 align-items: center;
+            }
+            
+            .language-switcher {
+                margin-left: 0;
+                margin-top: 1rem;
             }
         }
         
@@ -630,194 +740,179 @@
                 gap: 0.8rem;
             }
         }
-
-        /* 合规声明弹窗 */
-        #privacy-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #privacy-modal > div {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            margin: 2rem;
-            position: relative;
-        }
     </style>
 </head>
 <body>
+    <div id="sync-status" class="sync-status" style="display: none;">
+        <i class="fas fa-cloud"></i>
+        <span id="sync-text">已同步</span>
+    </div>
+
     <header>
         <div class="header-container">
             <div class="logo">
-                <img src="1000011845.png" alt="SuperShop Logo" class="logo-img">
+                <img src="1000011845.png" alt="SuperShop Logo" class="logo-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzAwNDA4MCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+UzwvdGV4dD48L3N2Zz4='">
                 <h1>Supershop Bisagno</h1>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">Chi Siamo</a></li>
-                    <li><a href="#products">Prodotti</a></li>
-                    <li><a href="#monthly-offer">Offerte</a></li>
-                    <li><a href="#hours">Orari</a></li>
-                    <li><a href="#products-showcase">Catalogo</a></li>
-                    <li><a href="#contact">Contatti</a></li>
-                </ul>
-            </nav>
-            <button class="mobile-menu-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <nav>
+                    <ul>
+                        <li><a href="#home" data-i18n="nav.home">Home</a></li>
+                        <li><a href="#about" data-i18n="nav.about">Chi Siamo</a></li>
+                        <li><a href="#products" data-i18n="nav.products">Prodotti</a></li>
+                        <li><a href="#monthly-offer" data-i18n="nav.offers">Offerte</a></li>
+                        <li><a href="#hours" data-i18n="nav.hours">Orari</a></li>
+                        <li><a href="#products-showcase" data-i18n="nav.catalog">Catalogo</a></li>
+                        <li><a href="#contact" data-i18n="nav.contact">Contatti</a></li>
+                    </ul>
+                </nav>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="it">IT</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="zh">中文</button>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+            </div>
         </div>
     </header>
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <h2>Supershop Bisagno S.R.L.</h2>
-            <p>ARTICOLI REGALO - GIOCATOLI - CARTOLERIA - CASALINGHI - FERRAMENTA</p>
-            <a href="#products-showcase" class="btn">Scopri i nostri prodotti</a>
+            <h2 data-i18n="hero.title">Supershop Bisagno S.R.L.</h2>
+            <p data-i18n="hero.subtitle">ARTICOLI REGALO - GIOCATOLI - CARTOLERIA - CASALINGHI - FERRAMENTA</p>
+            <a href="#products-showcase" class="btn" data-i18n="hero.cta">Scopri i nostri prodotti</a>
         </div>
     </section>
 
     <main>
         <section id="about">
-            <h2>Benvenuti</h2>
-            <p>Benvenuti nel sito ufficiale di Supershop Bisagno S.R.L., il vostro punto di riferimento a Genova dal 2019. Offriamo un'ampia selezione di articoli per la casa, articoli per l'igiene personale, prodotti per la pulizia della casa, giocattoli per bambini e articoli per animali domestici.</p>
+            <h2 data-i18n="about.title">Benvenuti</h2>
+            <p data-i18n="about.description">Benvenuti nel sito ufficiale di Supershop Bisagno S.R.L., il vostro punto di riferimento a Genova dal 2019. Offriamo un'ampia selezione di articoli per la casa, articoli per l'igiene personale, prodotti per la pulizia della casa, giocattoli per bambini e articoli per animali domestici.</p>
             <div class="info-grid">
                 <div class="info-card">
-                    <h3><i class="fas fa-store"></i> Il nostro negozio</h3>
-                    <p>Un ambiente moderno e accogliente dove trovare tutto ciò che ti serve per la casa e la famiglia con la massima convenienza e qualità.</p>
+                    <h3><i class="fas fa-store"></i> <span data-i18n="about.store.title">Il nostro negozio</span></h3>
+                    <p data-i18n="about.store.description">Un ambiente moderno e accogliente dove trovare tutto ciò che ti serve per la casa e la famiglia con la massima convenienza e qualità.</p>
                 </div>
                 <div class="info-card">
-                    <h3><i class="fas fa-users"></i> La nostra filosofia</h3>
-                    <p>Crediamo nel servizio al cliente eccellente e nella qualità dei prodotti. La soddisfazione dei nostri clienti è la nostra priorità.</p>
+                    <h3><i class="fas fa-users"></i> <span data-i18n="about.philosophy.title">La nostra filosofia</span></h3>
+                    <p data-i18n="about.philosophy.description">Crediamo nel servicio al cliente eccellente e nella qualità dei prodotti. La soddisfazione dei nostri clienti è la nostra priorità.</p>
                 </div>
             </div>
         </section>
 
         <section id="products">
-            <h2>I nostri prodotti</h2>
-            <p>Scopri la nostra vasta gamma di prodotti per tutte le esigenze domestiche:</p>
+            <h2 data-i18n="products.title">I nostri prodotti</h2>
+            <p data-i18n="products.description">Scopri la nostra vasta gamma di prodotti per tutte le esigenze domestiche:</p>
             <div class="categories-grid">
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-gift"></i></div>
-                    <h3>Articoli Regalo</h3>
-                    <p>Idee regalo per ogni occasione e per tutte le età</p>
+                    <h3 data-i18n="products.categories.gifts">Articoli Regalo</h3>
+                    <p data-i18n="products.categories.gifts_desc">Idee regalo per ogni occasione e per tutte le età</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-gamepad"></i></div>
-                    <h3>Giocattoli</h3>
-                    <p>Giocattoli educativi e di intrattenimento per bambini</p>
+                    <h3 data-i18n="products.categories.toys">Giocattoli</h3>
+                    <p data-i18n="products.categories.toys_desc">Giocattoli educativi e di intrattenimento per bambini</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-pencil-alt"></i></div>
-                    <h3>Cartoleria</h3>
-                    <p>Materiale scolastico e per ufficio di alta qualità</p>
+                    <h3 data-i18n="products.categories.stationery">Cartoleria</h3>
+                    <p data-i18n="products.categories.stationery_desc">Materiale scolastico e per ufficio di alta qualità</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-home"></i></div>
-                    <h3>Casalinghi</h3>
-                    <p>Accessori e complementi d'arredo per la casa</p>
+                    <h3 data-i18n="products.categories.household">Casalinghi</h3>
+                    <p data-i18n="products.categories.household_desc">Accessori e complementi d'arredo per la casa</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-tools"></i></div>
-                    <h3>Ferramenta</h3>
-                    <p>Utensili e materiali per piccoli lavori domestici</p>
+                    <h3 data-i18n="products.categories.hardware">Ferramenta</h3>
+                    <p data-i18n="products.categories.hardware_desc">Utensili e materiali per piccoli lavori domestici</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-paw"></i></div>
-                    <h3>Articoli per animali</h3>
-                    <p>Prodotti per la cura e il benessere dei tuoi amici a quattro zampe</p>
+                    <h3 data-i18n="products.categories.pets">Articoli per animali</h3>
+                    <p data-i18n="products.categories.pets_desc">Prodotti per la cura e il benessere dei tuoi amici a quattro zampe</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-lightbulb"></i></div>
-                    <h3>Illuminazione</h3>
-                    <p>Lampadari, lampade da terra, lampade da tavolo e illuminazione per interni</p>
+                    <h3 data-i18n="products.categories.lighting">Illuminazione</h3>
+                    <p data-i18n="products.categories.lighting_desc">Lampadari, lampade da terra, lampade da tavolo e illuminazione per internos</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-couch"></i></div>
-                    <h3>Mobili</h3>
-                    <p>Mobili per la casa, sedie, tavoli e complementi d'arredo</p>
+                    <h3 data-i18n="products.categories.furniture">Mobili</h3>
+                    <p data-i18n="products.categories.furniture_desc">Mobili per la casa, sedie, tavoli e complementi d'arredo</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-tree"></i></div>
-                    <h3>Articoli Natalizi</h3>
-                    <p>Decorazioni, addobbi e regali per il periodo natalizio</p>
+                    <h3 data-i18n="products.categories.christmas">Articoli Natalizi</h3>
+                    <p data-i18n="products.categories.christmas_desc">Decorazioni, addobbi e regali per il periodo natalizio</p>
                 </div>
             </div>
         </section>
 
-        <!-- 本月优惠 -->
         <section id="monthly-offer" class="monthly-offer">
-            <h2>🎄 Speciale Natale</h2>
-            <div class="offer-highlight">
+            <h2 data-i18n="offer.title">🎄 Speciale Natale</h2>
+            <div class="offer-highlight" data-i18n="offer.highlight">
                 SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!
             </div>
             <div class="offer-details">
-                <h3><i class="fas fa-gift"></i> Cosa troverai in negozio:</h3>
+                <h3><i class="fas fa-gift"></i> <span data-i18n="offer.details.title">Cosa troverai in negozio:</span></h3>
                 <ul style="margin-left: 1.5rem; margin-top: 1rem;">
-                    <li>Addobbi natalizi di precedenti stagioni a prezzi stracciati</li>
-                    <li>Decorazioni per l'albero di Natale con sconti fino al 70%</li>
-                    <li>Luci e illuminazione natalizia a prezzi imbattibili</li>
-                    <li>Idee regalo natalizie con incredibili occasioni</li>
-                    <li>E tanto altro... vieni a scoprirlo di persona!</li>
+                    <li data-i18n="offer.details.item1">Addobbi natalizi di precedenti stagioni a prezzi stracciati</li>
+                    <li data-i18n="offer.details.item2">Decorazioni per l'albero di Natale con sconti fino al 70%</li>
+                    <li data-i18n="offer.details.item3">Luci e illuminazione natalizia a prezzi imbattibili</li>
+                    <li data-i18n="offer.details.item4">Idee regalo natalizie con incredibili occasioni</li>
+                    <li data-i18n="offer.details.item5">E tanto altro... vieni a scoprirlo di persona!</li>
                 </ul>
             </div>
-            <p><strong>Perché non elenchiamo tutti i prodotti?</strong> Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.</p>
+            <p data-i18n="offer.why_not_list"><strong>Perché non elenchiamo tutti i prodotti?</strong> Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.</p>
             <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">
-                📍 <strong>Vieni a caccia di occasioni!</strong><br>
-                <em>I prezzi più bassi li vedi solo qui da noi</em>
+                📍 <strong data-i18n="offer.visit">Vieni a caccia di occasioni!</strong><br>
+                <em data-i18n="offer.best_prices">I prezzi più bassi li vedi solo qui da noi</em>
             </p>
             <div class="offer-validity">
-                <strong>Affrettati! Offerte valide fino al: <span style="color: var(--secondary-color);">31 Dicembre 2025</span></strong><br>
-                <small>o fino ad esaurimento scorte</small>
+                <strong data-i18n="offer.validity">Affrettati! Offerte valide fino al: <span style="color: var(--secondary-color);">31 Dicembre 2025</span></strong><br>
+                <small data-i18n="offer.while_supplies_last">o fino ad esaurimento scorte</small>
             </div>
         </section>
 
         <section id="hours">
-            <h2>Orari di apertura</h2>
+            <h2 data-i18n="hours.title">Orari di apertura</h2>
             <ul class="hours-list">
-                <li><span>Lunedì</span><span>08:45 — 19:45</span></li>
-                <li><span>Martedì</span><span>08:45 — 19:45</span></li>
-                <li><span>Mercoledì</span><span>08:45 — 19:45</span></li>
-                <li><span>Giovedì</span><span>08:45 — 19:45</span></li>
-                <li><span>Venerdì</span><span>08:45 — 19:45</span></li>
-                <li><span>Sabato</span><span>08:45 — 19:45</span></li>
-                <li><span>Domenica</span><span>08:45 — 19:45</span></li>
+                <li><span data-i18n="hours.monday">Lunedì</span><span>08:45 — 19:45</span></li>
+                <li><span data-i18n="hours.tuesday">Martedì</span><span>08:45 — 19:45</span></li>
+                <li><span data-i18n="hours.wednesday">Mercoledì</span><span>08:45 — 19:45</span></li>
+                <li><span data-i18n="hours.thursday">Giovedì</span><span>08:45 — 19:45</span></li>
+                <li><span data-i18n="hours.friday">Venerdì</span><span>08:45 — 19:45</span></li>
+                <li><span data-i18n="hours.saturday">Sabato</span><span>08:45 — 19:45</span></li>
+                <li><span data-i18n="hours.sunday">Domenica</span><span>08:45 — 19:45</span></li>
             </ul>
-            <p style="margin-top:1rem;font-style:italic;">Siamo aperti anche nei giorni festivi, salvo comunicazioni diverse.</p>
+            <p style="margin-top:1rem;font-style:italic;" data-i18n="hours.note">Siamo aperti anche nei giorni festivi, salvo comunicazioni diverse.</p>
         </section>
 
-        <!-- 产品展示区 -->
         <section id="products-showcase" class="products-section">
-            <h2>Catalogo Prodotti</h2>
-            <p>Scopri tutti i nostri prodotti con prezzi e dettagli:</p>
+            <h2 data-i18n="catalog.title">Catalogo Prodotti</h2>
+            <p data-i18n="catalog.description">Scopri tutti i nostri prodotti con prezzi e dettagli:</p>
 
             <div class="search-filter-container">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="product-search" placeholder="Cerca per nome prodotto o codice a barre...">
-                    <div class="search-hint">Cerca per nome prodotto o codice a barre (es: 8005123456789)</div>
+                    <input type="text" id="product-search" placeholder="Cerca per nome prodotto o codice a barre..." data-i18n-placeholder="catalog.search_placeholder">
+                    <div class="search-hint" data-i18n="catalog.search_hint">Cerca per nome prodotto o codice a barre (es: 8005123456789)</div>
                 </div>
                 <select class="filter-select" id="category-filter">
-                    <option value="all">Tutte le categorie</option>
-                    <option value="regalo">Articoli Regalo</option>
-                    <option value="giocattoli">Giocattoli</option>
-                    <option value="cartoleria">Cartoleria</option>
-                    <option value="casalinghi">Casalinghi</option>
-                    <option value="ferramenta">Ferramenta</option>
-                    <option value="animali">Articoli per animali</option>
-                    <option value="illuminazione">Illuminazione</option>
-                    <option value="mobili">Mobili</option>
-                    <option value="natale">🎄 Articoli Natalizi</option>
+                    <option value="all" data-i18n="catalog.all_categories">Tutte le categorie</option>
+                    <option value="regalo" data-i18n="products.categories.gifts">Articoli Regalo</option>
+                    <option value="giocattoli" data-i18n="products.categories.toys">Giocattoli</option>
+                    <option value="cartoleria" data-i18n="products.categories.stationery">Cartoleria</option>
+                    <option value="casalinghi" data-i18n="products.categories.household">Casalinghi</option>
+                    <option value="ferramenta" data-i18n="products.categories.hardware">Ferramenta</option>
+                    <option value="animali" data-i18n="products.categories.pets">Articoli per animali</option>
+                    <option value="illuminazione" data-i18n="products.categories.lighting">Illuminazione</option>
+                    <option value="mobili" data-i18n="products.categories.furniture">Mobili</option>
+                    <option value="natale" data-i18n="products.categories.christmas">🎄 Articoli Natalizi</option>
                 </select>
             </div>
 
@@ -826,18 +921,18 @@
             </div>
 
             <div class="load-more-container">
-                <button class="load-more-btn" id="load-more">Carica più prodotti</button>
+                <button class="load-more-btn" id="load-more" data-i18n="catalog.load_more">Carica più prodotti</button>
             </div>
         </section>
 
         <section id="contact">
-            <h2>Contatti</h2>
+            <h2 data-i18n="contact.title">Contatti</h2>
             <div class="contact-info">
                 <div class="contact-details">
-                    <p><i class="fas fa-map-marker-alt"></i> <strong>Indirizzo:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
-                    <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a></p>
-                    <p><i class="fas fa-info-circle"></i> Per informazioni commerciali o partnership, contattaci via email.</p>
-                    <p>Scansiona il QR code per visitare il sito:</p>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong data-i18n="contact.address_label">Indirizzo:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
+                    <p><i class="fas fa-envelope"></i> <strong data-i18n="contact.email_label">Email:</strong> <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a></p>
+                    <p><i class="fas fa-info-circle"></i> <span data-i18n="contact.commercial_info">Per informazioni commerciali o partnership, contattaci via email.</span></p>
+                    <p data-i18n="contact.qr_instruction">Scansiona il QR code per visitare il sito:</p>
                     <img src="1000011850.png" alt="QR Code Supershop Bisagno" style="width:150px;height:150px;">
                 </div>
                 <div class="map-container">
@@ -849,18 +944,16 @@
 
     <footer>
         <div class="footer-content">
-            <p>© <span id="year"></span> Supershop Bisagno S.R.L. — Tutti i diritti riservati</p>
+            <p>© <span id="year"></span> Supershop Bisagno S.R.L. — <span data-i18n="footer.rights">Tutti i diritti riservati</span></p>
             <p>P.IVA: 02596100996 | REA: GE - 497926</p>
             
-            <!-- 合规链接 -->
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);">
-                <a href="#privacy-policy" style="color: white; margin: 0 1rem; text-decoration: none;" onclick="showPrivacyPolicy()">Privacy Policy</a>
-                <a href="#cookie-policy" style="color: white; margin: 0 1rem; text-decoration: none;" onclick="showCookiePolicy()">Cookie Policy</a>
+                <a href="#privacy-policy" style="color: white; margin: 0 1rem; text-decoration: none;" onclick="showPrivacyPolicy()" data-i18n="footer.privacy">Privacy Policy</a>
+                <a href="#cookie-policy" style="color: white; margin: 0 1rem; text-decoration: none;" onclick="showCookiePolicy()" data-i18n="footer.cookie">Cookie Policy</a>
             </div>
         </div>
     </footer>
 
-    <!-- 隐私政策弹窗 -->
     <div id="privacy-modal">
         <div>
             <button onclick="closeModal()" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
@@ -871,7 +964,330 @@
     <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
 
     <script>
-        // 产品数据 - 仅使用真实数据
+        // ==================== 多语言支持 ====================
+        const translations = {
+            it: {
+                "nav.home": "Home",
+                "nav.about": "Chi Siamo", 
+                "nav.products": "Prodotti",
+                "nav.offers": "Offerte", 
+                "nav.hours": "Orari",
+                "nav.catalog": "Catalogo",
+                "nav.contact": "Contatti",
+                "hero.title": "Supershop Bisagno S.R.L.",
+                "hero.subtitle": "ARTICOLI REGALO - GIOCATOLI - CARTOLERIA - CASALINGHI - FERRAMENTA",
+                "hero.cta": "Scopri i nostri prodotti",
+                "about.title": "Benvenuti",
+                "about.description": "Benvenuti nel sito ufficiale di Supershop Bisagno S.R.L., il vostro punto di riferimento a Genova dal 2019. Offriamo un'ampia selezione di articoli per la casa, articoli per l'igiene personale, prodotti per la pulizia della casa, giocattoli per bambini e articoli per animali domestici.",
+                "about.store.title": "Il nostro negozio",
+                "about.store.description": "Un ambiente moderno e accogliente dove trovare tutto ciò che ti serve per la casa e la famiglia con la massima convenienza e qualità.",
+                "about.philosophy.title": "La nostra filosofia",
+                "about.philosophy.description": "Crediamo nel servizio al cliente eccellente e nella qualità dei prodotti. La soddisfazione dei nostri clienti è la nostra priorità.",
+                "products.title": "I nostri prodotti",
+                "products.description": "Scopri la nostra vasta gamma di prodotti per tutte le esigenze domestiche:",
+                "products.categories.gifts": "Articoli Regalo",
+                "products.categories.gifts_desc": "Idee regalo per ogni occasione e per tutte le età",
+                "products.categories.toys": "Giocattoli",
+                "products.categories.toys_desc": "Giocattoli educativi e di intrattenimento per bambini",
+                "products.categories.stationery": "Cartoleria",
+                "products.categories.stationery_desc": "Materiale scolastico e per ufficio di alta qualità",
+                "products.categories.household": "Casalinghi",
+                "products.categories.household_desc": "Accessori e complementi d'arredo per la casa",
+                "products.categories.hardware": "Ferramenta",
+                "products.categories.hardware_desc": "Utensili e materiali per piccoli lavori domestici",
+                "products.categories.pets": "Articoli per animali",
+                "products.categories.pets_desc": "Prodotti per la cura e il benessere dei tuoi amici a quattro zampe",
+                "products.categories.lighting": "Illuminazione",
+                "products.categories.lighting_desc": "Lampadari, lampade da terra, lampade da tavolo e illuminazione per internos",
+                "products.categories.furniture": "Mobili",
+                "products.categories.furniture_desc": "Mobili per la casa, sedie, tavoli e complementi d'arredo",
+                "products.categories.christmas": "Articoli Natalizi",
+                "products.categories.christmas_desc": "Decorazioni, addobbi e regali per il periodo natalizio",
+                "offer.title": "🎄 Speciale Natale",
+                "offer.highlight": "SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!",
+                "offer.details.title": "Cosa troverai in negozio:",
+                "offer.details.item1": "Addobbi natalizi di precedenti stagioni a prezzi stracciati",
+                "offer.details.item2": "Decorazioni per l'albero di Natale con sconti fino al 70%",
+                "offer.details.item3": "Luci e illuminazione natalizia a prezzi imbattibili",
+                "offer.details.item4": "Idee regalo natalizie con incredibili occasioni",
+                "offer.details.item5": "E tanto altro... vieni a scoprirlo di persona!",
+                "offer.why_not_list": "Perché non elenchiamo tutti i prodotti? Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.",
+                "offer.visit": "Vieni a caccia di occasioni!",
+                "offer.best_prices": "I prezzi più bassi li vedi solo qui da noi",
+                "offer.validity": "Affrettati! Offerte valide fino al:",
+                "offer.while_supplies_last": "o fino ad esaurimento scorte",
+                "hours.title": "Orari di apertura",
+                "hours.monday": "Lunedì",
+                "hours.tuesday": "Martedì",
+                "hours.wednesday": "Mercoledì",
+                "hours.thursday": "Giovedì",
+                "hours.friday": "Venerdì",
+                "hours.saturday": "Sabato",
+                "hours.sunday": "Domenica",
+                "hours.note": "Siamo aperti anche nei giorni festivi, salvo comunicazioni diverse.",
+                "catalog.title": "Catalogo Prodotti",
+                "catalog.description": "Scopri tutti i nostri prodotti con prezzi e dettagli:",
+                "catalog.search_placeholder": "Cerca per nome prodotto o codice a barre...",
+                "catalog.search_hint": "Cerca per nome prodotto o codice a barre (es: 8005123456789)",
+                "catalog.all_categories": "Tutte le categorie",
+                "catalog.load_more": "Carica più prodotti",
+                "contact.title": "Contatti",
+                "contact.address_label": "Indirizzo:",
+                "contact.email_label": "Email:",
+                "contact.commercial_info": "Per informazioni commerciali o partnership, contattaci via email.",
+                "contact.qr_instruction": "Scansiona il QR code per visitare il sito:",
+                "footer.rights": "Tutti i diritti riservati",
+                "footer.privacy": "Privacy Policy",
+                "footer.cookie": "Cookie Policy"
+            },
+            en: {
+                "nav.home": "Home",
+                "nav.about": "About Us", 
+                "nav.products": "Products",
+                "nav.offers": "Offers", 
+                "nav.hours": "Opening Hours",
+                "nav.catalog": "Catalog",
+                "nav.contact": "Contact",
+                "hero.title": "Supershop Bisagno S.R.L.",
+                "hero.subtitle": "GIFT ITEMS - TOYS - STATIONERY - HOUSEHOLD - HARDWARE",
+                "hero.cta": "Discover our products",
+                "about.title": "Welcome",
+                "about.description": "Welcome to the official website of Supershop Bisagno S.R.L., your reference point in Genoa since 2019. We offer a wide selection of home items, personal hygiene products, household cleaning products, children's toys and pet supplies.",
+                "about.store.title": "Our store",
+                "about.store.description": "A modern and welcoming environment where you can find everything you need for your home and family with maximum convenience and quality.",
+                "about.philosophy.title": "Our philosophy",
+                "about.philosophy.description": "We believe in excellent customer service and product quality. Customer satisfaction is our priority.",
+                "products.title": "Our products",
+                "products.description": "Discover our wide range of products for all household needs:",
+                "products.categories.gifts": "Gift Items",
+                "products.categories.gifts_desc": "Gift ideas for every occasion and all ages",
+                "products.categories.toys": "Toys",
+                "products.categories.toys_desc": "Educational and entertainment toys for children",
+                "products.categories.stationery": "Stationery",
+                "products.categories.stationery_desc": "High quality school and office supplies",
+                "products.categories.household": "Household",
+                "products.categories.household_desc": "Home accessories and furnishings",
+                "products.categories.hardware": "Hardware",
+                "products.categories.hardware_desc": "Tools and materials for small household jobs",
+                "products.categories.pets": "Pet Supplies",
+                "products.categories.pets_desc": "Products for the care and well-being of your four-legged friends",
+                "products.categories.lighting": "Lighting",
+                "products.categories.lighting_desc": "Chandeliers, floor lamps, table lamps and interior lighting",
+                "products.categories.furniture": "Furniture",
+                "products.categories.furniture_desc": "Home furniture, chairs, tables and furnishings",
+                "products.categories.christmas": "Christmas Items",
+                "products.categories.christmas_desc": "Decorations, ornaments and gifts for the Christmas period",
+                "offer.title": "🎄 Christmas Special",
+                "offer.highlight": "INCREDIBLE DISCOUNTS UP TO 70% ON SOME CHRISTMAS ITEMS!",
+                "offer.details.title": "What you'll find in store:",
+                "offer.details.item1": "Christmas decorations from previous seasons at bargain prices",
+                "offer.details.item2": "Christmas tree decorations with discounts up to 70%",
+                "offer.details.item3": "Christmas lights and lighting at unbeatable prices",
+                "offer.details.item4": "Christmas gift ideas with incredible deals",
+                "offer.details.item5": "And much more... come discover it in person!",
+                "offer.why_not_list": "Why don't we list all products? Because stocks are limited and vary every day! The best deals you find by coming directly to the store.",
+                "offer.visit": "Come hunt for bargains!",
+                "offer.best_prices": "The lowest prices you'll only see here with us",
+                "offer.validity": "Hurry! Offers valid until:",
+                "offer.while_supplies_last": "or while supplies last",
+                "hours.title": "Opening Hours",
+                "hours.monday": "Monday",
+                "hours.tuesday": "Tuesday",
+                "hours.wednesday": "Wednesday",
+                "hours.thursday": "Thursday",
+                "hours.friday": "Friday",
+                "hours.saturday": "Saturday",
+                "hours.sunday": "Sunday",
+                "hours.note": "We are also open on holidays, unless otherwise communicated.",
+                "catalog.title": "Product Catalog",
+                "catalog.description": "Discover all our products with prices and details:",
+                "catalog.search_placeholder": "Search by product name or barcode...",
+                "catalog.search_hint": "Search by product name or barcode (ex: 8005123456789)",
+                "catalog.all_categories": "All categories",
+                "catalog.load_more": "Load more products",
+                "contact.title": "Contact",
+                "contact.address_label": "Address:",
+                "contact.email_label": "Email:",
+                "contact.commercial_info": "For commercial information or partnerships, contact us by email.",
+                "contact.qr_instruction": "Scan the QR code to visit the website:",
+                "footer.rights": "All rights reserved",
+                "footer.privacy": "Privacy Policy",
+                "footer.cookie": "Cookie Policy"
+            },
+            zh: {
+                "nav.home": "首页",
+                "nav.about": "关于我们", 
+                "nav.products": "产品",
+                "nav.offers": "优惠活动", 
+                "nav.hours": "营业时间",
+                "nav.catalog": "产品目录",
+                "nav.contact": "联系我们",
+                "hero.title": "Supershop Bisagno S.R.L.",
+                "hero.subtitle": "礼品 - 玩具 - 文具 - 家居用品 - 五金工具",
+                "hero.cta": "探索我们的产品",
+                "about.title": "欢迎光临",
+                "about.description": "欢迎来到Supershop Bisagno S.R.L.官方网站，我们自2019年起一直是您在热那亚的参考点。我们提供各种家居用品、个人卫生用品、家庭清洁产品、儿童玩具和宠物用品。",
+                "about.store.title": "我们的店铺",
+                "about.store.description": "一个现代而温馨的环境，您可以以最大的便利和品质找到家庭所需的一切。",
+                "about.philosophy.title": "我们的理念",
+                "about.philosophy.description": "我们相信卓越的客户服务和产品质量。客户满意是我们的首要任务。",
+                "products.title": "我们的产品",
+                "products.description": "发现我们满足所有家庭需求的广泛产品系列：",
+                "products.categories.gifts": "礼品",
+                "products.categories.gifts_desc": "适合各种场合和所有年龄段的礼品创意",
+                "products.categories.toys": "玩具",
+                "products.categories.toys_desc": "儿童教育和娱乐玩具",
+                "products.categories.stationery": "文具",
+                "products.categories.stationery_desc": "高品质的学校和办公用品",
+                "products.categories.household": "家居用品",
+                "products.categories.household_desc": "家居配件和装饰品",
+                "products.categories.hardware": "五金工具",
+                "products.categories.hardware_desc": "小型家庭作业的工具和材料",
+                "products.categories.pets": "宠物用品",
+                "products.categories.pets_desc": "为您的四足朋友提供护理和健康产品",
+                "products.categories.lighting": "照明",
+                "products.categories.lighting_desc": "吊灯、落地灯、台灯和室内照明",
+                "products.categories.furniture": "家具",
+                "products.categories.furniture_desc": "家居家具、椅子、桌子和装饰品",
+                "products.categories.christmas": "圣诞商品",
+                "products.categories.christmas_desc": "圣诞期间的装饰品、装饰物和礼物",
+                "offer.title": "🎄 圣诞特惠",
+                "offer.highlight": "部分圣诞商品低至3折！",
+                "offer.details.title": "店内精选：",
+                "offer.details.item1": "往季圣诞装饰品超低价",
+                "offer.details.item2": "圣诞树装饰品折扣高达70%",
+                "offer.details.item3": "圣诞灯饰价格无敌",
+                "offer.details.item4": "圣诞礼品创意超值优惠",
+                "offer.details.item5": "还有更多...亲自来发现吧！",
+                "offer.why_not_list": "为什么我们不列出所有产品？因为库存有限且每天都在变化！最好的优惠需要您亲自来店发现。",
+                "offer.visit": "来寻宝吧！",
+                "offer.best_prices": "最低价格仅在我们这里",
+                "offer.validity": "赶快！优惠有效期至：",
+                "offer.while_supplies_last": "或售完即止",
+                "hours.title": "营业时间",
+                "hours.monday": "星期一",
+                "hours.tuesday": "星期二",
+                "hours.wednesday": "星期三",
+                "hours.thursday": "星期四",
+                "hours.friday": "星期五",
+                "hours.saturday": "星期六",
+                "hours.sunday": "星期日",
+                "hours.note": "节假日照常营业，除非另有通知。",
+                "catalog.title": "产品目录",
+                "catalog.description": "查看我们所有产品的价格和详细信息：",
+                "catalog.search_placeholder": "按产品名称或条形码搜索...",
+                "catalog.search_hint": "按产品名称或条形码搜索（例如：8005123456789）",
+                "catalog.all_categories": "所有分类",
+                "catalog.load_more": "加载更多产品",
+                "contact.title": "联系我们",
+                "contact.address_label": "地址：",
+                "contact.email_label": "邮箱：",
+                "contact.commercial_info": "如需商业信息或合作，请通过电子邮件联系我们。",
+                "contact.qr_instruction": "扫描二维码访问网站：",
+                "footer.rights": "版权所有",
+                "footer.privacy": "隐私政策",
+                "footer.cookie": "Cookie政策"
+            }
+        };
+
+        let currentLanguage = 'it';
+
+        // 语言切换功能
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // 更新语言按钮状态
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            // 更新所有文本
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // 更新占位符文本
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+            
+            // 更新选择框选项
+            updateSelectOptions();
+            
+            // 保存语言偏好
+            localStorage.setItem('preferred-language', lang);
+            
+            // 重新渲染产品以更新分类标签
+            if (typeof renderProducts === 'function') {
+                renderProducts();
+            }
+            
+            // 显示语言切换通知
+            showSyncStatus(`Language switched to ${lang.toUpperCase()}`, 'success');
+        }
+
+        function updateSelectOptions() {
+            const categoryFilter = document.getElementById('category-filter');
+            if (categoryFilter) {
+                Array.from(categoryFilter.options).forEach(option => {
+                    const key = option.getAttribute('data-i18n');
+                    if (key && translations[currentLanguage] && translations[currentLanguage][key]) {
+                        option.textContent = translations[currentLanguage][key];
+                    }
+                });
+            }
+        }
+
+        // 初始化语言
+        function initLanguage() {
+            const savedLanguage = localStorage.getItem('preferred-language') || 'it';
+            switchLanguage(savedLanguage);
+            
+            // 添加语言切换事件监听
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchLanguage(btn.dataset.lang);
+                });
+            });
+        }
+
+        // ==================== 同步状态显示 ====================
+        function showSyncStatus(message, type = 'info') {
+            const syncStatus = document.getElementById('sync-status');
+            const syncText = document.getElementById('sync-text');
+            
+            if (syncStatus && syncText) {
+                syncText.textContent = message;
+                syncStatus.className = 'sync-status';
+                
+                switch(type) {
+                    case 'success':
+                        syncStatus.classList.add('success');
+                        break;
+                    case 'error':
+                        syncStatus.classList.add('error');
+                        break;
+                    case 'syncing':
+                        syncStatus.classList.add('syncing');
+                        break;
+                }
+                
+                syncStatus.style.display = 'flex';
+                
+                // 3秒后自动隐藏
+                setTimeout(() => {
+                    syncStatus.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // ==================== 产品数据初始化 ====================
         const products = [
             {
                 id: "8021785862708",
@@ -953,6 +1369,9 @@
             }
         ];
 
+        // 将产品数据暴露到全局
+        window.products = products;
+
         // 产品展示功能
         let currentPage = 1;
         const productsPerPage = 8;
@@ -968,15 +1387,24 @@
         // 获取分类标签
         function getCategoryLabel(category) {
             const categoryLabels = {
-                'regalo': 'Articoli Regalo',
-                'giocattoli': 'Giocattoli',
-                'cartoleria': 'Cartoleria',
-                'casalinghi': 'Casalinghi',
-                'ferramenta': 'Ferramenta',
-                'animali': 'Articoli per Animali',
-                'illuminazione': 'Illuminazione',
-                'mobili': 'Mobili',
-                'natale': '🎄 Articoli Natalizi'
+                'regalo': currentLanguage === 'it' ? 'Articoli Regalo' : 
+                         currentLanguage === 'en' ? 'Gift Items' : '礼品',
+                'giocattoli': currentLanguage === 'it' ? 'Giocattoli' : 
+                             currentLanguage === 'en' ? 'Toys' : '玩具',
+                'cartoleria': currentLanguage === 'it' ? 'Cartoleria' : 
+                             currentLanguage === 'en' ? 'Stationery' : '文具',
+                'casalinghi': currentLanguage === 'it' ? 'Casalinghi' : 
+                             currentLanguage === 'en' ? 'Household' : '家居用品',
+                'ferramenta': currentLanguage === 'it' ? 'Ferramenta' : 
+                             currentLanguage === 'en' ? 'Hardware' : '五金工具',
+                'animali': currentLanguage === 'it' ? 'Articoli per animali' : 
+                          currentLanguage === 'en' ? 'Pet Supplies' : '宠物用品',
+                'illuminazione': currentLanguage === 'it' ? 'Illuminazione' : 
+                               currentLanguage === 'en' ? 'Lighting' : '照明',
+                'mobili': currentLanguage === 'it' ? 'Mobili' : 
+                         currentLanguage === 'en' ? 'Furniture' : '家具',
+                'natale': currentLanguage === 'it' ? '🎄 Articoli Natalizi' : 
+                         currentLanguage === 'en' ? '🎄 Christmas Items' : '🎄 圣诞商品'
             };
             return categoryLabels[category] || category;
         }
@@ -1000,8 +1428,11 @@
                 container.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;">
                         <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                        <h3>Nessun prodotto trovato</h3>
-                        <p>Prova a modificare i criteri di ricerca o a utilizzare un codice a barre diverso.</p>
+                        <h3>${currentLanguage === 'it' ? 'Nessun prodotto trovato' : 
+                             currentLanguage === 'en' ? 'No products found' : '未找到产品'}</h3>
+                        <p>${currentLanguage === 'it' ? 'Prova a modificare i criteri di ricerca o a utilizzare un codice a barre diverso.' :
+                             currentLanguage === 'en' ? 'Try modifying search criteria or using a different barcode.' :
+                             '尝试修改搜索条件或使用不同的条形码。'}</p>
                     </div>
                 `;
                 return;
@@ -1011,14 +1442,12 @@
                 const productElement = document.createElement('div');
                 productElement.className = 'product-card';
                 
-                // 修复价格显示逻辑
                 const hasDiscount = product.discountPrice && product.originalPrice;
                 const hasSinglePrice = product.price;
                 
                 let priceHTML = '';
                 
                 if (hasDiscount) {
-                    // 有折扣的产品
                     priceHTML = `
                         <div class="product-price-container">
                             <span class="original-price">${product.originalPrice}</span>
@@ -1027,17 +1456,16 @@
                         <div class="discount-badge">-${formatDiscountPercentage(product.discountPercentage)}</div>
                     `;
                 } else if (hasSinglePrice) {
-                    // 只有单一价格的产品
                     priceHTML = `
                         <div class="product-price-container">
                             <span class="discount-price">${product.price}</span>
                         </div>
                     `;
                 } else {
-                    // 没有价格信息的产品
                     priceHTML = `
                         <div class="product-price-container">
-                            <span class="discount-price">Prezzo su richiesta</span>
+                            <span class="discount-price">${currentLanguage === 'it' ? 'Prezzo su richiesta' : 
+                                                         currentLanguage === 'en' ? 'Price on request' : '价格咨询'}</span>
                         </div>
                     `;
                 }
@@ -1048,11 +1476,11 @@
                         <div class="product-name">${product.name}</div>
                         ${priceHTML}
                         <span class="product-category">${getCategoryLabel(product.category)}</span>
-                        <div class="product-barcode-small">Codice: ${product.id}</div>
+                        <div class="product-barcode-small">${currentLanguage === 'it' ? 'Codice' : 
+                                                           currentLanguage === 'en' ? 'Code' : '代码'}: ${product.id}</div>
                     </div>
                 `;
                 
-                // 添加图片加载错误处理
                 const imgElement = productElement.querySelector('.product-image');
                 imgElement.addEventListener('error', function() {
                     this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltbWFnaW5lIG5vbiBjYXJpY2F0YTwvdGV4dD48L3N2Zz4=';
@@ -1063,43 +1491,55 @@
                 container.appendChild(productElement);
             });
 
-            // 显示/隐藏"加载更多"按钮
             const loadMoreBtn = document.getElementById('load-more');
-            loadMoreBtn.style.display = endIndex < filteredProducts.length ? 'block' : 'none';
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = endIndex < filteredProducts.length ? 'block' : 'none';
+            }
         }
 
         // 设置事件监听器
         function setupEventListeners() {
-            // 搜索功能
-            document.getElementById('product-search').addEventListener('input', function() {
-                filterProducts();
-            });
+            const searchInput = document.getElementById('product-search');
+            const categoryFilter = document.getElementById('category-filter');
+            const loadMoreBtn = document.getElementById('load-more');
             
-            // 分类筛选
-            document.getElementById('category-filter').addEventListener('change', function() {
-                filterProducts();
-            });
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    filterProducts();
+                });
+            }
             
-            // 加载更多
-            document.getElementById('load-more').addEventListener('click', function() {
-                currentPage++;
-                renderProducts();
-            });
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', function() {
+                    filterProducts();
+                });
+            }
+            
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', function() {
+                    currentPage++;
+                    renderProducts();
+                });
+            }
         }
 
-        // 筛选产品 - 现在支持名称和条形码搜索
+        // 筛选产品
         function filterProducts() {
-            const searchTerm = document.getElementById('product-search').value.toLowerCase();
-            const categoryFilter = document.getElementById('category-filter').value;
+            const searchInput = document.getElementById('product-search');
+            const categoryFilter = document.getElementById('category-filter');
+            
+            if (!searchInput || !categoryFilter) return;
+            
+            const searchTerm = searchInput.value.toLowerCase();
+            const categoryValue = categoryFilter.value;
             
             filteredProducts = products.filter(product => {
-                // 搜索产品名称、描述和条形码
                 const matchesSearch = searchTerm === '' || 
                                      product.name.toLowerCase().includes(searchTerm) || 
                                      (product.description && product.description.toLowerCase().includes(searchTerm)) ||
                                      product.id.includes(searchTerm);
                 
-                const matchesCategory = categoryFilter === 'all' || product.category === categoryFilter;
+                const matchesCategory = categoryValue === 'all' || product.category === categoryValue;
                 
                 return matchesSearch && matchesCategory;
             });
@@ -1110,21 +1550,21 @@
 
         // 产品详情模态框功能
         function openProductModal(product) {
-            // 创建模态框HTML
+            // 先关闭可能已存在的模态框
+            closeProductModal();
+            
             const modalHTML = `
                 <div id="product-modal" style="display:flex; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10001; justify-content:center; align-items:center; padding:2rem;">
                     <div style="background:white; border-radius:12px; max-width:900px; width:100%; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
                         <button onclick="closeProductModal()" style="position:absolute; top:1rem; right:1rem; background:rgba(0,0,0,0.7); color:white; border:none; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.2rem; z-index:10;">&times;</button>
                         
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; min-height:500px;">
-                            <!-- 图片区域 -->
                             <div style="background:#f8f9fa; display:flex; align-items:center; justify-content:center; padding:2rem; border-radius:12px 0 0 12px;">
                                 <img src="${product.image}" alt="${product.name}" 
                                      style="max-width:100%; max-height:400px; object-fit:contain; border-radius:8px;"
                                      onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltbWFnaW5lIG5vbiBjYXJpY2F0YTwvdGV4dD48L3N2Zz4='">
                             </div>
                             
-                            <!-- 信息区域 -->
                             <div style="padding:2.5rem;">
                                 <div style="margin-bottom:1.5rem;">
                                     ${product.discountPrice && product.originalPrice ? `
@@ -1136,7 +1576,7 @@
                                         </div>
                                         <div style="font-size:1.8rem; font-weight:bold; color:var(--secondary-color);">${product.discountPrice}</div>
                                     ` : `
-                                        <div style="font-size:1.8rem; font-weight:bold; color:var(--primary-color);">${product.price || 'Prezzo su richiesta'}</div>
+                                        <div style="font-size:1.8rem; font-weight:bold; color:var(--primary-color);">${product.price || (currentLanguage === 'it' ? 'Prezzo su richiesta' : currentLanguage === 'en' ? 'Price on request' : '价格咨询')}</div>
                                     `}
                                 </div>
                                 
@@ -1153,36 +1593,41 @@
                                 
                                 ${product.description && product.description !== product.name ? `
                                     <div style="margin-bottom:1.5rem;">
-                                        <h3 style="color:var(--primary-color); margin-bottom:0.5rem; font-size:1.1rem;">Descrizione</h3>
+                                        <h3 style="color:var(--primary-color); margin-bottom:0.5rem; font-size:1.1rem;">${currentLanguage === 'it' ? 'Descrizione' : currentLanguage === 'en' ? 'Description' : '产品描述'}</h3>
                                         <p style="color:#666; line-height:1.6;">${product.description}</p>
                                     </div>
                                 ` : ''}
                                 
                                 <div style="border-top:1px solid #eee; padding-top:1.5rem;">
-                                    <h3 style="color:var(--primary-color); margin-bottom:1rem; font-size:1.1rem;">💡 Come acquistare</h3>
+                                    <h3 style="color:var(--primary-color); margin-bottom:1rem; font-size:1.1rem;">💡 ${currentLanguage === 'it' ? 'Come acquistare' : currentLanguage === 'en' ? 'How to purchase' : '购买方式'}</h3>
                                     <div style="background:#f8f9fa; padding:1rem; border-radius:8px; border-left:4px solid var(--primary-color);">
                                         <p style="margin:0; color:#666; font-size:0.9rem;">
-                                            <strong>Visita il nostro negozio fisico!</strong><br>
-                                            Porta questo codice a barre in negozio per trovare facilmente il prodotto.
+                                            <strong>${currentLanguage === 'it' ? 'Visita il nostro negozio fisico!' : 
+                                                     currentLanguage === 'en' ? 'Visit our physical store!' : 
+                                                     '请访问我们的实体店！'}</strong><br>
+                                            ${currentLanguage === 'it' ? 'Porta questo codice a barre in negozio per trovare facilmente il prodotto.' :
+                                             currentLanguage === 'en' ? 'Bring this barcode to the store to easily find the product.' :
+                                             '将此条形码带到店铺，轻松找到产品。'}
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- 底部操作栏 -->
                         <div style="border-top:1px solid #eee; padding:1.5rem; background:#f8f9fa; border-radius:0 0 12px 12px;">
                             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
                                 <div style="display:flex; align-items:center; gap:0.5rem; color:#666;">
                                     <i class="fas fa-store"></i>
-                                    <span>Disponibile in negozio</span>
+                                    <span>${currentLanguage === 'it' ? 'Disponibile in negozio' : 
+                                           currentLanguage === 'en' ? 'Available in store' : 
+                                           '店内现货'}</span>
                                 </div>
                                 <div style="display:flex; gap:1rem;">
                                     <button onclick="printProductInfo('${product.id}')" style="background:var(--primary-color); color:white; border:none; padding:0.8rem 1.5rem; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:0.5rem;">
-                                        <i class="fas fa-print"></i> Stampa
+                                        <i class="fas fa-print"></i> ${currentLanguage === 'it' ? 'Stampa' : currentLanguage === 'en' ? 'Print' : '打印'}
                                     </button>
                                     <button onclick="shareProduct('${product.id}')" style="background:var(--secondary-color); color:white; border:none; padding:0.8rem 1.5rem; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:0.5rem;">
-                                        <i class="fas fa-share-alt"></i> Condividi
+                                        <i class="fas fa-share-alt"></i> ${currentLanguage === 'it' ? 'Condividi' : currentLanguage === 'en' ? 'Share' : '分享'}
                                     </button>
                                 </div>
                             </div>
@@ -1191,28 +1636,33 @@
                 </div>
             `;
             
-            // 添加到页面
             document.body.insertAdjacentHTML('beforeend', modalHTML);
             
-            // 点击模态框外部关闭
-            document.getElementById('product-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeProductModal();
-                }
-            });
+            // 添加事件监听器
+            const modal = document.getElementById('product-modal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeProductModal();
+                    }
+                });
+            }
             
             // ESC键关闭
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function handleEsc(e) {
                 if (e.key === 'Escape') {
                     closeProductModal();
+                    document.removeEventListener('keydown', handleEsc);
                 }
             });
 
             // 移动端优化：点击模态框内容区域不关闭
             const modalContent = document.querySelector('#product-modal > div');
-            modalContent.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
+            if (modalContent) {
+                modalContent.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
         }
 
         // 关闭产品模态框
@@ -1229,11 +1679,14 @@
             if (!product) return;
             
             const printWindow = window.open('', '_blank');
+            const storeName = 'Supershop Bisagno';
+            const address = 'Lungobisagno Istria, 29F, 16139 Genova GE';
+            
             printWindow.document.write(`
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>${product.name} - Supershop Bisagno</title>
+                    <title>${product.name} - ${storeName}</title>
                     <style>
                         body { font-family: Arial, sans-serif; padding: 2rem; max-width: 600px; margin: 0 auto; }
                         .header { text-align: center; margin-bottom: 2rem; border-bottom: 2px solid #004080; padding-bottom: 1rem; }
@@ -1249,8 +1702,8 @@
                 </head>
                 <body>
                     <div class="header">
-                        <h1 style="color: #004080; margin-bottom: 0.5rem;">Supershop Bisagno</h1>
-                        <p style="color: #666;">Lungobisagno Istria, 29F, 16139 Genova GE</p>
+                        <h1 style="color: #004080; margin-bottom: 0.5rem;">${storeName}</h1>
+                        <p style="color: #666;">${address}</p>
                     </div>
                     
                     <div class="product-info">
@@ -1260,19 +1713,19 @@
                                 <span style="color: #999; text-decoration: line-through; font-size: 1rem; margin-right: 1rem;">${product.originalPrice}</span>
                                 ${product.discountPrice}
                             </div>
-                            <div style="color: #e74c3c; font-weight: bold;">Sconto: ${formatDiscountPercentage(product.discountPercentage)}</div>
+                            <div style="color: #e74c3c; font-weight: bold;">${currentLanguage === 'it' ? 'Sconto' : currentLanguage === 'en' ? 'Discount' : '折扣'}: ${formatDiscountPercentage(product.discountPercentage)}</div>
                         ` : `
-                            <div class="price">${product.price || 'Prezzo su richiesta'}</div>
+                            <div class="price">${product.price || (currentLanguage === 'it' ? 'Prezzo su richiesta' : currentLanguage === 'en' ? 'Price on request' : '价格咨询')}</div>
                         `}
                         
                         <div style="margin: 1rem 0;">
-                            <strong>Categoria:</strong> ${getCategoryLabel(product.category)}<br>
-                            <strong>Codice:</strong> ${product.id}
+                            <strong>${currentLanguage === 'it' ? 'Categoria' : currentLanguage === 'en' ? 'Category' : '分类'}:</strong> ${getCategoryLabel(product.category)}<br>
+                            <strong>${currentLanguage === 'it' ? 'Codice' : currentLanguage === 'en' ? 'Code' : '代码'}:</strong> ${product.id}
                         </div>
                         
                         ${product.description && product.description !== product.name ? `
                             <div style="margin: 1rem 0;">
-                                <strong>Descrizione:</strong><br>
+                                <strong>${currentLanguage === 'it' ? 'Descrizione' : currentLanguage === 'en' ? 'Description' : '描述'}:</strong><br>
                                 ${product.description}
                             </div>
                         ` : ''}
@@ -1283,14 +1736,16 @@
                     </div>
                     
                     <div class="store-info">
-                        <h3>Come acquistare:</h3>
-                        <p>Porta questo foglio in negozio e mostra il codice a barre al nostro staff per trovare facilmente il prodotto.</p>
-                        <p><strong>Orari di apertura:</strong> Tutti i giorni 08:45 - 19:45</p>
+                        <h3>${currentLanguage === 'it' ? 'Come acquistare:' : currentLanguage === 'en' ? 'How to purchase:' : '购买方式：'}</h3>
+                        <p>${currentLanguage === 'it' ? 'Porta questo foglio in negozio e mostra il codice a barre al nostro staff per trovare facilmente il prodotto.' :
+                         currentLanguage === 'en' ? 'Bring this sheet to the store and show the barcode to our staff to easily find the product.' :
+                         '将此页面带到店铺，向工作人员出示条形码即可轻松找到产品。'}</p>
+                        <p><strong>${currentLanguage === 'it' ? 'Orari di apertura:' : currentLanguage === 'en' ? 'Opening hours:' : '营业时间：'}</strong> ${currentLanguage === 'it' ? 'Tutti i giorni 08:45 - 19:45' : currentLanguage === 'en' ? 'Every day 08:45 - 19:45' : '每日 08:45 - 19:45'}</p>
                     </div>
                     
                     <div class="no-print" style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd;">
-                        <button onclick="window.print()" style="background: #004080; color: white; border: none; padding: 0.8rem 2rem; border-radius: 6px; cursor: pointer; margin-right: 1rem;">Stampa</button>
-                        <button onclick="window.close()" style="background: #666; color: white; border: none; padding: 0.8rem 2rem; border-radius: 6px; cursor: pointer;">Chiudi</button>
+                        <button onclick="window.print()" style="background: #004080; color: white; border: none; padding: 0.8rem 2rem; border-radius: 6px; cursor: pointer; margin-right: 1rem;">${currentLanguage === 'it' ? 'Stampa' : currentLanguage === 'en' ? 'Print' : '打印'}</button>
+                        <button onclick="window.close()" style="background: #666; color: white; border: none; padding: 0.8rem 2rem; border-radius: 6px; cursor: pointer;">${currentLanguage === 'it' ? 'Chiudi' : currentLanguage === 'en' ? 'Close' : '关闭'}</button>
                     </div>
                 </body>
                 </html>
@@ -1303,102 +1758,235 @@
             const product = products.find(p => p.id === productId);
             if (!product) return;
             
-            const shareText = `Scopri ${product.name} da Supershop Bisagno! ${product.discountPrice ? `In offerta a ${product.discountPrice}` : `A soli ${product.price}`}. Visita il nostro negozio!`;
+            const shareText = currentLanguage === 'it' ? 
+                `Scopri ${product.name} da Supershop Bisagno! ${product.discountPrice ? `In offerta a ${product.discountPrice}` : `A soli ${product.price}`}. Visita il nostro negozio!` :
+                currentLanguage === 'en' ?
+                `Discover ${product.name} from Supershop Bisagno! ${product.discountPrice ? `On sale at ${product.discountPrice}` : `Only ${product.price}`}. Visit our store!` :
+                `发现 ${product.name} 来自 Supershop Bisagno！${product.discountPrice ? `特价 ${product.discountPrice}` : `仅售 ${product.price}`}。访问我们的店铺！`;
+            
             const shareUrl = window.location.href.split('#')[0] + `#product-${product.id}`;
             
             if (navigator.share) {
-                // 使用Web Share API (移动设备)
                 navigator.share({
                     title: product.name,
                     text: shareText,
                     url: shareUrl
                 });
             } else {
-                // 回退方案 - 复制到剪贴板
                 const textToCopy = `${shareText}\n\n${shareUrl}`;
                 navigator.clipboard.writeText(textToCopy).then(() => {
-                    alert('Informazioni prodotto copiate negli appunti! Condividile con i tuoi amici.');
+                    alert(currentLanguage === 'it' ? 'Informazioni prodotto copiate negli appunti! Condividile con i tuoi amici.' :
+                          currentLanguage === 'en' ? 'Product information copied to clipboard! Share it with your friends.' :
+                          '产品信息已复制到剪贴板！与您的朋友分享。');
                 }).catch(() => {
-                    // 如果剪贴板API不可用，显示文本让用户手动复制
-                    prompt('Copia questo testo per condividere:', textToCopy);
+                    prompt(currentLanguage === 'it' ? 'Copia questo testo per condividere:' :
+                          currentLanguage === 'en' ? 'Copy this text to share:' :
+                          '复制此文本进行分享：', textToCopy);
                 });
             }
         }
 
-        // 合规声明内容
+        // ==================== 合规声明内容 ====================
         const complianceContent = {
-            privacy: `
-                <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Informativa Privacy</h2>
-                <p><strong>Supershop Bisagno S.R.L.</strong> rispetta la tua privacy.</p>
-                
-                <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">📊 Dati raccolti</h3>
-                <p>Questo sito <strong>NON raccoglie dati personali</strong> degli utenti:</p>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li>Nessuna registrazione obbligatoria</li>
-                    <li>Nessun modulo di contatto</li>
-                    <li>Nessuna newsletter</li>
-                    <li>Nessun profilo utente</li>
-                </ul>
-                
-                <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🔍 Funzionalità del sito</h3>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li>La <strong>ricerca prodotti</strong> funziona solo sul tuo dispositivo</li>
-                    <li>I <strong>preferiti o carrello</strong> sono temporanei (sessioni browser)</li>
-                    <li>Nessun dato viene inviato ai nostri server</li>
-                </ul>
-                
-                <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">📞 Contatti</h3>
-                <p>Per qualsiasi domanda sulla privacy: <br>
-                <strong>Email:</strong> supershopbisagnosrl@gmail.com<br>
-                <strong>Indirizzo:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
-                
-                <div style="background: #f0f7ff; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; border-left: 4px solid var(--primary-color);">
-                    <p style="margin: 0;"><strong>ℹ️ Trasparenza:</strong> Questo sito è una vetrina digitale del nostro negozio fisico. 
-                    Venite a trovarci in negozio per acquistare i nostri prodotti!</p>
-                </div>
-            `,
-            
-            cookie: `
-                <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Informativa Cookie</h2>
-                
-                <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🍪 Cosa sono i Cookie?</h3>
-                <p>I cookie sono piccoli file di testo che i siti web salvano sul tuo dispositivo.</p>
-                
-                <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🔍 Cookie utilizzati su questo sito</h3>
-                <div style="background: #fff3cd; padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 4px solid #ffc107;">
-                    <p style="margin: 0;"><strong>✅ Questo sito NON utilizza cookie di tracciamento</strong></p>
-                </div>
-                
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li><strong>Nessun cookie analytics</strong> (Google Analytics, Facebook Pixel, ecc.)</li>
-                    <li><strong>Nessun cookie di profilazione</strong></li>
-                    <li><strong>Nessun cookie di marketing</strong></li>
-                    <li><strong>Nessun cookie di terze parti</strong></li>
-                </ul>
-                
-                <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">⚙️ Cookie tecnici (se presenti)</h3>
-                <p>Eventuali cookie tecnici sono utilizzati esclusivamente per:</p>
-                <ul style="margin-left: 1.5rem;">
-                    <li>Memorizzare preferenze di visualizzazione temporanee</li>
-                    <li>Funzionalità di ricerca interna al sito</li>
-                    <li>Migliorare l'esperienza di navigazione</li>
-                </ul>
-                
-                <div style="background: #d4edda; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; border-left: 4px solid #28a745;">
-                    <p style="margin: 0;"><strong>🛡️ Navigazione sicura:</strong> Puoi navigare questo sito tranquillamente 
-                    senza preoccupazioni per la tua privacy. Non tracciamo le tue attività online.</p>
-                </div>
-            `
+            privacy: {
+                it: `
+                    <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Informativa Privacy</h2>
+                    <p><strong>Supershop Bisagno S.R.L.</strong> rispetta la tua privacy.</p>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">📊 Dati raccolti</h3>
+                    <p>Questo sito <strong>NON raccoglie dati personali</strong> degli utenti:</p>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li>Nessuna registrazione obbligatoria</li>
+                        <li>Nessun modulo di contatto</li>
+                        <li>Nessuna newsletter</li>
+                        <li>Nessun profilo utente</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🔍 Funzionalità del sito</h3>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li>La <strong>ricerca prodotti</strong> funziona solo sul tuo dispositivo</li>
+                        <li>I <strong>preferiti o carrello</strong> sono temporanei (sessioni browser)</li>
+                        <li>Nessun dato viene inviato ai nostri servers</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">📞 Contatti</h3>
+                    <p>Per qualsiasi domanda sulla privacy: <br>
+                    <strong>Email:</strong> supershopbisagnosrl@gmail.com<br>
+                    <strong>Indirizzo:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
+                    
+                    <div style="background: #f0f7ff; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; border-left: 4px solid var(--primary-color);">
+                        <p style="margin: 0;"><strong>ℹ️ Trasparenza:</strong> Questo sito è una vetrina digitale del nostro negozio fisico. 
+                        Venite a trovarci in negozio per acquistare i nostri prodotti!</p>
+                    </div>
+                `,
+                en: `
+                    <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Privacy Policy</h2>
+                    <p><strong>Supershop Bisagno S.R.L.</strong> respects your privacy.</p>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">📊 Data Collected</h3>
+                    <p>This website <strong>does NOT collect personal data</strong> from users:</p>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li>No mandatory registration</li>
+                        <li>No contact forms</li>
+                        <li>No newsletter</li>
+                        <li>No user profiles</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🔍 Website Features</h3>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li><strong>Product search</strong> works only on your device</li>
+                        <li><strong>Favorites or cart</strong> are temporary (browser sessions)</li>
+                        <li>No data is sent to our servers</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">📞 Contact</h3>
+                    <p>For any privacy questions: <br>
+                    <strong>Email:</strong> supershopbisagnosrl@gmail.com<br>
+                    <strong>Address:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
+                    
+                    <div style="background: #f0f7ff; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; border-left: 4px solid var(--primary-color);">
+                        <p style="margin: 0;"><strong>ℹ️ Transparency:</strong> This website is a digital showcase of our physical store. 
+                        Come visit us in store to purchase our products!</p>
+                    </div>
+                `,
+                zh: `
+                    <h2 style="color: var(--primary-color); margin-bottom: 1rem;">隐私政策</h2>
+                    <p><strong>Supershop Bisagno S.R.L.</strong> 尊重您的隐私。</p>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">📊 收集的数据</h3>
+                    <p>本网站<strong>不收集</strong>用户的个人数据：</p>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li>无需强制注册</li>
+                        <li>无联系表单</li>
+                        <li>无新闻通讯</li>
+                        <li>无用户档案</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🔍 网站功能</h3>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li><strong>产品搜索</strong>仅在您的设备上运行</li>
+                        <li><strong>收藏或购物车</strong>是临时的（浏览器会话）</li>
+                        <li>无数据发送到我们的服务器</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">📞 联系方式</h3>
+                    <p>如有任何隐私问题：<br>
+                    <strong>邮箱：</strong> supershopbisagnosrl@gmail.com<br>
+                    <strong>地址：</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
+                    
+                    <div style="background: #f0f7ff; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; border-left: 4px solid var(--primary-color);">
+                        <p style="margin: 0;"><strong>ℹ️ 透明度：</strong>本网站是我们实体店的数字展示窗口。
+                        请来我们的实体店购买产品！</p>
+                    </div>
+                `
+            },
+            cookie: {
+                it: `
+                    <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Informativa Cookie</h2>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🍪 Cosa sono i Cookie?</h3>
+                    <p>I cookie sono piccoli file di testo che i siti web salvano sul tuo dispositivo.</p>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🔍 Cookie utilizzati su questo sito</h3>
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 4px solid #ffc107;">
+                        <p style="margin: 0;"><strong>✅ Questo sito NON utilizza cookie di tracciamento</strong></p>
+                    </div>
+                    
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li><strong>Nessun cookie analytics</strong> (Google Analytics, Facebook Pixel, ecc.)</li>
+                        <li><strong>Nessun cookie di profilazione</strong></li>
+                        <li><strong>Nessun cookie di marketing</strong></li>
+                        <li><strong>Nessun cookie di terze parti</strong></li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">⚙️ Cookie tecnici (se presenti)</h3>
+                    <p>Eventuali cookie tecnici sono utilizzati esclusivamente per:</p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Memorizzare preferenze di visualizzazione temporanee</li>
+                        <li>Funzionalità di ricerca interna al sito</li>
+                        <li>Migliorare l'esperienza di navigazione</li>
+                    </ul>
+                    
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; border-left: 4px solid #28a745;">
+                        <p style="margin: 0;"><strong>🛡️ Navigazione sicura:</strong> Puoi navigare questo sito tranquillamente 
+                        senza preoccupazioni per la tua privacy. Non tracciamo le tue attività online.</p>
+                    </div>
+                `,
+                en: `
+                    <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Cookie Policy</h2>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🍪 What are Cookies?</h3>
+                    <p>Cookies are small text files that websites save on your device.</p>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🔍 Cookies used on this website</h3>
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 4px solid #ffc107;">
+                        <p style="margin: 0;"><strong>✅ This website does NOT use tracking cookies</strong></p>
+                    </div>
+                    
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li><strong>No analytics cookies</strong> (Google Analytics, Facebook Pixel, etc.)</li>
+                        <li><strong>No profiling cookies</strong></li>
+                        <li><strong>No marketing cookies</strong></li>
+                        <li><strong>No third-party cookies</strong></li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">⚙️ Technical cookies (if any)</h3>
+                    <p>Any technical cookies are used exclusively for:</p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Storing temporary display preferences</li>
+                        <li>Internal website search functionality</li>
+                        <li>Improving browsing experience</li>
+                    </ul>
+                    
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; border-left: 4px solid #28a745;">
+                        <p style="margin: 0;"><strong>🛡️ Safe Browsing:</strong> You can browse this website safely 
+                        without privacy concerns. We do not track your online activities.</p>
+                    </div>
+                `,
+                zh: `
+                    <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Cookie政策</h2>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🍪 什么是Cookie？</h3>
+                    <p>Cookie是网站保存在您设备上的小型文本文件。</p>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">🔍 本网站使用的Cookie</h3>
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 4px solid #ffc107;">
+                        <p style="margin: 0;"><strong>✅ 本网站不使用跟踪Cookie</strong></p>
+                    </div>
+                    
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li><strong>无分析Cookie</strong>（Google Analytics、Facebook Pixel等）</li>
+                        <li><strong>无用户画像Cookie</strong></li>
+                        <li><strong>无营销Cookie</strong></li>
+                        <li><strong>无第三方Cookie</strong></li>
+                    </ul>
+                    
+                    <h3 style="color: var(--primary-color); margin: 1.5rem 0 0.5rem 0;">⚙️ 技术性Cookie（如有）</h3>
+                    <p>任何技术性Cookie仅用于：</p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>存储临时显示偏好</li>
+                        <li>网站内部搜索功能</li>
+                        <li>改善浏览体验</li>
+                    </ul>
+                    
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; border-left: 4px solid #28a745;">
+                        <p style="margin: 0;"><strong>🛡️ 安全浏览：</strong>您可以安全地浏览本网站，
+                        无需担心隐私问题。我们不跟踪您的在线活动。</p>
+                    </div>
+                `
+            }
         };
 
         // 弹窗控制函数
         function showPrivacyPolicy() {
-            document.getElementById('modal-content').innerHTML = complianceContent.privacy;
+            const content = complianceContent.privacy[currentLanguage] || complianceContent.privacy['it'];
+            document.getElementById('modal-content').innerHTML = content;
             document.getElementById('privacy-modal').style.display = 'flex';
         }
 
         function showCookiePolicy() {
-            document.getElementById('modal-content').innerHTML = complianceContent.cookie;
+            const content = complianceContent.cookie[currentLanguage] || complianceContent.cookie['it'];
+            document.getElementById('modal-content').innerHTML = content;
             document.getElementById('privacy-modal').style.display = 'flex';
         }
 
@@ -1413,74 +2001,88 @@
             }
         });
 
-        // Footer 年份自动更新
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // 移动端菜单
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const nav = document.querySelector('nav ul');
-        mobileMenuBtn.addEventListener('click', () => {
-            nav.classList.toggle('active');
-        });
-
-        // 返回顶部按钮
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if(window.pageYOffset>300){ 
-                backToTopBtn.classList.add('visible'); 
-            } else { 
-                backToTopBtn.classList.remove('visible'); 
-            }
-        });
-        backToTopBtn.addEventListener('click', (e)=>{ 
-            e.preventDefault(); 
-            window.scrollTo({top:0,behavior:'smooth'}); 
-        });
-
-        // 导航平滑滚动
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e){
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({ top: targetElement.offsetTop-80, behavior:'smooth' });
-                }
-                if(window.innerWidth<=768){ 
-                    nav.classList.remove('active'); 
-                }
-            });
-        });
-
-        // 自动显示/隐藏本月优惠
-        const offerSection = document.getElementById('monthly-offer');
-        const endDate = new Date('2025-12-31');
-        const today = new Date();
-        if(today <= endDate){ 
-            offerSection.classList.remove('hidden'); 
-        } else { 
-            offerSection.classList.add('hidden'); 
-        }
-
-        // 管理面板加载函数
-        async function enableAdminPanel() {
-            try {
-                // 动态导入admin-panel.js模块
-                const { enableAdminPanel: initAdminPanel } = await import('./admin-panel.js');
-                initAdminPanel();
-            } catch (error) {
-                console.error('❌ Errore caricamento pannello admin:', error);
-                alert('Pannello admin non disponibile. Controlla che il file admin-panel.js sia presente.');
-            }
-        }
-
-        // 初始化产品展示
+        // ==================== 页面初始化 ====================
         document.addEventListener('DOMContentLoaded', function() {
-            initProducts();
+            console.log('🎯 开始初始化...');
             
-            // 添加控制台提示
-            console.log("💡 要启用管理面板，请在控制台中运行: enableAdminPanel();");
+            // Footer 年份自动更新
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // 移动端菜单
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('nav ul');
+            if (mobileMenuBtn && nav) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    nav.classList.toggle('active');
+                });
+            }
+
+            // 返回顶部按钮
+            const backToTopBtn = document.getElementById('backToTop');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if(window.pageYOffset > 300){ 
+                        backToTopBtn.classList.add('visible'); 
+                    } else { 
+                        backToTopBtn.classList.remove('visible'); 
+                    }
+                });
+                backToTopBtn.addEventListener('click', (e)=>{ 
+                    e.preventDefault(); 
+                    window.scrollTo({top:0,behavior:'smooth'}); 
+                });
+            }
+
+            // 导航平滑滚动
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e){
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({ top: targetElement.offsetTop-80, behavior:'smooth' });
+                    }
+                    if(window.innerWidth <= 768){ 
+                        const nav = document.querySelector('nav ul');
+                        if (nav) nav.classList.remove('active'); 
+                    }
+                });
+            });
+
+            // 自动显示/隐藏本月优惠
+            const offerSection = document.getElementById('monthly-offer');
+            if (offerSection) {
+                const endDate = new Date('2025-12-31');
+                const today = new Date();
+                if(today <= endDate){ 
+                    offerSection.classList.remove('hidden'); 
+                } else { 
+                    offerSection.classList.add('hidden'); 
+                }
+            }
+
+            // 初始化语言
+            initLanguage();
+            
+            // 初始化产品展示
+            if (typeof initProducts === 'function') {
+                initProducts();
+            }
+            
+            console.log('✅ 页面初始化完成');
         });
+
+        // 将必要的函数暴露到全局
+        window.renderProducts = renderProducts;
+        window.filteredProducts = filteredProducts;
+        window.currentPage = currentPage;
+        window.closeProductModal = closeProductModal;
+        window.printProductInfo = printProductInfo;
+        window.shareProduct = shareProduct;
+        window.showPrivacyPolicy = showPrivacyPolicy;
+        window.showCookiePolicy = showCookiePolicy;
+        window.closeModal = closeModal;
+        window.switchLanguage = switchLanguage;
     </script>
 </body>
 </html>
