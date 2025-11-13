@@ -99,7 +99,12 @@ nav a:hover::after{
     color:white;
     padding:0.5rem 0.8rem;
     border-radius:4px;
-    cursor:pointer
+    cursor:pointer;
+    opacity:0.7;
+    transition:var(--transition)
+}
+#adminBtn:hover{
+    opacity:1
 }
 .hero{
     background:linear-gradient(rgba(0,64,128,0.8),rgba(0,38,77,0.9));
@@ -690,6 +695,22 @@ footer{
 .admin-overlay.active{
     display:block
 }
+.hidden-admin-btn{
+    position:fixed;
+    top:10px;
+    right:60px;
+    width:30px;
+    height:30px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    z-index:101;
+    opacity:0.3;
+    transition:opacity 0.3s ease
+}
+.hidden-admin-btn:hover{
+    opacity:0.7
+}
 @media(max-width:768px){
     .header-container{
         flex-direction:column;
@@ -708,7 +729,13 @@ footer{
         display:block
     }
     #adminBtn{
-        display:block!important
+        display:none !important
+    }
+    .hidden-admin-btn{
+        top:15px;
+        right:50px;
+        width:25px;
+        height:25px
     }
     .admin-panel{
         width:100%;
@@ -722,13 +749,24 @@ footer{
     .products-grid{
         grid-template-columns:1fr
     }
+    .hidden-admin-btn{
+        top:10px;
+        right:45px;
+        width:20px;
+        height:20px
+    }
 }
 </style>
 </head>
 <body>
 
 <!-- sync status -->
-<div id="sync-status" class="sync-status" style="display:none"><i class="fas fa-cloud"></i> <span id="sync-text">已同步</span></div>
+<div id="sync-status" class="sync-status" style="display:none"><i class="fas fa-cloud"></i> <span id="sync-text">Sincronizzato</span></div>
+
+<!-- 隐藏的管理员按钮 -->
+<button class="hidden-admin-btn" id="hiddenAdminBtn" title="Pannello Admin" style="display:none">
+    <i class="fas fa-user-shield" style="color:white;font-size:1.2rem"></i>
+</button>
 
 <!-- ADMIN PANEL -->
 <div class="admin-overlay" id="adminOverlay"></div>
@@ -747,7 +785,7 @@ footer{
     </div>
     <div class="admin-section">
       <h3><i class="fas fa-key"></i> Gestione Password</h3>
-      <div class="password-hint"><strong>Password di oggi:</strong> <span id="todayPassword"></span><br><small>Password statiche: admin123, bisagno2024</small></div>
+      <div class="password-hint"><strong>Accesso riservato al personale autorizzato</strong><br><small>Contatta l'amministratore per le credenziali</small></div>
     </div>
     <div class="admin-section">
       <h3><i class="fas fa-plus-circle"></i> Aggiungi Prodotto</h3>
@@ -788,6 +826,7 @@ footer{
   </div>
 </header>
 
+<!-- 其余HTML内容保持不变 -->
 <section class="hero" id="home">
   <div class="hero-content">
     <h2>Supershop Bisagno S.R.L.</h2>
@@ -961,6 +1000,44 @@ const showSyncStatus = (msg,type='success') => {
   setTimeout(()=>s.style.display='none',3000);
 };
 
+// ==================== 管理员面板改进 ====================
+let adminAuthenticated = false;
+
+const enableAdminPanel = () => {
+  if (adminAuthenticated) { 
+    openAdminPanel(); 
+    return; 
+  }
+  
+  // 更简洁的密码提示
+  const pwd = prompt('🔐 Accesso Amministratore\n\nInserisci la password:');
+  if (validateAdminPassword(pwd)) { 
+    adminAuthenticated = true; 
+    openAdminPanel(); 
+    showSyncStatus('Accesso amministratore autorizzato','success'); 
+  } else if (pwd !== null) {
+    alert('❌ Password non valida');
+  }
+};
+
+const openAdminPanel = () => {
+  document.getElementById('adminPanel').classList.add('active');
+  document.getElementById('adminOverlay').classList.add('active');
+  updateAdminStats();
+  // 移除动态密码显示
+};
+
+const closeAdminPanel = () => {
+  document.getElementById('adminPanel').classList.remove('active');
+  document.getElementById('adminOverlay').classList.remove('active');
+};
+
+const updateAdminStats = () => {
+  document.getElementById('totalProducts').textContent = products.length;
+  const categories = new Set(products.map(p => p.category));
+  document.getElementById('totalCategories').textContent = categories.size;
+};
+
 // ==================== 产品展示 ====================
 let currentPage = 1; 
 const productsPerPage = 8; 
@@ -1084,42 +1161,6 @@ const shareProduct = (id) => {
   }
 };
 
-// ==================== 管理员面板 ====================
-let adminAuthenticated = false;
-
-const enableAdminPanel = () => {
-  if (adminAuthenticated) { 
-    openAdminPanel(); 
-    return; 
-  }
-  const pwd = prompt('Password admin:\n(Dinamica: supershop + ggmm, es: supershop1311)\nStatica: admin123, bisagno2024');
-  if (validateAdminPassword(pwd)) { 
-    adminAuthenticated = true; 
-    openAdminPanel(); 
-    showSyncStatus('Admin attivato','success'); 
-  } else {
-    alert('Password errata!');
-  }
-};
-
-const openAdminPanel = () => {
-  document.getElementById('adminPanel').classList.add('active');
-  document.getElementById('adminOverlay').classList.add('active');
-  updateAdminStats();
-  document.getElementById('todayPassword').textContent = generateDynamicPassword();
-};
-
-const closeAdminPanel = () => {
-  document.getElementById('adminPanel').classList.remove('active');
-  document.getElementById('adminOverlay').classList.remove('active');
-};
-
-const updateAdminStats = () => {
-  document.getElementById('totalProducts').textContent = products.length;
-  const categories = new Set(products.map(p => p.category));
-  document.getElementById('totalCategories').textContent = categories.size;
-};
-
 // ==================== 管理员功能 ====================
 const addProduct = () => {
   const name = document.getElementById('adminProductName').value.trim();
@@ -1209,7 +1250,7 @@ const importProducts = () => {
           id,
           name,
           category,
-          image: img || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==',
+          image: img || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZ666sZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==',
           description: desc || name
         };
         
@@ -1351,6 +1392,9 @@ const showCookiePolicy = () => {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
   
+  // 显示隐藏的管理员按钮
+  document.getElementById('hiddenAdminBtn').style.display = 'block';
+  
   // Carica prodotti salvati
   const saved = loadStorage('supershop_products');
   if (saved && saved.length > 0) {
@@ -1377,6 +1421,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProducts();
   });
   
+  // 隐藏的管理员按钮事件
+  document.getElementById('hiddenAdminBtn').addEventListener('click', enableAdminPanel);
+  
   document.getElementById('adminBtn').addEventListener('click', enableAdminPanel);
   
   document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
@@ -1388,7 +1435,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'm') {
       e.preventDefault();
-      document.getElementById('adminBtn').click();
+      enableAdminPanel();
     }
   });
   
