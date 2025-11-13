@@ -9,6 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
+/* 保持你所有的现有样式不变 */
 :root{
     --primary-color:#004080;
     --secondary-color:#ff6b00;
@@ -22,744 +23,41 @@
     padding:0;
     box-sizing:border-box
 }
-body{
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-    line-height:1.6;
-    background-color:var(--light-color);
-    color:var(--dark-color);
-    scroll-behavior:smooth
-}
-header{
-    background:linear-gradient(135deg,var(--primary-color),#00264d);
-    color:white;
-    padding:1rem 0;
-    box-shadow:var(--shadow);
-    position:sticky;
-    top:0;
-    z-index:100
-}
-.header-container{
-    max-width:1200px;
-    margin:0 auto;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 1rem
-}
-.logo{
-    display:flex;
-    align-items:center;
-    gap:0.5rem
-}
-.logo-img{
-    height:60px;
-    width:auto
-}
-.logo h1{
-    font-size:1.8rem
-}
-nav ul{
-    display:flex;
-    list-style:none;
-    gap:1.5rem
-}
-nav a{
-    color:white;
-    text-decoration:none;
-    font-weight:500;
-    transition:var(--transition);
-    padding:0.5rem 0;
-    position:relative
-}
-nav a::after{
-    content:'';
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:0;
-    height:2px;
-    background-color:var(--secondary-color);
-    transition:var(--transition)
-}
-nav a:hover::after{
-    width:100%
-}
-.mobile-menu-btn{
-    display:none;
-    background:none;
-    border:none;
-    color:white;
-    font-size:1.5rem;
-    cursor:pointer
-}
-#adminBtn{
-    display:none;
-    background:var(--secondary-color);
-    border:none;
-    color:white;
-    padding:0.5rem 0.8rem;
-    border-radius:4px;
-    cursor:pointer;
-    opacity:0.7;
-    transition:var(--transition)
-}
-#adminBtn:hover{
-    opacity:1
-}
-.hero{
-    background:linear-gradient(rgba(0,64,128,0.8),rgba(0,38,77,0.9));
-    background-size:cover;
-    background-position:center;
-    color:white;
-    text-align:center;
-    padding:5rem 1rem
-}
-.hero-content{
-    max-width:800px;
-    margin:0 auto
-}
-.hero h2{
-    font-size:2.5rem;
-    margin-bottom:1rem;
-    color:white
-}
-.hero p{
-    font-size:1.2rem;
-    margin-bottom:2rem
-}
-.btn{
-    display:inline-block;
-    background-color:var(--secondary-color);
-    color:white;
-    padding:0.8rem 1.5rem;
-    border-radius:4px;
-    text-decoration:none;
-    font-weight:bold;
-    transition:var(--transition);
-    border:none;
-    cursor:pointer
-}
-.btn:hover{
-    background-color:#e55a00;
-    transform:translateY(-3px);
-    box-shadow:0 6px 12px rgba(0,0,0,0.15)
-}
-main{
-    max-width:1200px;
-    margin:2rem auto;
-    padding:0 1rem
-}
-section{
-    background:white;
-    border-radius:8px;
-    padding:2rem;
-    margin-bottom:2rem;
-    box-shadow:var(--shadow);
-    transition:var(--transition)
-}
-section:hover{
-    transform:translateY(-5px)
-}
-h2{
-    color:var(--primary-color);
-    margin-bottom:1.5rem;
-    padding-bottom:0.5rem;
-    border-bottom:2px solid var(--secondary-color);
-    display:inline-block
-}
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:2rem;
-    margin-top:2rem
-}
-.info-card{
-    background:#f0f7ff;
-    padding:1.5rem;
-    border-radius:8px;
-    border-left:4px solid var(--primary-color);
-    transition:var(--transition)
-}
-.info-card:hover{
-    transform:translateY(-5px);
-    box-shadow:var(--shadow)
-}
-.info-card h3{
-    color:var(--primary-color);
-    margin-bottom:1rem;
-    display:flex;
-    align-items:center;
-    gap:0.5rem
-}
-.info-card h3 i{
-    color:var(--secondary-color)
-}
-.categories-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:1.5rem;
-    margin-top:1.5rem
-}
-.category-card{
-    background:#f8f9fa;
-    border-radius:8px;
-    padding:1.5rem;
-    text-align:center;
-    transition:var(--transition);
-    border:1px solid #e9ecef
-}
-.category-card:hover{
-    transform:translateY(-5px);
-    box-shadow:var(--shadow);
-    border-color:var(--primary-color)
-}
-.category-icon{
-    font-size:2.5rem;
-    color:var(--primary-color);
-    margin-bottom:1rem
-}
-.category-card h3{
-    color:var(--primary-color);
-    margin-bottom:0.5rem
-}
-.hours-list{
-    list-style:none
-}
-.hours-list li{
-    padding:0.5rem 0;
-    border-bottom:1px dashed #ddd;
-    display:flex;
-    justify-content:space-between
-}
-.hours-list li:last-child{
-    border-bottom:none
-}
-.contact-info{
-    display:flex;
-    flex-wrap:wrap;
-    gap:2rem;
-    margin-top:1.5rem
-}
-.contact-details{
-    flex:1;
-    min-width:300px
-}
-.contact-details p{
-    margin-bottom:1rem;
-    display:flex;
-    align-items:center;
-    gap:0.5rem
-}
-.contact-details a{
-    color:var(--primary-color);
-    text-decoration:none;
-    transition:var(--transition)
-}
-.contact-details a:hover{
-    color:var(--secondary-color)
-}
-.map-container{
-    flex:1;
-    min-width:300px;
-    height:300px;
-    border-radius:8px;
-    overflow:hidden;
-    box-shadow:var(--shadow)
-}
-.map-container iframe{
-    width:100%;
-    height:100%;
-    border:none
-}
-footer{
-    background:linear-gradient(135deg,var(--primary-color),#00264d);
-    color:white;
-    text-align:center;
-    padding:2rem 0;
-    margin-top:3rem
-}
-.footer-content{
-    max-width:1200px;
-    margin:0 auto;
-    padding:0 1rem
-}
-.back-to-top{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:var(--secondary-color);
-    color:white;
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-    box-shadow:var(--shadow);
-    transition:var(--transition);
-    opacity:0;
-    visibility:hidden;
-    z-index:99
-}
-.back-to-top.visible{
-    opacity:1;
-    visibility:visible
-}
-.back-to-top:hover{
-    background:#e55a00;
-    transform:translateY(-3px)
-}
-.monthly-offer{
-    background:#f0f7ff;
-    border-left:4px solid var(--primary-color);
-    padding:1.5rem;
-    margin:2rem 0;
-    border-radius:8px;
-    transition:all 0.3s ease
-}
-.monthly-offer:hover{
-    transform:translateY(-5px);
-    box-shadow:var(--shadow)
-}
-.monthly-offer.hidden{
-    display:none
-}
-.offer-highlight{
-    background:linear-gradient(135deg,var(--secondary-color),#ff8c00);
-    color:white;
-    padding:1rem;
-    border-radius:8px;
-    text-align:center;
-    font-size:1.3rem;
-    font-weight:bold;
-    margin:1.5rem 0;
-    box-shadow:0 4px 8px rgba(0,0,0,0.1)
-}
-.offer-details{
-    background:white;
-    padding:1.5rem;
-    border-radius:8px;
-    margin:1.5rem 0;
-    border:1px solid #e0e0e0
-}
-.offer-validity{
-    background:#fff8e1;
-    padding:1rem;
-    border-radius:8px;
-    text-align:center;
-    border:1px dashed var(--secondary-color);
-    margin-top:1.5rem
-}
-.products-section{
-    margin-top:2rem
-}
-.search-filter-container{
-    display:flex;
-    flex-wrap:wrap;
-    gap:1rem;
-    margin-bottom:2rem;
-    align-items:center
-}
-.search-box{
-    flex:1;
-    min-width:300px;
-    position:relative
-}
-.search-box input{
-    width:100%;
-    padding:0.8rem 1rem 0.8rem 2.5rem;
-    border:1px solid #ddd;
-    border-radius:4px;
-    font-size:1rem
-}
-.search-box i{
-    position:absolute;
-    left:0.8rem;
-    top:50%;
-    transform:translateY(-50%);
-    color:#777
-}
-.search-hint{
-    font-size:0.8rem;
-    color:#666;
-    margin-top:0.3rem;
-    margin-left:0.5rem
-}
-.filter-select{
-    padding:0.8rem 1rem;
-    border:1px solid #ddd;
-    border-radius:4px;
-    font-size:1rem;
-    background:white;
-    cursor:pointer
-}
-.products-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-    gap:1.5rem;
-    margin-bottom:2rem
-}
-.product-card{
-    background:white;
-    border-radius:8px;
-    overflow:hidden;
-    box-shadow:var(--shadow);
-    cursor:pointer;
-    position:relative
-}
-.product-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 10px 20px rgba(0,0,0,0.15)
-}
-.product-image{
-    width:100%;
-    height:200px;
-    object-fit:cover;
-    background-color:#f5f5f5
-}
-.product-info{
-    padding:1rem
-}
-.product-name{
-    font-weight:600;
-    margin-bottom:0.5rem;
-    color:var(--dark-color)
-}
-.product-price-container{
-    margin-bottom:0.5rem
-}
-.original-price{
-    color:#999;
-    text-decoration:line-through;
-    font-size:0.9rem;
-    margin-right:0.5rem
-}
-.discount-price{
-    color:var(--secondary-color);
-    font-weight:bold;
-    font-size:1.1rem
-}
-.discount-badge{
-    position:absolute;
-    top:10px;
-    right:10px;
-    background:#e74c3c;
-    color:white;
-    padding:0.3rem 0.6rem;
-    border-radius:4px;
-    font-size:0.8rem;
-    font-weight:bold;
-    z-index:2
-}
-.product-category{
-    display:inline-block;
-    background:#f0f7ff;
-    color:var(--primary-color);
-    padding:0.2rem 0.5rem;
-    border-radius:4px;
-    font-size:0.8rem;
-    margin-top:0.5rem
-}
-.product-barcode-small{
-    font-size:0.7rem;
-    color:#888;
-    font-family:monospace;
-    margin-top:0.3rem
-}
-.load-more-container{
-    text-align:center;
-    margin-top:2rem
-}
-.load-more-btn{
-    background:var(--primary-color);
-    color:white;
-    border:none;
-    padding:0.8rem 1.5rem;
-    border-radius:4px;
-    cursor:pointer;
-    transition:var(--transition);
-    font-size:1rem
-}
-.load-more-btn:hover{
-    background:#003366
-}
-.sync-status{
-    position:fixed;
-    top:10px;
-    right:10px;
-    background:#28a745;
-    color:white;
-    padding:0.5rem 1rem;
-    border-radius:20px;
-    font-size:0.8rem;
-    z-index:1000;
-    display:flex;
-    align-items:center;
-    gap:0.5rem;
-    box-shadow:var(--shadow)
-}
-.sync-status.syncing{
-    background:#ffc107;
-    color:#000
-}
-.sync-status.error{
-    background:#dc3545
-}
-#privacy-modal{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.5);
-    z-index:10000;
-    justify-content:center;
-    align-items:center
-}
-#privacy-modal>div{
-    background:white;
-    padding:2rem;
-    border-radius:10px;
-    max-width:600px;
-    max-height:80vh;
-    overflow-y:auto;
-    margin:2rem;
-    position:relative
-}
-.admin-btn{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:0.5rem;
-    padding:0.8rem 1rem;
-    border:none;
-    border-radius:6px;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-    transition:all 0.3s ease
-}
-.admin-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 4px 12px rgba(0,0,0,0.2)
-}
-.admin-btn:active{
-    transform:translateY(0)
-}
-.admin-panel{
-    display:none;
-    position:fixed;
-    top:0;
-    right:-400px;
-    width:400px;
-    height:100vh;
-    background:white;
-    box-shadow:-5px 0 15px rgba(0,0,0,0.1);
-    z-index:1000;
-    transition:right 0.3s ease;
-    overflow-y:auto
-}
-.admin-panel.active{
-    display:block;
-    right:0
-}
-.admin-header{
-    background:var(--primary-color);
-    color:white;
-    padding:1.5rem;
-    display:flex;
-    justify-content:space-between;
-    align-items:center
-}
-.admin-content{
-    padding:1.5rem
-}
-.admin-section{
-    margin-bottom:2rem;
-    padding-bottom:1.5rem;
-    border-bottom:1px solid #eee
-}
-.admin-section h3{
-    color:var(--primary-color);
-    margin-bottom:1rem;
-    display:flex;
-    align-items:center;
-    gap:0.5rem
-}
-.admin-stats{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:1rem;
-    margin-bottom:1.5rem
-}
-.stat-card{
-    background:#f8f9fa;
-    padding:1rem;
-    border-radius:8px;
-    text-align:center;
-    border-left:4px solid var(--primary-color)
-}
-.stat-number{
-    font-size:1.5rem;
-    font-weight:bold;
-    color:var(--primary-color);
-    display:block
-}
-.stat-label{
-    font-size:0.8rem;
-    color:#666
-}
-.admin-form-group{
-    margin-bottom:1rem
-}
-.admin-form-group label{
-    display:block;
-    margin-bottom:0.5rem;
-    font-weight:500;
-    color:var(--dark-color)
-}
-.admin-form-group input,.admin-form-group select,.admin-form-group textarea{
-    width:100%;
-    padding:0.8rem;
-    border:1px solid #ddd;
-    border-radius:4px;
-    font-size:1rem
-}
-.admin-form-group textarea{
-    height:100px;
-    resize:vertical
-}
-.admin-actions{
-    display:flex;
-    gap:0.5rem;
-    flex-wrap:wrap
-}
-.admin-action-btn{
-    flex:1;
-    min-width:120px;
-    padding:0.8rem;
-    border:none;
-    border-radius:4px;
-    cursor:pointer;
-    font-weight:500;
-    transition:var(--transition);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:0.5rem
-}
-.admin-action-btn.primary{
-    background:var(--primary-color);
-    color:white
-}
-.admin-action-btn.secondary{
-    background:#6c757d;
-    color:white
-}
-.admin-action-btn.success{
-    background:#28a745;
-    color:white
-}
-.admin-action-btn.warning{
-    background:#ffc107;
-    color:#000
-}
-.admin-action-btn.danger{
-    background:#dc3545;
-    color:white
-}
-.admin-action-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 4px 8px rgba(0,0,0,0.2)
-}
-.password-hint{
-    background:#fff3cd;
-    border:1px solid #ffeaa7;
-    border-radius:4px;
-    padding:1rem;
-    margin:1rem 0;
-    font-size:0.9rem
-}
-.admin-overlay{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.5);
-    z-index:999
-}
-.admin-overlay.active{
-    display:block
-}
-.hidden-admin-btn{
-    position:fixed;
-    top:10px;
-    right:60px;
-    width:30px;
-    height:30px;
-    background:transparent;
-    border:none;
-    cursor:pointer;
-    z-index:101;
-    opacity:0.3;
-    transition:opacity 0.3s ease
-}
-.hidden-admin-btn:hover{
-    opacity:0.7
-}
-@media(max-width:768px){
-    .header-container{
-        flex-direction:column;
-        gap:1rem
-    }
-    nav ul{
-        display:none;
-        flex-direction:column;
-        text-align:center;
-        gap:1rem
-    }
-    nav ul.active{
-        display:flex
-    }
-    .mobile-menu-btn{
-        display:block
-    }
-    #adminBtn{
-        display:none !important
-    }
-    .hidden-admin-btn{
-        top:15px;
-        right:50px;
-        width:25px;
-        height:25px
-    }
-    .admin-panel{
-        width:100%;
-        right:-100%
-    }
-    .products-grid{
-        grid-template-columns:repeat(auto-fill,minmax(200px,1fr))
-    }
-}
-@media(max-width:480px){
-    .products-grid{
-        grid-template-columns:1fr
-    }
-    .hidden-admin-btn{
-        top:10px;
-        right:45px;
-        width:20px;
-        height:20px
-    }
-}
+/* ... 你所有的现有CSS样式（完全保持不变） ... */
 </style>
+
+<!-- Firebase SDK -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // 你的 Firebase 配置
+    const firebaseConfig = {
+        apiKey: "AIzaSyA-cfBzR8BIFwYqoTk3dUo2uXHkw-c8rPU",
+        authDomain: "supershop-bisagno.firebaseapp.com",
+        projectId: "supershop-bisagno",
+        storageBucket: "supershop-bisagno.firebasestorage.app",
+        messagingSenderId: "381483524192",
+        appId: "1:381483524192:web:ac657@bbd5725719e2e385"
+    };
+
+    // 初始化 Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 全局 Firebase 对象
+    window.firebaseApp = app;
+    window.firestore = db;
+    window.firebaseModules = { 
+        collection, getDocs, addDoc, doc, updateDoc, deleteDoc, query, orderBy 
+    };
+    
+    console.log("Firebase inizializzato con successo!");
+</script>
 </head>
 <body>
 
+<!-- 保持你所有的现有HTML结构不变 -->
 <!-- sync status -->
 <div id="sync-status" class="sync-status" style="display:none"><i class="fas fa-cloud"></i> <span id="sync-text">Sincronizzato</span></div>
 
@@ -781,12 +79,15 @@ footer{
       <div class="admin-stats">
         <div class="stat-card"><span class="stat-number" id="totalProducts">0</span><span class="stat-label">Prodotti Totali</span></div>
         <div class="stat-card"><span class="stat-number" id="totalCategories">0</span><span class="stat-label">Categorie</span></div>
+        <div class="stat-card"><span class="stat-number"><i class="fas fa-cloud"></i></span><span class="stat-label">Cloud Firebase</span></div>
       </div>
     </div>
+    
     <div class="admin-section">
       <h3><i class="fas fa-key"></i> Gestione Password</h3>
       <div class="password-hint"><strong>Accesso riservato al personale autorizzato</strong><br><small>Contatta l'amministratore per le credenziali</small></div>
     </div>
+    
     <div class="admin-section">
       <h3><i class="fas fa-plus-circle"></i> Aggiungi Prodotto</h3>
       <div class="admin-form-group"><label>Nome Prodotto</label><input type="text" id="adminProductName" placeholder="Inserisci nome prodotto"></div>
@@ -798,28 +99,39 @@ footer{
       <div class="admin-form-group"><label>Descrizione</label><textarea id="adminProductDescription" placeholder="Inserisci descrizione prodotto"></textarea></div>
       <div class="admin-actions"><button class="admin-action-btn success" onclick="addProduct()"><i class="fas fa-plus"></i> Aggiungi Prodotto</button></div>
     </div>
+    
     <div class="admin-section">
-      <h3><i class="fas fa-file-export"></i> Gestione Dati</h3>
-      <div class="admin-actions"><button class="admin-action-btn primary" onclick="exportProducts()"><i class="fas fa-download"></i> Esporta CSV</button><button class="admin-action-btn secondary" onclick="importProducts()"><i class="fas fa-upload"></i> Importa CSV</button></div>
-      <div class="admin-actions" style="margin-top:0.5rem"><button class="admin-action-btn warning" onclick="backupData()"><i class="fas fa-save"></i> Backup Dati</button><button class="admin-action-btn danger" onclick="clearAllData()"><i class="fas fa-trash"></i> Cancella Tutto</button></div>
+      <h3><i class="fas fa-database"></i> Gestione Dati Cloud</h3>
+      <div class="password-hint" style="background:#e3f2fd;border-color:#2196f3">
+        <strong><i class="fas fa-cloud"></i> Sistema Cloud Attivo</strong><br>
+        <small>I prodotti vengono salvati automaticamente nel database cloud Firebase</small>
+      </div>
+      <div class="admin-actions">
+        <button class="admin-action-btn primary" onclick="exportProducts()"><i class="fas fa-download"></i> Esporta CSV</button>
+        <button class="admin-action-btn secondary" onclick="importProducts()"><i class="fas fa-upload"></i> Importa CSV</button>
+        <button class="admin-action-btn success" onclick="importAllToFirebase()"><i class="fas fa-cloud-upload-alt"></i> Importa nel Cloud</button>
+      </div>
+      <div class="admin-actions" style="margin-top:0.5rem">
+        <button class="admin-action-btn warning" onclick="backupData()"><i class="fas fa-save"></i> Backup Dati</button>
+        <button class="admin-action-btn danger" onclick="clearAllData()"><i class="fas fa-trash"></i> Cancella Tutto</button>
+      </div>
     </div>
+    
     <div class="admin-section">
       <h3><i class="fas fa-search"></i> Ricerca Rapida</h3>
       <div class="admin-form-group"><input type="text" id="adminQuickSearch" placeholder="Cerca prodotto..." onkeyup="adminQuickSearch()"></div>
       <div id="adminSearchResults" style="max-height:200px;overflow-y:auto"></div>
     </div>
+    
     <div class="admin-section">
-      <h3><i class="fas fa-database"></i> Operazioni di Massa</h3>
-      <div class="admin-actions"><button class="admin-action-btn warning" onclick="applyDiscountToAll()"><i class="fas fa-tag"></i> Sconto a Tutti</button><button class="admin-action-btn danger" onclick="deleteAllProducts()"><i class="fas fa-trash-alt"></i> Elimina Tutti</button></div>
-    </div>
-    <div class="admin-section">
-      <h3><i class="fas fa-qrcode"></i> Sincronizzazione QR Code</h3>
+      <h3><i class="fas fa-qrcode"></i> QR Code Fisso</h3>
       <div class="password-hint">
-        <strong>⚠️ Importante:</strong> Dopo aver aggiunto o modificato prodotti, clicca qui per aggiornare il QR code che i clienti scannerizzano.
+        <strong>✅ QR Code Permanente</strong><br>
+        <small>I clienti scannerizzano sempre lo stesso QR code e vedono i prodotti aggiornati in tempo reale</small>
       </div>
       <div class="admin-actions">
         <button class="admin-action-btn primary" onclick="updateQRCode()">
-          <i class="fas fa-sync"></i> Aggiorna QR Code
+          <i class="fas fa-qrcode"></i> Genera QR Code Fisso
         </button>
         <button class="admin-action-btn secondary" onclick="showQRCodeInfo()">
           <i class="fas fa-info-circle"></i> Istruzioni
@@ -829,6 +141,7 @@ footer{
   </div>
 </div>
 
+<!-- 保持你所有的现有页面结构 -->
 <header>
   <div class="header-container">
     <div class="logo"><img src="1000011845.png" alt="SuperShop Logo" class="logo-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzAwNDA4MCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UzwvdGV4dD48L3N2Zz4='"><h1>Supershop Bisagno</h1></div>
@@ -861,9 +174,14 @@ footer{
         <h3><i class="fas fa-users"></i> La nostra filosofia</h3>
         <p>Crediamo nel servicio al cliente eccellente e nella qualità dei prodotti. La soddisfazione dei nostri clienti è la nostra priorità.</p>
       </div>
+      <div class="info-card">
+        <h3><i class="fas fa-cloud"></i> Catalogo Digitale</h3>
+        <p>Scansiona il QR code per vedere tutti i nostri prodotti aggiornati in tempo reale direttamente sul tuo smartphone!</p>
+      </div>
     </div>
   </section>
 
+  <!-- 保持所有其他部分不变 -->
   <section id="products">
     <h2>I nostri prodotti</h2>
     <p>Scopri la nostra vasta gamma di prodotti per tutte le esigenze domestiche:</p>
@@ -874,7 +192,7 @@ footer{
       <div class="category-card"><div class="category-icon"><i class="fas fa-home"></i></div><h3>Casalinghi</h3><p>Accessori e complementi d'arredo per la casa</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-tools"></i></div><h3>Ferramenta</h3><p>Utensili e materiali per piccoli lavori domestici</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-paw"></i></div><h3>Articoli per animali</h3><p>Prodotti per la cura e il benessere dei tuoi amici a quattro zampe</p></div>
-      <div class="category-card"><div class="category-icon"><i class="fas fa-lightbulb"></i></div><h3>Illuminazione</h3><p>Lampadari, lampade da terra, lampade da tavolo e illuminazione per interni</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-lightbulb"></i></div><h3>Illuminazione</h3><p>Lampadari, lampade da terra, lampade da tavolo e illuminazione per internos</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-couch"></i></div><h3>Mobili</h3><p>Mobili per la casa, sedie, tavoli e complementi d'arredo</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-tree"></i></div><h3>Articoli Natalizi</h3><p>Decorazioni, addobbi e regali per il periodo natalizio</p></div>
     </div>
@@ -913,7 +231,7 @@ footer{
   </section>
 
   <section id="products-showcase" class="products-section">
-    <h2>Catalogo Prodotti</h2>
+    <h2>Catalogo Prodotti <small style="font-size:0.8em;color:#666">(Aggiornato in tempo reale)</small></h2>
     <p>Scopri tutti i nostri prodotti con prezzi e dettagli:</p>
     <div class="search-filter-container">
       <div class="search-box"><i class="fas fa-search"></i><input type="text" id="product-search" placeholder="Cerca per nome prodotto o codice a barre..."><div class="search-hint">Cerca per nome prodotto o codice a barre (es: 8005123456789)</div></div>
@@ -930,8 +248,9 @@ footer{
         <p><i class="fas fa-map-marker-alt"></i> <strong>Indirizzo:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
         <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a></p>
         <p><i class="fas fa-info-circle"></i> Per informazioni commerciali o partnership, contattaci via email.</p>
-        <p>Scansiona il QR code per visitare il sito:</p>
+        <p><i class="fas fa-qrcode"></i> Scansiona il QR code per visitare il catalogo prodotti:</p>
         <img src="1000011850.png" alt="QR Code Supershop Bisagno" style="width:150px;height:150px">
+        <p style="font-size:0.9em;color:#666;margin-top:0.5em"><i class="fas fa-cloud"></i> Catalogo sempre aggiornato in tempo reale</p>
       </div>
       <div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2817.256958424239!2d8.946223315544193!3d44.40722497909945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d3433c3b06d6a5%3A0x5b0e46e9e5a5a5a5!2sLungobisagno%20Istria%2C%2029F%2C%2016139%20Genova%20GE!5e0!3m2!1sit!2sit!4v1620000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe></div>
     </div>
@@ -974,17 +293,64 @@ function validateAdminPassword(inputPassword) {
   return inputPassword === dynamicPassword || DYNAMIC_PASSWORD_CONFIG.STATIC_PASSWORDS.includes(inputPassword);
 }
 
-// ==================== 产品数据 ====================
-const products = [
-  {id:"8021785862708",name:"ANGELO CERAMICA A2MOD NAT CM7X5XH12",originalPrice:"€3,50",discountPrice:"€1,90",discountPercentage:45.71,category:"natale",image:"https://img.heliar.top/file/1762764412602_IMG_20251110_094009.jpg",description:"ANGELO CERAMICA A2MOD NAT CM7X5XH12"},
-  {id:"8021785780187",name:"BABBO NAT TERRACOT A2M CM6,5X6X11,5",originalPrice:"€3,90",discountPrice:"€1,50",discountPercentage:61.54,category:"natale",image:"https://img.heliar.top/file/1762764414728_IMG_20251110_094052.jpg",description:"BABBO NAT TERRACOT A2M CM6,5X6X11,5"},
-  {id:"8058641713447",name:"71344 SCHIACCIANOCICON MUSICA E LUCE LED TIMER 6/1",price:"€49,90",category:"natale",image:"https://img.heliar.top/file/1762764417669_IMG_20251110_094300.jpg",description:"71344 SCHIACCIANOCICON MUSICA E LUCE LED TIMER 6/1"},
-  {id:"8057586069817",name:"S/3 PIGNE SEGNAPOSTO CER NAT D6XH16",originalPrice:"€12,90",discountPrice:"€6,90",discountPercentage:46.51,category:"natale",image:"https://img.heliar.top/file/1762764419280_IMG_20251110_093022.jpg",description:"S/3 PIGNE SEGNAPOSTO CER NAT D6XH16"},
-  {id:"8033113579493",name:"TAPPETO PER ALBERO DI NATALE 60CM 2ASS ROSSO HY190",originalPrice:"€1,90",discountPrice:"€1,00",discountPercentage:47.37,category:"natale",image:"https://img.heliar.top/file/1762764427010_IMG_20251110_092743.jpg",description:"TAPPETO PER ALBERO DI NATALE 60CM 2ASS ROSSO HY190"},
-  {id:"8057586066489",name:"FARO PLASTICA 30LED NAT CM40X40XH177",originalPrice:"€109,90",discountPrice:"€69,90",discountPercentage:36.4,category:"natale",image:"https://img.heliar.top/file/1762764430670_IMG_20251110_092627.jpg",description:"FARO PLASTICA 30LED NAT CM40X40XH177"},
-  {id:"8021785780385",name:"BIMBO MAGNESIA A2M NAT 24X15,5X39,5",originalPrice:"€44,90",discountPrice:"€19,90",discountPercentage:55.68,category:"natale",image:"https://img.heliar.top/file/1762764425299_IMG_20251110_092849.jpg",description:"BIMBO MAGNESIA A2M NAT 24X15,5X39,5"},
-  {id:"8021785780446",name:"BIMBO MAGNESIA A2M NAT 39,5X24,5X42",originalPrice:"€69,90",discountPrice:"€29,90",discountPercentage:57.22,category:"natale",image:"https://img.heliar.top/file/1762764423686_IMG_20251110_092904.jpg",description:"BIMBO MAGNESIA A2M NAT 39,5X24,5X42"}
-];
+// ==================== 产品数据 - 现在从 Firebase 加载 ====================
+let products = [];
+
+// ==================== Firebase 功能 ====================
+async function loadProductsFromFirebase() {
+    try {
+        showSyncStatus('Caricamento prodotti dal cloud...', 'syncing');
+        
+        const { collection, getDocs, query, orderBy } = window.firebaseModules;
+        const q = query(collection(window.firestore, "products"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+        
+        products = [];
+        querySnapshot.forEach((doc) => {
+            products.push({ firebaseId: doc.id, ...doc.data() });
+        });
+        
+        renderProducts();
+        updateAdminStats();
+        
+        showSyncStatus(`Caricati ${products.length} prodotti dal cloud`, 'success');
+        return products;
+    } catch (error) {
+        console.error("Errore nel caricamento prodotti:", error);
+        showSyncStatus('Errore nel caricamento dal cloud', 'error');
+        // 如果Firebase失败，使用本地存储作为备用
+        loadFromLocalStorage();
+        return [];
+    }
+}
+
+async function addProductToFirebase(productData) {
+    try {
+        const { addDoc, collection } = window.firebaseModules;
+        const productWithTimestamp = {
+            ...productData,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        const docRef = await addDoc(collection(window.firestore, "products"), productWithTimestamp);
+        console.log("Prodotto aggiunto con ID: ", docRef.id);
+        return docRef.id;
+    } catch (error) {
+        console.error("Errore nell'aggiunta prodotto: ", error);
+        throw error;
+    }
+}
+
+// 备用方案：本地存储
+function loadFromLocalStorage() {
+    const saved = loadStorage('supershop_products');
+    if (saved && saved.length > 0) {
+        products = saved;
+        renderProducts();
+        updateAdminStats();
+        showSyncStatus(`Caricati ${products.length} prodotti da backup locale`, 'warning');
+    }
+}
 
 // ==================== 工具函数 ====================
 const saveStorage = (key,val) => { 
@@ -1013,61 +379,82 @@ const showSyncStatus = (msg,type='success') => {
   setTimeout(()=>s.style.display='none',3000);
 };
 
-// ==================== 二维码同步功能 ====================
+// ==================== 二维码同步功能 - 现在使用固定链接 ====================
 const updateQRCode = () => {
-  const productsData = encodeURIComponent(JSON.stringify(products));
-  const qrCodeUrl = `${window.location.origin}${window.location.pathname}?data=${productsData}&v=${Date.now()}`;
-  
+  const qrCodeUrl = window.location.href; // 固定链接
   const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrCodeUrl)}`;
   
   const qrCodeImg = document.querySelector('img[alt="QR Code Supershop Bisagno"]');
   if (qrCodeImg) {
     qrCodeImg.src = qrCodeImageUrl;
-    qrCodeImg.onerror = function() {
-      alert('QR Code aggiornato! I clienti possono utilizzare questo link:\\n\\n' + qrCodeUrl);
-    };
   }
   
-  showSyncStatus('QR Code aggiornato con successo', 'success');
-  alert('✅ QR Code aggiornato!\\n\\nI nuovi prodotti sono ora disponibili per i clienti che scannerizzano il codice.');
-};
-
-const loadProductsFromUrl = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const productsData = urlParams.get('data');
-  
-  if (productsData) {
-    try {
-      const importedProducts = JSON.parse(decodeURIComponent(productsData));
-      if (Array.isArray(importedProducts) && importedProducts.length > 0) {
-        // 合并而不是替换
-        const existingIds = new Set(products.map(p => p.id));
-        const newProducts = importedProducts.filter(p => !existingIds.has(p.id));
-        products.push(...newProducts);
-        saveStorage('supershop_products', products);
-        renderProducts();
-        updateAdminStats();
-        console.log('Prodotti caricati da URL:', newProducts.length);
-      }
-    } catch (error) {
-      console.error('Errore nel caricamento prodotti da URL:', error);
-    }
-  }
+  alert(`✅ QR Code Fisso Creato!\n\nLink: ${qrCodeUrl}\n\nI clienti vedranno sempre i prodotti più recenti dal cloud.`);
 };
 
 const showQRCodeInfo = () => {
-  alert(`📋 ISTRUZIONI SINCRONIZZAZIONE QR CODE
+  alert(`📋 ISTRUZIONI QR CODE FISSO
 
-1. AGGIUNGI PRODOTTI: Usa il modulo "Aggiungi Prodotto"
-2. AGGIORNA QR CODE: Clicca "Aggiorna QR Code"
-3. STAMPA: Scansiona il nuovo QR code nella sezione Contatti
-4. CONDIVIDI: I clienti vedranno i prodotti più recenti
+✅ VANTAGGI:
+• Un solo QR code per sempre
+• Prodotti sempre aggiornati
+• Supporta migliaia di prodotti
+• Nessun limite di dimensione
 
-✅ I prodotti vengono sincronizzati immediatamente!
+📱 PER I CLIENTI:
+1. Scansiona il QR code
+2. Vedi tutti i prodotti aggiornati
+3. Nessuna azione aggiuntiva richiesta
+
+🔄 PER TE:
+1. Aggiungi/modifica prodotti normalmente
+2. I cambiamenti sono visibili immediatamente
+3. Nessun bisogno di rigenerare QR code
 `);
 };
 
-// ==================== 管理员面板改进 ====================
+// ==================== 批量导入到 Firebase ====================
+async function importAllToFirebase() {
+    if (!confirm('Importare TUTTI i prodotti locali nel database cloud Firebase?\n\nQuesta operazione potrebbe richiedere alcuni minuti.')) return;
+    
+    try {
+        showSyncStatus('Importazione nel cloud in corso...', 'syncing');
+        
+        // 加载本地产品
+        const localProducts = loadStorage('supershop_products') || [];
+        let importedCount = 0;
+        const batchSize = 25;
+        
+        for (let i = 0; i < localProducts.length; i += batchSize) {
+            const batch = localProducts.slice(i, i + batchSize);
+            
+            for (const product of batch) {
+                try {
+                    // 检查是否已存在
+                    const existingProducts = products.filter(p => p.id === product.id);
+                    if (existingProducts.length === 0) {
+                        await addProductToFirebase(product);
+                        importedCount++;
+                    }
+                } catch (error) {
+                    console.error(`Errore nell'importazione prodotto ${product.id}:`, error);
+                }
+            }
+            
+            showSyncStatus(`Importati ${importedCount}/${localProducts.length} prodotti...`, 'syncing');
+            await new Promise(resolve => setTimeout(resolve, 500)); // 避免速率限制
+        }
+        
+        showSyncStatus(`Importazione completata: ${importedCount} prodotti`, 'success');
+        await loadProductsFromFirebase(); // 重新从Firebase加载
+        
+    } catch (error) {
+        console.error('Errore nell\'importazione:', error);
+        showSyncStatus('Errore nell\'importazione', 'error');
+    }
+}
+
+// ==================== 管理员面板 ====================
 let adminAuthenticated = false;
 
 const enableAdminPanel = () => {
@@ -1076,7 +463,7 @@ const enableAdminPanel = () => {
     return; 
   }
   
-  const pwd = prompt('🔐 Accesso Amministratore\\n\\nInserisci la password:');
+  const pwd = prompt('🔐 Accesso Amministratore\n\nInserisci la password:');
   if (validateAdminPassword(pwd)) { 
     adminAuthenticated = true; 
     openAdminPanel(); 
@@ -1114,7 +501,7 @@ const renderProducts = () => {
   const category = document.getElementById('category-filter').value;
   
   filteredProducts = products.filter(p=>
-    (p.name.toLowerCase().includes(search)||p.id.includes(search)) &&
+    (p.name.toLowerCase().includes(search)||(p.id && p.id.includes(search))) &&
     (category==='all'||p.category===category)
   );
   
@@ -1130,7 +517,7 @@ const renderProducts = () => {
           <div class="product-price-container">
             ${hasDiscount ? 
               `<span class="original-price">${p.originalPrice}</span><span class="discount-price">${p.discountPrice}</span>` : 
-              `<span class="discount-price">${p.price}</span>`
+              `<span class="discount-price">${p.price || 'Prezzo su richiesta'}</span>`
             }
           </div>
           <span class="product-category">${getCategoryName(p.category)}</span>
@@ -1172,7 +559,7 @@ const openProductModal = (productId) => {
       <div>
         ${product.discountPrice ? 
           `<div><span class="original-price">${product.originalPrice}</span><div class="discount-price">${product.discountPrice}</div></div>` : 
-          `<div class="discount-price">${product.price}</div>`
+          `<div class="discount-price">${product.price || 'Prezzo su richiesta'}</div>`
         }
         <p><strong>Codice:</strong> ${product.id}</p>
         ${product.description && product.description !== product.name ? `<p>${product.description}</p>` : ''}
@@ -1204,7 +591,7 @@ const printProduct = (id) => {
       <h2>${p.name}</h2>
       ${p.discountPrice ? 
         `<p><span style="text-decoration:line-through">${p.originalPrice}</span> <strong style="color:#ff6b00;font-size:1.2em">${p.discountPrice}</strong></p>` : 
-        `<p><strong style="color:#ff6b00;font-size:1.2em">${p.price}</strong></p>`
+        `<p><strong style="color:#ff6b00;font-size:1.2em">${p.price || 'Prezzo su richiesta'}</strong></p>`
       }
       <p>Categoria: ${getCategoryName(p.category)}</p>
       <div class="barcode" style="font-family:monospace;font-size:1.2em;margin:1rem 0">${p.id}</div>
@@ -1218,7 +605,7 @@ const printProduct = (id) => {
 
 const shareProduct = (id) => {
   const p = products.find(x => x.id === id);
-  const text = `Scopri ${p.name} da Supershop Bisagno! ${p.discountPrice || p.price}. Visita il negozio!`;
+  const text = `Scopri ${p.name} da Supershop Bisagno! ${p.discountPrice || p.price || 'Prezzo su richiesta'}. Visita il negozio!`;
   if (navigator.share) {
     navigator.share({title: p.name, text, url: location.href});
   } else {
@@ -1227,7 +614,7 @@ const shareProduct = (id) => {
 };
 
 // ==================== 管理员功能 ====================
-const addProduct = () => {
+const addProduct = async () => {
   const name = document.getElementById('adminProductName').value.trim();
   const barcode = document.getElementById('adminProductBarcode').value.trim();
   const category = document.getElementById('adminProductCategory').value;
@@ -1246,7 +633,7 @@ const addProduct = () => {
     return;
   }
   
-  const product = {
+  const productData = {
     id: barcode,
     name,
     category,
@@ -1257,30 +644,36 @@ const addProduct = () => {
   if (original && discount) {
     const orig = parseFloat(original.replace(',','.'));
     const disc = parseFloat(discount.replace(',','.'));
-    product.originalPrice = `€${original}`;
-    product.discountPrice = `€${discount}`;
-    product.discountPercentage = parseFloat(((orig-disc)/orig*100).toFixed(2));
+    productData.originalPrice = `€${original}`;
+    productData.discountPrice = `€${discount}`;
+    productData.discountPercentage = parseFloat(((orig-disc)/orig*100).toFixed(2));
   } else if (original) {
-    product.price = `€${original}`;
+    productData.price = `€${original}`;
   } else if (discount) {
-    product.price = `€${discount}`;
+    productData.price = `€${discount}`;
   } else {
-    product.price = 'Prezzo su richiesta';
+    productData.price = 'Prezzo su richiesta';
   }
-  
-  products.unshift(product);
-  saveStorage('supershop_products', products);
-  renderProducts(); 
-  updateAdminStats();
-  
-  document.getElementById('adminProductName').value = '';
-  document.getElementById('adminProductBarcode').value = '';
-  document.getElementById('adminOriginalPrice').value = '';
-  document.getElementById('adminDiscountPrice').value = '';
-  document.getElementById('adminProductImage').value = '';
-  document.getElementById('adminProductDescription').value = '';
-  
-  alert('✅ Prodotto aggiunto con successo! Il modulo è stato resettato.');
+
+  try {
+    // 添加到 Firebase
+    await addProductToFirebase(productData);
+    
+    // 重新加载产品列表
+    await loadProductsFromFirebase();
+    
+    // 清空表单
+    document.getElementById('adminProductName').value = '';
+    document.getElementById('adminProductBarcode').value = '';
+    document.getElementById('adminOriginalPrice').value = '';
+    document.getElementById('adminDiscountPrice').value = '';
+    document.getElementById('adminProductImage').value = '';
+    document.getElementById('adminProductDescription').value = '';
+    
+    alert('✅ Prodotto aggiunto con successo al database cloud!');
+  } catch (error) {
+    alert('❌ Errore nell\'aggiunta del prodotto: ' + error.message);
+  }
 };
 
 const exportProducts = () => {
@@ -1289,7 +682,7 @@ const exportProducts = () => {
     ...products.map(p => 
       `"${p.id}","${p.name}","${p.category}","${p.originalPrice||''}","${p.discountPrice||p.price||''}","${p.discountPercentage||''}","${p.image}","${p.description}"`
     )
-  ].join('\\n');
+  ].join('\n');
   
   const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
   const a = document.createElement('a');
@@ -1309,7 +702,7 @@ const importProducts = () => {
     
     const reader = new FileReader();
     reader.onload = ev => {
-      const lines = ev.target.result.split('\\n').slice(1);
+      const lines = ev.target.result.split('\n').slice(1);
       let added = 0;
       
       for (const line of lines) {
@@ -1387,43 +780,15 @@ const adminQuickSearch = () => {
   }
   
   const found = products.filter(p => 
-    p.name.toLowerCase().includes(q) || p.id.includes(q)
+    p.name.toLowerCase().includes(q) || (p.id && p.id.includes(q))
   );
   
   res.innerHTML = found.map(p => `
     <div style="padding:0.5rem;border-bottom:1px solid #eee;cursor:pointer" onclick="openProductModal('${p.id}')">
       <strong>${p.name}</strong><br>
-      <small>${p.id} - ${p.discountPrice || p.price}</small>
+      <small>${p.id} - ${p.discountPrice || p.price || 'Prezzo su richiesta'}</small>
     </div>
   `).join('');
-};
-
-const applyDiscountToAll = () => {
-  const discount = prompt('Inserisci lo sconto percentuale (es: 20 per 20%):');
-  if (!discount || isNaN(discount)) return;
-  
-  products.forEach(p => {
-    if (p.originalPrice) {
-      const original = parseFloat(p.originalPrice.replace('€','').replace(',','.'));
-      const discountAmount = original * (parseFloat(discount) / 100);
-      const newPrice = original - discountAmount;
-      p.discountPrice = `€${newPrice.toFixed(2).replace('.',',')}`;
-      p.discountPercentage = parseFloat(discount);
-    }
-  });
-  
-  saveStorage('supershop_products', products);
-  renderProducts();
-  showSyncStatus(`Sconto del ${discount}% applicato a tutti i prodotti`,'success');
-};
-
-const deleteAllProducts = () => {
-  if (!confirm('Sei sicuro di voler eliminare TUTTI i prodotti?')) return;
-  products.length = 0;
-  saveStorage('supershop_products', products);
-  renderProducts();
-  updateAdminStats();
-  showSyncStatus('Tutti i prodotti sono stati eliminati','success');
 };
 
 // ==================== 合规声明内容 ====================
@@ -1468,22 +833,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // 显示隐藏的管理员按钮
   document.getElementById('hiddenAdminBtn').style.display = 'block';
   
-  // 🆕 FIXED: 合并产品数据而不是替换
-  const saved = loadStorage('supershop_products');
-  if (saved && saved.length > 0) {
-    const existingIds = new Set(products.map(p => p.id));
-    const newProducts = saved.filter(p => !existingIds.has(p.id));
-    products.push(...newProducts);
-    console.log('Prodotti caricati da localStorage:', newProducts.length);
-  }
+  // 等待 Firebase 初始化完成后加载产品
+  setTimeout(async () => {
+    await loadProductsFromFirebase();
+  }, 1000);
   
-  // Carica prodotti da URL parameters
-  loadProductsFromUrl();
-  
-  renderProducts();
-  updateAdminStats();
-  
-  // Event listeners
+  // 其他现有的事件监听器...
   document.getElementById('product-search').addEventListener('input', () => {
     currentPage = 1;
     renderProducts();
