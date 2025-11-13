@@ -812,6 +812,20 @@ footer{
       <h3><i class="fas fa-database"></i> Operazioni di Massa</h3>
       <div class="admin-actions"><button class="admin-action-btn warning" onclick="applyDiscountToAll()"><i class="fas fa-tag"></i> Sconto a Tutti</button><button class="admin-action-btn danger" onclick="deleteAllProducts()"><i class="fas fa-trash-alt"></i> Elimina Tutti</button></div>
     </div>
+    <div class="admin-section">
+      <h3><i class="fas fa-qrcode"></i> Sincronizzazione QR Code</h3>
+      <div class="password-hint">
+        <strong>⚠️ Importante:</strong> Dopo aver aggiunto o modificato prodotti, clicca qui per aggiornare il QR code che i clienti scannerizzano.
+      </div>
+      <div class="admin-actions">
+        <button class="admin-action-btn primary" onclick="updateQRCode()">
+          <i class="fas fa-sync"></i> Aggiorna QR Code
+        </button>
+        <button class="admin-action-btn secondary" onclick="showQRCodeInfo()">
+          <i class="fas fa-info-circle"></i> Istruzioni
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -826,7 +840,6 @@ footer{
   </div>
 </header>
 
-<!-- 其余HTML内容保持不变 -->
 <section class="hero" id="home">
   <div class="hero-content">
     <h2>Supershop Bisagno S.R.L.</h2>
@@ -1000,6 +1013,63 @@ const showSyncStatus = (msg,type='success') => {
   setTimeout(()=>s.style.display='none',3000);
 };
 
+// ==================== 二维码同步功能 ====================
+const updateQRCode = () => {
+  // 生成包含最新产品数据的URL
+  const productsData = encodeURIComponent(JSON.stringify(products));
+  const qrCodeUrl = `${window.location.origin}${window.location.pathname}?data=${productsData}&v=${Date.now()}`;
+  
+  // 显示新的二维码
+  const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrCodeUrl)}`;
+  
+  // 更新页面上的二维码图片
+  const qrCodeImg = document.querySelector('img[alt="QR Code Supershop Bisagno"]');
+  if (qrCodeImg) {
+    qrCodeImg.src = qrCodeImageUrl;
+    qrCodeImg.onerror = function() {
+      // 如果图片加载失败，显示下载链接
+      alert('QR Code aggiornato! I clienti possono utilizzare questo link:\n\n' + qrCodeUrl);
+    };
+  }
+  
+  showSyncStatus('QR Code aggiornato con successo', 'success');
+  alert('✅ QR Code aggiornato!\n\nI nuovi prodotti sono ora disponibili per i clienti che scannerizzano il codice.');
+};
+
+// 页面加载时检查URL参数
+const loadProductsFromUrl = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productsData = urlParams.get('data');
+  
+  if (productsData) {
+    try {
+      const importedProducts = JSON.parse(decodeURIComponent(productsData));
+      if (Array.isArray(importedProducts) && importedProducts.length > 0) {
+        products.length = 0;
+        products.push(...importedProducts);
+        saveStorage('supershop_products', products);
+        renderProducts();
+        updateAdminStats();
+        console.log('Prodotti caricati da URL:', importedProducts.length);
+      }
+    } catch (error) {
+      console.error('Errore nel caricamento prodotti da URL:', error);
+    }
+  }
+};
+
+const showQRCodeInfo = () => {
+  alert(`📋 ISTRUZIONI SINCRONIZZAZIONE QR CODE
+
+1. AGGIUNGI PRODOTTI: Usa il modulo "Aggiungi Prodotto"
+2. AGGIORNA QR CODE: Clicca "Aggiorna QR Code"
+3. STAMPA: Scansiona il nuovo QR code nella sezione Contatti
+4. CONDIVIDI: I clienti vedranno i prodotti più recenti
+
+✅ I prodotti vengono sincronizzati immediatamente!
+`);
+};
+
 // ==================== 管理员面板改进 ====================
 let adminAuthenticated = false;
 
@@ -1024,7 +1094,6 @@ const openAdminPanel = () => {
   document.getElementById('adminPanel').classList.add('active');
   document.getElementById('adminOverlay').classList.add('active');
   updateAdminStats();
-  // 移除动态密码显示
 };
 
 const closeAdminPanel = () => {
@@ -1185,8 +1254,7 @@ const addProduct = () => {
     id: barcode,
     name,
     category,
-    image: image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==',
-    description: desc
+    image: image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9u    description: desc
   };
   
   if (original && discount) {
@@ -1207,7 +1275,16 @@ const addProduct = () => {
   saveStorage('supershop_products', products);
   renderProducts(); 
   updateAdminStats();
-  alert('Prodotto aggiunto!');
+  
+  // 🆕 自动清空表单内容
+  document.getElementById('adminProductName').value = '';
+  document.getElementById('adminProductBarcode').value = '';
+  document.getElementById('adminOriginalPrice').value = '';
+  document.getElementById('adminDiscountPrice').value = '';
+  document.getElementById('adminProductImage').value = '';
+  document.getElementById('adminProductDescription').value = '';
+  
+  alert('✅ Prodotto aggiunto con successo! Il modulo è stato resettato.');
 };
 
 const exportProducts = () => {
@@ -1250,7 +1327,7 @@ const importProducts = () => {
           id,
           name,
           category,
-          image: img || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZ666sZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==',
+          image: img || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==',
           description: desc || name
         };
         
@@ -1401,6 +1478,9 @@ document.addEventListener('DOMContentLoaded', () => {
     products.length = 0;
     products.push(...saved);
   }
+  
+  // 🆕 Carica prodotti da URL parameters (se presenti)
+  loadProductsFromUrl();
   
   renderProducts();
   updateAdminStats();
