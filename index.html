@@ -1015,28 +1015,23 @@ const showSyncStatus = (msg,type='success') => {
 
 // ==================== 二维码同步功能 ====================
 const updateQRCode = () => {
-  // 生成包含最新产品数据的URL
   const productsData = encodeURIComponent(JSON.stringify(products));
   const qrCodeUrl = `${window.location.origin}${window.location.pathname}?data=${productsData}&v=${Date.now()}`;
   
-  // 显示新的二维码
   const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrCodeUrl)}`;
   
-  // 更新页面上的二维码图片
   const qrCodeImg = document.querySelector('img[alt="QR Code Supershop Bisagno"]');
   if (qrCodeImg) {
     qrCodeImg.src = qrCodeImageUrl;
     qrCodeImg.onerror = function() {
-      // 如果图片加载失败，显示下载链接
-      alert('QR Code aggiornato! I clienti possono utilizzare questo link:\n\n' + qrCodeUrl);
+      alert('QR Code aggiornato! I clienti possono utilizzare questo link:\\n\\n' + qrCodeUrl);
     };
   }
   
   showSyncStatus('QR Code aggiornato con successo', 'success');
-  alert('✅ QR Code aggiornato!\n\nI nuovi prodotti sono ora disponibili per i clienti che scannerizzano il codice.');
+  alert('✅ QR Code aggiornato!\\n\\nI nuovi prodotti sono ora disponibili per i clienti che scannerizzano il codice.');
 };
 
-// 页面加载时检查URL参数
 const loadProductsFromUrl = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const productsData = urlParams.get('data');
@@ -1045,12 +1040,14 @@ const loadProductsFromUrl = () => {
     try {
       const importedProducts = JSON.parse(decodeURIComponent(productsData));
       if (Array.isArray(importedProducts) && importedProducts.length > 0) {
-        products.length = 0;
-        products.push(...importedProducts);
+        // 合并而不是替换
+        const existingIds = new Set(products.map(p => p.id));
+        const newProducts = importedProducts.filter(p => !existingIds.has(p.id));
+        products.push(...newProducts);
         saveStorage('supershop_products', products);
         renderProducts();
         updateAdminStats();
-        console.log('Prodotti caricati da URL:', importedProducts.length);
+        console.log('Prodotti caricati da URL:', newProducts.length);
       }
     } catch (error) {
       console.error('Errore nel caricamento prodotti da URL:', error);
@@ -1079,8 +1076,7 @@ const enableAdminPanel = () => {
     return; 
   }
   
-  // 更简洁的密码提示
-  const pwd = prompt('🔐 Accesso Amministratore\n\nInserisci la password:');
+  const pwd = prompt('🔐 Accesso Amministratore\\n\\nInserisci la password:');
   if (validateAdminPassword(pwd)) { 
     adminAuthenticated = true; 
     openAdminPanel(); 
@@ -1254,7 +1250,8 @@ const addProduct = () => {
     id: barcode,
     name,
     category,
-    image: image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9u    description: desc
+    image: image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==',
+    description: desc
   };
   
   if (original && discount) {
@@ -1276,7 +1273,6 @@ const addProduct = () => {
   renderProducts(); 
   updateAdminStats();
   
-  // 🆕 自动清空表单内容
   document.getElementById('adminProductName').value = '';
   document.getElementById('adminProductBarcode').value = '';
   document.getElementById('adminOriginalPrice').value = '';
@@ -1293,7 +1289,7 @@ const exportProducts = () => {
     ...products.map(p => 
       `"${p.id}","${p.name}","${p.category}","${p.originalPrice||''}","${p.discountPrice||p.price||''}","${p.discountPercentage||''}","${p.image}","${p.description}"`
     )
-  ].join('\n');
+  ].join('\\n');
   
   const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
   const a = document.createElement('a');
@@ -1313,7 +1309,7 @@ const importProducts = () => {
     
     const reader = new FileReader();
     reader.onload = ev => {
-      const lines = ev.target.result.split('\n').slice(1);
+      const lines = ev.target.result.split('\\n').slice(1);
       let added = 0;
       
       for (const line of lines) {
@@ -1472,14 +1468,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // 显示隐藏的管理员按钮
   document.getElementById('hiddenAdminBtn').style.display = 'block';
   
-  // Carica prodotti salvati
+  // 🆕 FIXED: 合并产品数据而不是替换
   const saved = loadStorage('supershop_products');
   if (saved && saved.length > 0) {
-    products.length = 0;
-    products.push(...saved);
+    const existingIds = new Set(products.map(p => p.id));
+    const newProducts = saved.filter(p => !existingIds.has(p.id));
+    products.push(...newProducts);
+    console.log('Prodotti caricati da localStorage:', newProducts.length);
   }
   
-  // 🆕 Carica prodotti da URL parameters (se presenti)
+  // Carica prodotti da URL parameters
   loadProductsFromUrl();
   
   renderProducts();
@@ -1501,9 +1499,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProducts();
   });
   
-  // 隐藏的管理员按钮事件
   document.getElementById('hiddenAdminBtn').addEventListener('click', enableAdminPanel);
-  
   document.getElementById('adminBtn').addEventListener('click', enableAdminPanel);
   
   document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
@@ -1511,7 +1507,6 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
   });
   
-  // Tasti rapidi admin
   document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'm') {
       e.preventDefault();
@@ -1519,7 +1514,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  // Torna su
   const backToTop = document.getElementById('backToTop');
   window.addEventListener('scroll', () => {
     backToTop.classList.toggle('visible', window.pageYOffset > 300);
