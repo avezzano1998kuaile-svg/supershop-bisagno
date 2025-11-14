@@ -1067,6 +1067,8 @@ footer{
 </script>
 
 <script>
+// ==================== 优化版本 - 保留原有数据并修复冲突 ====================
+
 // ==================== 动态密码系统 ====================
 const DYNAMIC_PASSWORD_CONFIG = {
   ENABLED: true,
@@ -1100,6 +1102,31 @@ const products = [
 // ==================== 实时产品管理 ====================
 const ADMIN_PASSWORD = "123456";
 let currentRealtimeProducts = {};
+let firebaseAvailable = false;
+
+// 检查Firebase可用性
+function checkFirebaseAvailability() {
+  return new Promise((resolve) => {
+    try {
+      const testRef = ref(database, 'test_connection');
+      set(testRef, { timestamp: new Date().toISOString() })
+        .then(() => {
+          firebaseAvailable = true;
+          console.log("✅ Firebase连接正常");
+          resolve(true);
+        })
+        .catch(() => {
+          firebaseAvailable = false;
+          console.warn("⚠️ Firebase连接失败，使用本地存储");
+          resolve(false);
+        });
+    } catch (error) {
+      firebaseAvailable = false;
+      console.warn("⚠️ Firebase初始化失败，使用本地存储");
+      resolve(false);
+    }
+  });
+}
 
 function enableRealtimeAdmin() {
   const pwd = prompt("Inserisci password amministratore per la gestione real-time:");
@@ -1108,14 +1135,25 @@ function enableRealtimeAdmin() {
   if(pwd === ADMIN_PASSWORD){
     document.getElementById('realtimeAdminSection').style.display = "block";
     document.getElementById('realtimeAdminLoginBtn').style.display = "none";
-    listenRealtimeProducts();
-    showSyncStatus('Accesso real-time attivato', 'success');
+    
+    // 检查Firebase可用性
+    checkFirebaseAvailability().then((available) => {
+      if (available) {
+        listenRealtimeProducts();
+        showSyncStatus('Accesso real-time attivato', 'success');
+      } else {
+        showSyncStatus('Firebase不可用，使用本地模式', 'warning');
+        renderLocalProducts();
+      }
+    });
   } else {
     alert("Password errata!");
   }
 }
 
 function listenRealtimeProducts() {
+  if (!firebaseAvailable) return;
+  
   const productsRef = ref(database, 'products');
   onValue(productsRef, (snapshot) => {
     currentRealtimeProducts = snapshot.val() || {};
@@ -1182,13 +1220,59 @@ function renderRealtimeProducts(products) {
   document.getElementById('lastUpdate').textContent = `Ultimo aggiornamento: ${timestamp}`;
 }
 
+function renderLocalProducts() {
+  const list = document.getElementById('realtimeProductList');
+  list.innerHTML = '<p style="color:#666;text-align:center;">Firebase不可用，显示本地产品</p>';
+  
+  // 显示本地产品
+  products.forEach(product => {
+    const div = document.createElement('div');
+    div.className = 'realtime-product';
+    
+    const info = document.createElement('div');
+    info.style.flex = '1';
+    
+    if(product.discountPrice){
+      info.innerHTML = `
+        <strong>${product.name}</strong><br>
+        <small>Codice: ${product.id}</small><br>
+        <span style="color:red;font-weight:bold;">${product.discountPrice}</span> 
+        <s>${product.originalPrice}</s>
+      `;
+    } else {
+      info.innerHTML = `
+        <strong>${product.name}</strong><br>
+        <small>Codice: ${product.id}</small><br>
+        <span style="font-weight:bold;">${product.price}</span>
+      `;
+    }
+    div.appendChild(info);
+    
+    const localOnly = document.createElement('span');
+    localOnly.textContent = 'Locale';
+    localOnly.style.background = '#6c757d';
+    localOnly.style.color = 'white';
+    localOnly.style.padding = '2px 6px';
+    localOnly.style.borderRadius = '3px';
+    localOnly.style.fontSize = '0.7rem';
+    div.appendChild(localOnly);
+    
+    list.appendChild(div);
+  });
+}
+
 function updateRealtimeStats() {
-  const count = Object.keys(currentRealtimeProducts).length;
+  const count = firebaseAvailable ? Object.keys(currentRealtimeProducts).length : products.length;
   document.getElementById('realtimeAdminLoginBtn').innerHTML = 
     `<i class="fas fa-database"></i> Prodotti Real-time (${count})`;
 }
 
 function editProduct(barcode) {
+  if (!firebaseAvailable) {
+    alert("Firebase不可用，无法编辑实时产品");
+    return;
+  }
+  
   const p = currentRealtimeProducts[barcode];
   document.getElementById('newProductBarcode').value = barcode;
   document.getElementById('newProductName').value = p.name || "";
@@ -1199,11 +1283,15 @@ function editProduct(barcode) {
   document.getElementById('newDiscountTagColor').value = p.discountTagColor || "#ff0000";
   document.getElementById('addOrUpdateBtn').textContent = "Aggiorna";
   
-  // 滚动到表单
   document.getElementById('newProductBarcode').scrollIntoView({ behavior: 'smooth' });
 }
 
 function deleteProduct(barcode) {
+  if (!firebaseAvailable) {
+    alert("Firebase不可用，无法删除实时产品");
+    return;
+  }
+  
   const productName = currentRealtimeProducts[barcode]?.name || barcode;
   if(confirm(`Sei sicuro di voler eliminare il prodotto "${productName}"?`)) {
     const productRef = ref(database, 'products/' + barcode);
@@ -1219,6 +1307,11 @@ function deleteProduct(barcode) {
 }
 
 function addOrUpdateProduct() {
+  if (!firebaseAvailable) {
+    alert("Firebase不可用，无法添加实时产品");
+    return;
+  }
+  
   const barcode = document.getElementById('newProductBarcode').value.trim();
   const name = document.getElementById('newProductName').value.trim();
   const price = parseFloat(document.getElementById('newProductPrice').value);
@@ -1250,8 +1343,6 @@ function addOrUpdateProduct() {
   .then(() => {
     const message = currentRealtimeProducts[barcode] ? "Prodotto aggiornato!" : "Prodotto aggiunto!";
     showSyncStatus(message, 'success');
-    
-    // 清空表单
     resetRealtimeForm();
   })
   .catch(err => {
@@ -1273,10 +1364,11 @@ function resetRealtimeForm() {
 
 // 自动检测条形码是否存在
 document.getElementById('newProductBarcode').addEventListener('input', function() {
+  if (!firebaseAvailable) return;
+  
   const code = this.value.trim();
   if(currentRealtimeProducts[code]){
     document.getElementById('addOrUpdateBtn').textContent = "Aggiorna";
-    // 自动填充已有数据
     const p = currentRealtimeProducts[code];
     document.getElementById('newProductName').value = p.name || "";
     document.getElementById('newProductPrice').value = p.price || "";
@@ -1316,6 +1408,22 @@ const showSyncStatus = (msg,type='success') => {
   setTimeout(()=>s.style.display='none',3000);
 };
 
+// ==================== 价格处理函数 ====================
+function formatPrice(amount) {
+  return `€${amount.toFixed(2).replace('.', ',')}`;
+}
+
+function parsePrice(priceString) {
+  if (!priceString || priceString === 'Prezzo su richiesta') return null;
+  return parseFloat(priceString.replace('€', '').replace(',', '.'));
+}
+
+// ==================== 产品重复检查 ====================
+function isProductDuplicate(barcode) {
+  return products.some(p => p.id === barcode) || 
+         (firebaseAvailable && currentRealtimeProducts.hasOwnProperty(barcode));
+}
+
 // ==================== 二维码同步功能 ====================
 const updateQRCode = () => {
   const productsData = encodeURIComponent(JSON.stringify(products));
@@ -1327,12 +1435,12 @@ const updateQRCode = () => {
   if (qrCodeImg) {
     qrCodeImg.src = qrCodeImageUrl;
     qrCodeImg.onerror = function() {
-      alert('QR Code aggiornato! I clienti possono utilizzare questo link:\\n\\n' + qrCodeUrl);
+      alert('QR Code aggiornato! I clienti possono utilizzare questo link:\n\n' + qrCodeUrl);
     };
   }
   
   showSyncStatus('QR Code aggiornato con successo', 'success');
-  alert('✅ QR Code aggiornato!\\n\\nI nuovi prodotti sono ora disponibili per i clienti che scannerizzano il codice.');
+  alert('✅ QR Code aggiornato!\n\nI nuovi prodotti sono ora disponibili per i clienti che scannerizzano il codice.');
 };
 
 const loadProductsFromUrl = () => {
@@ -1343,7 +1451,6 @@ const loadProductsFromUrl = () => {
     try {
       const importedProducts = JSON.parse(decodeURIComponent(productsData));
       if (Array.isArray(importedProducts) && importedProducts.length > 0) {
-        // 合并而不是替换
         const existingIds = new Set(products.map(p => p.id));
         const newProducts = importedProducts.filter(p => !existingIds.has(p.id));
         products.push(...newProducts);
@@ -1372,6 +1479,7 @@ const showQRCodeInfo = () => {
 
 // ==================== 管理员面板改进 ====================
 let adminAuthenticated = false;
+let eventListenersBound = false;
 
 const enableAdminPanel = () => {
   if (adminAuthenticated) { 
@@ -1379,7 +1487,7 @@ const enableAdminPanel = () => {
     return; 
   }
   
-  const pwd = prompt('🔐 Accesso Amministratore\\n\\nInserisci la password:');
+  const pwd = prompt('🔐 Accesso Amministratore\n\nInserisci la password:');
   if (validateAdminPassword(pwd)) { 
     adminAuthenticated = true; 
     openAdminPanel(); 
@@ -1544,7 +1652,7 @@ const addProduct = () => {
     return;
   }
   
-  if (products.some(p => p.id === barcode)) {
+  if (isProductDuplicate(barcode)) {
     alert('Barcode già esistente!');
     return;
   }
@@ -1558,15 +1666,19 @@ const addProduct = () => {
   };
   
   if (original && discount) {
-    const orig = parseFloat(original.replace(',','.'));
-    const disc = parseFloat(discount.replace(',','.'));
-    product.originalPrice = `€${original}`;
-    product.discountPrice = `€${discount}`;
-    product.discountPercentage = parseFloat(((orig-disc)/orig*100).toFixed(2));
+    const orig = parsePrice(original);
+    const disc = parsePrice(discount);
+    if (orig && disc) {
+      product.originalPrice = formatPrice(orig);
+      product.discountPrice = formatPrice(disc);
+      product.discountPercentage = parseFloat(((orig-disc)/orig*100).toFixed(2));
+    }
   } else if (original) {
-    product.price = `€${original}`;
+    const orig = parsePrice(original);
+    if (orig) product.price = formatPrice(orig);
   } else if (discount) {
-    product.price = `€${discount}`;
+    const disc = parsePrice(discount);
+    if (disc) product.price = formatPrice(disc);
   } else {
     product.price = 'Prezzo su richiesta';
   }
@@ -1576,6 +1688,7 @@ const addProduct = () => {
   renderProducts(); 
   updateAdminStats();
   
+  // 重置表单
   document.getElementById('adminProductName').value = '';
   document.getElementById('adminProductBarcode').value = '';
   document.getElementById('adminOriginalPrice').value = '';
@@ -1592,7 +1705,7 @@ const exportProducts = () => {
     ...products.map(p => 
       `"${p.id}","${p.name}","${p.category}","${p.originalPrice||''}","${p.discountPrice||p.price||''}","${p.discountPercentage||''}","${p.image}","${p.description}"`
     )
-  ].join('\\n');
+  ].join('\n');
   
   const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
   const a = document.createElement('a');
@@ -1612,7 +1725,7 @@ const importProducts = () => {
     
     const reader = new FileReader();
     reader.onload = ev => {
-      const lines = ev.target.result.split('\\n').slice(1);
+      const lines = ev.target.result.split('\n').slice(1);
       let added = 0;
       
       for (const line of lines) {
@@ -1620,7 +1733,7 @@ const importProducts = () => {
         
         const [id, name, category, orig, disc, perc, img, desc] = line.split(',').map(x => x.replace(/^"|"$/g, ''));
         
-        if (!id || !name || products.some(p => p.id === id)) continue;
+        if (!id || !name || isProductDuplicate(id)) continue;
         
         const p = {
           id,
@@ -1631,13 +1744,19 @@ const importProducts = () => {
         };
         
         if (orig && disc) {
-          p.originalPrice = `€${orig}`;
-          p.discountPrice = `€${disc}`;
-          p.discountPercentage = parseFloat(perc) || 0;
+          const origPrice = parsePrice(orig);
+          const discPrice = parsePrice(disc);
+          if (origPrice && discPrice) {
+            p.originalPrice = formatPrice(origPrice);
+            p.discountPrice = formatPrice(discPrice);
+            p.discountPercentage = parseFloat(perc) || parseFloat(((origPrice-discPrice)/origPrice*100).toFixed(2));
+          }
         } else if (orig) {
-          p.price = `€${orig}`;
+          const origPrice = parsePrice(orig);
+          if (origPrice) p.price = formatPrice(origPrice);
         } else if (disc) {
-          p.price = `€${disc}`;
+          const discPrice = parsePrice(disc);
+          if (discPrice) p.price = formatPrice(discPrice);
         } else {
           p.price = 'Prezzo su richiesta';
         }
@@ -1707,11 +1826,13 @@ const applyDiscountToAll = () => {
   
   products.forEach(p => {
     if (p.originalPrice) {
-      const original = parseFloat(p.originalPrice.replace('€','').replace(',','.'));
-      const discountAmount = original * (parseFloat(discount) / 100);
-      const newPrice = original - discountAmount;
-      p.discountPrice = `€${newPrice.toFixed(2).replace('.',',')}`;
-      p.discountPercentage = parseFloat(discount);
+      const original = parsePrice(p.originalPrice);
+      if (original) {
+        const discountAmount = original * (parseFloat(discount) / 100);
+        const newPrice = original - discountAmount;
+        p.discountPrice = formatPrice(newPrice);
+        p.discountPercentage = parseFloat(discount);
+      }
     }
   });
   
@@ -1750,7 +1871,7 @@ const complianceContent = {
     <div style="background:#fff3cd;padding:1rem;border-left:4px solid #ffc107"><p style="margin:0"><strong>✅ Questo sito NON utilizza cookie di tracciamento</strong></p></div>
     <ul><li><strong>Nessun cookie analytics</strong> (Google Analytics, Facebook Pixel, ecc.)</li><li><strong>Nessun cookie di profilazione</strong></li><li><strong>Nessun cookie di marketing</strong></li><li><strong>Nessun cookie di terze parti</strong></li></ul>
     <h3>⚙️ Cookie tecnici (se presenti)</h3><p>Eventuali cookie tecnici sono utilizzati esclusivamente per:</p><ul><li>Memorizzare preferenze di visualizzazione temporanee</li><li>Funzionalità di ricerca interna al sito</li><li>Migliorare l'esperienza di navigazione</li></ul>
-    <div style="background:#d4edda;padding:1rem;border-left:4px solid #28a745;margin-top:1.5rem"><p style="margin:0"><strong>🛡️ Navigazione sicura:</strong> Puoi navigare questo sito tranquillamente senza preoccupazioni per la tua privacy. Non tracciamo le tue attività online.</p></div>
+    <div style="background:#d4edda;padding:1rem;border-left:4px solid #28a745;margin-top:1.5rem"><p style="margin:0"><strong>🛡️ Navigazione sicura:</strong> Puoi navigare questo sito tranquillamente senza preoccupazioni per la tua privacy. Non tracciamo le tue actividades online.</p></div>
   `
 };
 
@@ -1764,6 +1885,32 @@ const showCookiePolicy = () => {
   document.getElementById('privacy-modal').style.display = 'flex';
 };
 
+// ==================== 事件委托绑定 ====================
+function bindEventDelegation() {
+  if (eventListenersBound) return;
+  
+  document.addEventListener('click', (e) => {
+    // 管理员按钮
+    if (e.target.closest('#hiddenAdminBtn') || e.target.closest('#adminBtn')) {
+      enableAdminPanel();
+    }
+    
+    // 移动菜单
+    if (e.target.closest('.mobile-menu-btn')) {
+      const nav = document.getElementById('navMenu');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    }
+    
+    // 返回顶部
+    if (e.target.closest('#backToTop')) {
+      e.preventDefault();
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+  });
+  
+  eventListenersBound = true;
+}
+
 // ==================== 页面初始化 ====================
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -1771,7 +1918,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 显示隐藏的管理员按钮
   document.getElementById('hiddenAdminBtn').style.display = 'block';
   
-  // 🆕 FIXED: 合并产品数据而不是替换
+  // 检查Firebase可用性
+  checkFirebaseAvailability();
+  
+  // 合并产品数据
   const saved = loadStorage('supershop_products');
   if (saved && saved.length > 0) {
     const existingIds = new Set(products.map(p => p.id));
@@ -1786,7 +1936,10 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   updateAdminStats();
   
-  // Event listeners
+  // 使用事件委托绑定事件
+  bindEventDelegation();
+  
+  // 搜索和筛选事件
   document.getElementById('product-search').addEventListener('input', () => {
     currentPage = 1;
     renderProducts();
@@ -1802,14 +1955,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProducts();
   });
   
-  document.getElementById('hiddenAdminBtn').addEventListener('click', enableAdminPanel);
-  document.getElementById('adminBtn').addEventListener('click', enableAdminPanel);
-  
-  document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-    const nav = document.getElementById('navMenu');
-    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-  });
-  
+  // 键盘快捷键
   document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'm') {
       e.preventDefault();
@@ -1817,14 +1963,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
+  // 滚动显示返回顶部按钮
   const backToTop = document.getElementById('backToTop');
   window.addEventListener('scroll', () => {
     backToTop.classList.toggle('visible', window.pageYOffset > 300);
-  });
-  
-  backToTop.addEventListener('click', e => {
-    e.preventDefault();
-    window.scrollTo({top: 0, behavior: 'smooth'});
   });
 });
 </script>
