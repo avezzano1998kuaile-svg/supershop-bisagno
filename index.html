@@ -9,7 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-/* 保持原有的所有CSS样式不变 */
+/* 保持所有原有的CSS样式不变 */
 :root{
     --primary-color:#004080;
     --secondary-color:#ff6b00;
@@ -729,7 +729,7 @@ footer{
   animation: pulse 1.5s infinite;
 }
 
-/* 实时产品管理样式 - 修复版本 */
+/* 实时产品管理样式 */
 .realtime-admin-section {
   margin-top: 1rem;
   padding: 1rem;
@@ -812,7 +812,6 @@ footer{
   background: #dc3545;
 }
 
-/* 修复移动端布局 */
 @media(max-width:768px){
     .header-container{
         flex-direction:column;
@@ -1261,6 +1260,9 @@ footer{
   const database = getDatabase(app);
   
   console.log("✅ Firebase实时数据库连接成功！");
+  
+  // 设置全局变量以便其他函数使用
+  window.firebaseDatabase = database;
 </script>
 
 <script>
@@ -1290,7 +1292,6 @@ let products = [
 let currentRealtimeProducts = {};
 let firebaseAvailable = false;
 let adminAuthenticated = false;
-let eventListenersBound = false;
 let currentPage = 1;
 const productsPerPage = 8;
 let filteredProducts = [];
@@ -1416,7 +1417,13 @@ const showSyncStatus = (msg, type = 'success') => {
 function checkFirebaseAvailability() {
   return new Promise((resolve) => {
     try {
-      const testRef = ref(database, 'connection_test');
+      if (!window.firebaseDatabase) {
+        console.warn("Firebase database non disponibile");
+        resolve(false);
+        return;
+      }
+      
+      const testRef = ref(window.firebaseDatabase, 'connection_test');
       set(testRef, { 
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent 
@@ -1456,9 +1463,9 @@ function updateFirebaseStatus(connected) {
 }
 
 function monitorFirebaseConnection() {
-  if (typeof database === 'undefined') return;
+  if (!window.firebaseDatabase) return;
   
-  const connectedRef = ref(database, '.info/connected');
+  const connectedRef = ref(window.firebaseDatabase, '.info/connected');
   onValue(connectedRef, (snap) => {
     const connected = snap.val() === true;
     firebaseAvailable = connected;
@@ -1498,9 +1505,9 @@ function enableRealtimeAdmin() {
 }
 
 function listenRealtimeProducts() {
-  if (!firebaseAvailable) return;
+  if (!firebaseAvailable || !window.firebaseDatabase) return;
   
-  const productsRef = ref(database, 'products');
+  const productsRef = ref(window.firebaseDatabase, 'products');
   onValue(productsRef, (snapshot) => {
     currentRealtimeProducts = snapshot.val() || {};
     renderRealtimeProducts(currentRealtimeProducts);
@@ -1607,7 +1614,7 @@ function toggleDiscountFields() {
 }
 
 function editProduct(barcode) {
-  if (!firebaseAvailable) {
+  if (!firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法编辑实时产品");
     return;
   }
@@ -1640,14 +1647,14 @@ function editProduct(barcode) {
 }
 
 function deleteProduct(barcode) {
-  if (!firebaseAvailable) {
+  if (!firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法删除实时产品");
     return;
   }
   
   const productName = currentRealtimeProducts[barcode]?.name || barcode;
   if(confirm(`Sei sicuro di voler eliminare il prodotto "${productName}" dal database real-time?`)) {
-    const productRef = ref(database, 'products/' + barcode);
+    const productRef = ref(window.firebaseDatabase, 'products/' + barcode);
     remove(productRef)
       .then(() => {
         showSyncStatus('Prodotto eliminato con successo', 'success');
@@ -1660,7 +1667,7 @@ function deleteProduct(barcode) {
 }
 
 function addOrUpdateProduct() {
-  if (!firebaseAvailable) {
+  if (!firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法 gestire prodotti real-time");
     return;
   }
@@ -1713,7 +1720,7 @@ function addOrUpdateProduct() {
     createdAt: currentRealtimeProducts[barcode]?.createdAt || new Date().toISOString()
   };
 
-  const productRef = ref(database, 'products/' + barcode);
+  const productRef = ref(window.firebaseDatabase, 'products/' + barcode);
   set(productRef, productData)
   .then(() => {
     const isUpdate = currentRealtimeProducts[barcode];
@@ -1868,7 +1875,7 @@ function getCategoryName(category) {
 
 // ==================== 同步功能 ====================
 function syncAllProducts() {
-  if (!firebaseAvailable) {
+  if (!firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法同步");
     return;
   }
@@ -1878,7 +1885,7 @@ function syncAllProducts() {
     const barcode = product.id;
     if (!currentRealtimeProducts[barcode]) {
       const realtimeData = convertLocalToRealtime(product);
-      const productRef = ref(database, 'products/' + barcode);
+      const productRef = ref(window.firebaseDatabase, 'products/' + barcode);
       set(productRef, realtimeData)
         .then(() => synced++)
         .catch(err => console.error(`Errore sincronizzazione ${barcode}:`, err));
@@ -1889,7 +1896,7 @@ function syncAllProducts() {
 }
 
 function migrateToFirebase() {
-  if (!firebaseAvailable) {
+  if (!firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法 migrare");
     return;
   }
@@ -1904,7 +1911,7 @@ function migrateToFirebase() {
   products.forEach(product => {
     const barcode = product.id;
     const realtimeData = convertLocalToRealtime(product);
-    const productRef = ref(database, 'products/' + barcode);
+    const productRef = ref(window.firebaseDatabase, 'products/' + barcode);
     
     set(productRef, realtimeData)
       .then(() => {
@@ -1944,12 +1951,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   // 检查并初始化Firebase
-  checkFirebaseAvailability().then(() => {
-    monitorFirebaseConnection();
-    if (firebaseAvailable) {
-      listenRealtimeProducts();
-    }
-  });
+  setTimeout(() => {
+    checkFirebaseAvailability().then(() => {
+      monitorFirebaseConnection();
+      if (firebaseAvailable) {
+        listenRealtimeProducts();
+      }
+    });
+  }, 1000);
   
   renderProducts();
   updateAdminStats();
