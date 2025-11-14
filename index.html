@@ -8,32 +8,1064 @@
 <meta name="keywords" content="supershop bisagno, genova, articoli regalo, giocattoli, casalinghi, ferramenta, natale">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+    --primary-color:#004080;
+    --secondary-color:#ff6b00;
+    --light-color:#f9f9f9;
+    --dark-color:#333;
+    --shadow:0 4px 6px rgba(0,0,0,0.1);
+    --transition:all 0.3s ease
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box
+}
+body{
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+    line-height:1.6;
+    background-color:var(--light-color);
+    color:var(--dark-color);
+    scroll-behavior:smooth
+}
+header{
+    background:linear-gradient(135deg,var(--primary-color),#00264d);
+    color:white;
+    padding:1rem 0;
+    box-shadow:var(--shadow);
+    position:sticky;
+    top:0;
+    z-index:100
+}
+.header-container{
+    max-width:1200px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 1rem
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:0.5rem
+}
+.logo-img{
+    height:60px;
+    width:auto
+}
+.logo h1{
+    font-size:1.8rem
+}
+nav ul{
+    display:flex;
+    list-style:none;
+    gap:1.5rem
+}
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+    transition:var(--transition);
+    padding:0.5rem 0;
+    position:relative
+}
+nav a::after{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:0;
+    height:2px;
+    background-color:var(--secondary-color);
+    transition:var(--transition)
+}
+nav a:hover::after{
+    width:100%
+}
+.mobile-menu-btn{
+    display:none;
+    background:none;
+    border:none;
+    color:white;
+    font-size:1.5rem;
+    cursor:pointer
+}
+#adminBtn{
+    display:none;
+    background:var(--secondary-color);
+    border:none;
+    color:white;
+    padding:0.5rem 0.8rem;
+    border-radius:4px;
+    cursor:pointer;
+    opacity:0.7;
+    transition:var(--transition)
+}
+#adminBtn:hover{
+    opacity:1
+}
+.hero{
+    background:linear-gradient(rgba(0,64,128,0.8),rgba(0,38,77,0.9));
+    background-size:cover;
+    background-position:center;
+    color:white;
+    text-align:center;
+    padding:5rem 1rem
+}
+.hero-content{
+    max-width:800px;
+    margin:0 auto
+}
+.hero h2{
+    font-size:2.5rem;
+    margin-bottom:1rem;
+    color:white
+}
+.hero p{
+    font-size:1.2rem;
+    margin-bottom:2rem
+}
+.btn{
+    display:inline-block;
+    background-color:var(--secondary-color);
+    color:white;
+    padding:0.8rem 1.5rem;
+    border-radius:4px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:var(--transition);
+    border:none;
+    cursor:pointer
+}
+.btn:hover{
+    background-color:#e55a00;
+    transform:translateY(-3px);
+    box-shadow:0 6px 12px rgba(0,0,0,0.15)
+}
+main{
+    max-width:1200px;
+    margin:2rem auto;
+    padding:0 1rem
+}
+section{
+    background:white;
+    border-radius:8px;
+    padding:2rem;
+    margin-bottom:2rem;
+    box-shadow:var(--shadow);
+    transition:var(--transition)
+}
+section:hover{
+    transform:translateY(-5px)
+}
+h2{
+    color:var(--primary-color);
+    margin-bottom:1.5rem;
+    padding-bottom:0.5rem;
+    border-bottom:2px solid var(--secondary-color);
+    display:inline-block
+}
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:2rem;
+    margin-top:2rem
+}
+.info-card{
+    background:#f0f7ff;
+    padding:1.5rem;
+    border-radius:8px;
+    border-left:4px solid var(--primary-color);
+    transition:var(--transition)
+}
+.info-card:hover{
+    transform:translateY(-5px);
+    box-shadow:var(--shadow)
+}
+.info-card h3{
+    color:var(--primary-color);
+    margin-bottom:1rem;
+    display:flex;
+    align-items:center;
+    gap:0.5rem
+}
+.info-card h3 i{
+    color:var(--secondary-color)
+}
+.categories-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:1.5rem;
+    margin-top:1.5rem
+}
+.category-card{
+    background:#f8f9fa;
+    border-radius:8px;
+    padding:1.5rem;
+    text-align:center;
+    transition:var(--transition);
+    border:1px solid #e9ecef
+}
+.category-card:hover{
+    transform:translateY(-5px);
+    box-shadow:var(--shadow);
+    border-color:var(--primary-color)
+}
+.category-icon{
+    font-size:2.5rem;
+    color:var(--primary-color);
+    margin-bottom:1rem
+}
+.category-card h3{
+    color:var(--primary-color);
+    margin-bottom:0.5rem
+}
+.hours-list{
+    list-style:none
+}
+.hours-list li{
+    padding:0.5rem 0;
+    border-bottom:1px dashed #ddd;
+    display:flex;
+    justify-content:space-between
+}
+.hours-list li:last-child{
+    border-bottom:none
+}
+.contact-info{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2rem;
+    margin-top:1.5rem
+}
+.contact-details{
+    flex:1;
+    min-width:300px
+}
+.contact-details p{
+    margin-bottom:1rem;
+    display:flex;
+    align-items:center;
+    gap:0.5rem
+}
+.contact-details a{
+    color:var(--primary-color);
+    text-decoration:none;
+    transition:var(--transition)
+}
+.contact-details a:hover{
+    color:var(--secondary-color)
+}
+.map-container{
+    flex:1;
+    min-width:300px;
+    height:300px;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:var(--shadow)
+}
+.map-container iframe{
+    width:100%;
+    height:100%;
+    border:none
+}
+footer{
+    background:linear-gradient(135deg,var(--primary-color),#00264d);
+    color:white;
+    text-align:center;
+    padding:2rem 0;
+    margin-top:3rem
+}
+.footer-content{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 1rem
+}
+.back-to-top{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:var(--secondary-color);
+    color:white;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    box-shadow:var(--shadow);
+    transition:var(--transition);
+    opacity:0;
+    visibility:hidden;
+    z-index:99
+}
+.back-to-top.visible{
+    opacity:1;
+    visibility:visible
+}
+.back-to-top:hover{
+    background:#e55a00;
+    transform:translateY(-3px)
+}
+.monthly-offer{
+    background:#f0f7ff;
+    border-left:4px solid var(--primary-color);
+    padding:1.5rem;
+    margin:2rem 0;
+    border-radius:8px;
+    transition:all 0.3s ease
+}
+.monthly-offer:hover{
+    transform:translateY(-5px);
+    box-shadow:var(--shadow)
+}
+.monthly-offer.hidden{
+    display:none
+}
+.offer-highlight{
+    background:linear-gradient(135deg,var(--secondary-color),#ff8c00);
+    color:white;
+    padding:1rem;
+    border-radius:8px;
+    text-align:center;
+    font-size:1.3rem;
+    font-weight:bold;
+    margin:1.5rem 0;
+    box-shadow:0 4px 8px rgba(0,0,0,0.1)
+}
+.offer-details{
+    background:white;
+    padding:1.5rem;
+    border-radius:8px;
+    margin:1.5rem 0;
+    border:1px solid #e0e0e0
+}
+.offer-validity{
+    background:#fff8e1;
+    padding:1rem;
+    border-radius:8px;
+    text-align:center;
+    border:1px dashed var(--secondary-color);
+    margin-top:1.5rem
+}
+.products-section{
+    margin-top:2rem
+}
+.search-filter-container{
+    display:flex;
+    flex-wrap:wrap;
+    gap:1rem;
+    margin-bottom:2rem;
+    align-items:center
+}
+.search-box{
+    flex:1;
+    min-width:300px;
+    position:relative
+}
+.search-box input{
+    width:100%;
+    padding:0.8rem 1rem 0.8rem 2.5rem;
+    border:1px solid #ddd;
+    border-radius:4px;
+    font-size:1rem
+}
+.search-box i{
+    position:absolute;
+    left:0.8rem;
+    top:50%;
+    transform:translateY(-50%);
+    color:#777
+}
+.search-hint{
+    font-size:0.8rem;
+    color:#666;
+    margin-top:0.3rem;
+    margin-left:0.5rem
+}
+.filter-select{
+    padding:0.8rem 1rem;
+    border:1px solid #ddd;
+    border-radius:4px;
+    font-size:1rem;
+    background:white;
+    cursor:pointer
+}
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:1.5rem;
+    margin-bottom:2rem
+}
+.product-card{
+    background:white;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    position:relative
+}
+.product-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.15)
+}
+.product-image{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    background-color:#f5f5f5
+}
+.product-info{
+    padding:1rem
+}
+.product-name{
+    font-weight:600;
+    margin-bottom:0.5rem;
+    color:var(--dark-color)
+}
+.product-price-container{
+    margin-bottom:0.5rem
+}
+.original-price{
+    color:#999;
+    text-decoration:line-through;
+    font-size:0.9rem;
+    margin-right:0.5rem
+}
+.discount-price{
+    color:var(--secondary-color);
+    font-weight:bold;
+    font-size:1.1rem
+}
+.discount-badge{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#e74c3c;
+    color:white;
+    padding:0.3rem 0.6rem;
+    border-radius:4px;
+    font-size:0.8rem;
+    font-weight:bold;
+    z-index:2
+}
+.product-category{
+    display:inline-block;
+    background:#f0f7ff;
+    color:var(--primary-color);
+    padding:0.2rem 0.5rem;
+    border-radius:4px;
+    font-size:0.8rem;
+    margin-top:0.5rem
+}
+.product-barcode-small{
+    font-size:0.7rem;
+    color:#888;
+    font-family:monospace;
+    margin-top:0.3rem
+}
+.load-more-container{
+    text-align:center;
+    margin-top:2rem
+}
+.load-more-btn{
+    background:var(--primary-color);
+    color:white;
+    border:none;
+    padding:0.8rem 1.5rem;
+    border-radius:4px;
+    cursor:pointer;
+    transition:var(--transition);
+    font-size:1rem
+}
+.load-more-btn:hover{
+    background:#003366
+}
+.sync-status{
+    position:fixed;
+    top:10px;
+    right:10px;
+    background:#28a745;
+    color:white;
+    padding:0.5rem 1rem;
+    border-radius:20px;
+    font-size:0.8rem;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    box-shadow:var(--shadow)
+}
+.sync-status.syncing{
+    background:#ffc107;
+    color:#000
+}
+.sync-status.error{
+    background:#dc3545
+}
+#privacy-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    z-index:10000;
+    justify-content:center;
+    align-items:center
+}
+#privacy-modal>div{
+    background:white;
+    padding:2rem;
+    border-radius:10px;
+    max-width:600px;
+    max-height:80vh;
+    overflow-y:auto;
+    margin:2rem;
+    position:relative
+}
+.admin-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.5rem;
+    padding:0.8rem 1rem;
+    border:none;
+    border-radius:6px;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s ease
+}
+.admin-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.2)
+}
+.admin-btn:active{
+    transform:translateY(0)
+}
+.admin-panel{
+    display:none;
+    position:fixed;
+    top:0;
+    right:-400px;
+    width:400px;
+    height:100vh;
+    background:white;
+    box-shadow:-5px 0 15px rgba(0,0,0,0.1);
+    z-index:1000;
+    transition:right 0.3s ease;
+    overflow-y:auto
+}
+.admin-panel.active{
+    display:block;
+    right:0
+}
+.admin-header{
+    background:var(--primary-color);
+    color:white;
+    padding:1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center
+}
+.admin-content{
+    padding:1.5rem
+}
+.admin-section{
+    margin-bottom:2rem;
+    padding-bottom:1.5rem;
+    border-bottom:1px solid #eee
+}
+.admin-section h3{
+    color:var(--primary-color);
+    margin-bottom:1rem;
+    display:flex;
+    align-items:center;
+    gap:0.5rem
+}
+.admin-stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1rem;
+    margin-bottom:1.5rem
+}
+.stat-card{
+    background:#f8f9fa;
+    padding:1rem;
+    border-radius:8px;
+    text-align:center;
+    border-left:4px solid var(--primary-color)
+}
+.stat-number{
+    font-size:1.5rem;
+    font-weight:bold;
+    color:var(--primary-color);
+    display:block
+}
+.stat-label{
+    font-size:0.8rem;
+    color:#666
+}
+.admin-form-group{
+    margin-bottom:1rem
+}
+.admin-form-group label{
+    display:block;
+    margin-bottom:0.5rem;
+    font-weight:500;
+    color:var(--dark-color)
+}
+.admin-form-group input,.admin-form-group select,.admin-form-group textarea{
+    width:100%;
+    padding:0.8rem;
+    border:1px solid #ddd;
+    border-radius:4px;
+    font-size:1rem
+}
+.admin-form-group textarea{
+    height:100px;
+    resize:vertical
+}
+.admin-actions{
+    display:flex;
+    gap:0.5rem;
+    flex-wrap:wrap
+}
+.admin-action-btn{
+    flex:1;
+    min-width:120px;
+    padding:0.8rem;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    font-weight:500;
+    transition:var(--transition);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.5rem
+}
+.admin-action-btn.primary{
+    background:var(--primary-color);
+    color:white
+}
+.admin-action-btn.secondary{
+    background:#6c757d;
+    color:white
+}
+.admin-action-btn.success{
+    background:#28a745;
+    color:white
+}
+.admin-action-btn.warning{
+    background:#ffc107;
+    color:#000
+}
+.admin-action-btn.danger{
+    background:#dc3545;
+    color:white
+}
+.admin-action-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 8px rgba(0,0,0,0.2)
+}
+.password-hint{
+    background:#fff3cd;
+    border:1px solid #ffeaa7;
+    border-radius:4px;
+    padding:1rem;
+    margin:1rem 0;
+    font-size:0.9rem
+}
+.admin-overlay{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    z-index:999
+}
+.admin-overlay.active{
+    display:block
+}
+.hidden-admin-btn{
+    position:fixed;
+    top:10px;
+    right:60px;
+    width:30px;
+    height:30px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    z-index:101;
+    opacity:0.3;
+    transition:opacity 0.3s ease
+}
+.hidden-admin-btn:hover{
+    opacity:0.7
+}
+
+/* Animazione etichetta sconto */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.discount-tag {
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  margin-left: 5px;
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+/* 实时产品管理样式 */
+.realtime-admin-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fafafa;
+}
+.realtime-admin-section input {
+  width: 120px;
+  padding: 0.3rem;
+  margin-right: 0.5rem;
+}
+.realtime-admin-section button {
+  padding: 0.3rem 0.7rem;
+}
+#realtimeAdminLoginBtn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+}
+#realtimeProductList {
+  margin-top: 1rem;
+}
+.realtime-product {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+.realtime-product input {
+  width: 120px;
+  padding: 0.3rem;
+}
+.realtime-product button {
+  padding: 0.3rem 0.7rem;
+}
+#lastUpdate {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+@media(max-width:768px){
+    .header-container{
+        flex-direction:column;
+        gap:1rem
+    }
+    nav ul{
+        display:none;
+        flex-direction:column;
+        text-align:center;
+        gap:1rem
+    }
+    nav ul.active{
+        display:flex
+    }
+    .mobile-menu-btn{
+        display:block
+    }
+    #adminBtn{
+        display:none !important
+    }
+    .hidden-admin-btn{
+        top:15px;
+        right:50px;
+        width:25px;
+        height:25px
+    }
+    .admin-panel{
+        width:100%;
+        right:-100%
+    }
+    .products-grid{
+        grid-template-columns:repeat(auto-fill,minmax(200px,1fr))
+    }
+}
+@media(max-width:480px){
+    .products-grid{
+        grid-template-columns:1fr
+    }
+    .hidden-admin-btn{
+        top:10px;
+        right:45px;
+        width:20px;
+        height:20px
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- sync status -->
+<div id="sync-status" class="sync-status" style="display:none"><i class="fas fa-cloud"></i> <span id="sync-text">Sincronizzato</span></div>
+
+<!-- 隐藏的管理员按钮 -->
+<button class="hidden-admin-btn" id="hiddenAdminBtn" title="Pannello Admin" style="display:none">
+    <i class="fas fa-user-shield" style="color:white;font-size:1.2rem"></i>
+</button>
+
+<!-- ADMIN PANEL -->
+<div class="admin-overlay" id="adminOverlay"></div>
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <h3><i class="fas fa-cogs"></i> Pannello di Amministrazione</h3>
+    <button onclick="closeAdminPanel()" style="background:none;border:none;color:white;font-size:1.2rem;cursor:pointer"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="admin-content">
+    <div class="admin-section">
+      <h3><i class="fas fa-chart-bar"></i> Statistiche</h3>
+      <div class="admin-stats">
+        <div class="stat-card"><span class="stat-number" id="totalProducts">0</span><span class="stat-label">Prodotti Totali</span></div>
+        <div class="stat-card"><span class="stat-number" id="totalCategories">0</span><span class="stat-label">Categorie</span></div>
+      </div>
+    </div>
+    
+    <!-- 实时产品管理部分 -->
+    <div class="admin-section">
+      <h3><i class="fas fa-sync-alt"></i> Gestione Prodotti in Tempo Reale</h3>
+      <div class="password-hint">
+        <strong>Gestione prodotti Firebase</strong><br>
+        <small>Utilizza questa sezione per gestire i prodotti in tempo reale tramite Firebase</small>
+      </div>
+      <button id="realtimeAdminLoginBtn" class="admin-action-btn primary" onclick="enableRealtimeAdmin()">
+        <i class="fas fa-database"></i> Gestione Prodotti Real-time
+      </button>
+      <div id="realtimeAdminSection" class="realtime-admin-section" style="display:none;">
+        <h4>Gestione Prodotto</h4>
+        <input type="text" id="newProductBarcode" placeholder="Codice a barre">
+        <input type="text" id="newProductName" placeholder="Nome prodotto">
+        <input type="number" id="newProductPrice" placeholder="Prezzo (€)">
+        <label><input type="checkbox" id="newProductDiscount"> In sconto</label>
+        <input type="number" id="newDiscountPrice" placeholder="Prezzo scontato (€)">
+        <input type="text" id="newDiscountTagText" placeholder="Testo etichetta sconto">
+        <input type="color" id="newDiscountTagColor" value="#ff0000">
+        <button id="addOrUpdateBtn" class="admin-action-btn success" onclick="addOrUpdateProduct()">Aggiungi</button>
+        
+        <div id="realtimeProductList"></div>
+        <div id="lastUpdate"></div>
+      </div>
+    </div>
+    
+    <div class="admin-section">
+      <h3><i class="fas fa-key"></i> Gestione Password</h3>
+      <div class="password-hint"><strong>Accesso riservato al personale autorizzato</strong><br><small>Contatta l'amministratore per le credenziali</small></div>
+    </div>
+    <div class="admin-section">
+      <h3><i class="fas fa-plus-circle"></i> Aggiungi Prodotto</h3>
+      <div class="admin-form-group"><label>Nome Prodotto</label><input type="text" id="adminProductName" placeholder="Inserisci nome prodotto"></div>
+      <div class="admin-form-group"><label>Codice a Barre</label><input type="text" id="adminProductBarcode" placeholder="Inserisci codice a barre 13 cifre"></div>
+      <div class="admin-form-group"><label>Categoria</label><select id="adminProductCategory"><option value="regalo">Articoli Regalo</option><option value="giocattoli">Giocattoli</option><option value="cartoleria">Cartoleria</option><option value="casalinghi">Casalinghi</option><option value="ferramenta">Ferramenta</option><option value="animali">Articoli per animali</option><option value="illuminazione">Illuminazione</option><option value="mobili">Mobili</option><option value="natale">Articoli Natalizi</option></select></div>
+      <div class="admin-form-group"><label>Prezzo Originale (€)</label><input type="text" id="adminOriginalPrice" placeholder="es: 10,00"></div>
+      <div class="admin-form-group"><label>Prezzo Scontato (€)</label><input type="text" id="adminDiscountPrice" placeholder="es: 7,50"></div>
+      <div class="admin-form-group"><label>URL Immagine</label><input type="text" id="adminProductImage" placeholder="Inserisci link immagine"></div>
+      <div class="admin-form-group"><label>Descrizione</label><textarea id="adminProductDescription" placeholder="Inserisci descrizione prodotto"></textarea></div>
+      <div class="admin-actions"><button class="admin-action-btn success" onclick="addProduct()"><i class="fas fa-plus"></i> Aggiungi Prodotto</button></div>
+    </div>
+    <div class="admin-section">
+      <h3><i class="fas fa-file-export"></i> Gestione Dati</h3>
+      <div class="admin-actions"><button class="admin-action-btn primary" onclick="exportProducts()"><i class="fas fa-download"></i> Esporta CSV</button><button class="admin-action-btn secondary" onclick="importProducts()"><i class="fas fa-upload"></i> Importa CSV</button></div>
+      <div class="admin-actions" style="margin-top:0.5rem"><button class="admin-action-btn warning" onclick="backupData()"><i class="fas fa-save"></i> Backup Dati</button><button class="admin-action-btn danger" onclick="clearAllData()"><i class="fas fa-trash"></i> Cancella Tutto</button></div>
+    </div>
+    <div class="admin-section">
+      <h3><i class="fas fa-search"></i> Ricerca Rapida</h3>
+      <div class="admin-form-group"><input type="text" id="adminQuickSearch" placeholder="Cerca prodotto..." onkeyup="adminQuickSearch()"></div>
+      <div id="adminSearchResults" style="max-height:200px;overflow-y:auto"></div>
+    </div>
+    <div class="admin-section">
+      <h3><i class="fas fa-database"></i> Operazioni di Massa</h3>
+      <div class="admin-actions"><button class="admin-action-btn warning" onclick="applyDiscountToAll()"><i class="fas fa-tag"></i> Sconto a Tutti</button><button class="admin-action-btn danger" onclick="deleteAllProducts()"><i class="fas fa-trash-alt"></i> Elimina Tutti</button></div>
+    </div>
+    <div class="admin-section">
+      <h3><i class="fas fa-qrcode"></i> Sincronizzazione QR Code</h3>
+      <div class="password-hint">
+        <strong>⚠️ Importante:</strong> Dopo aver aggiunto o modificato prodotti, clicca qui per aggiornare il QR code che i clienti scannerizzano.
+      </div>
+      <div class="admin-actions">
+        <button class="admin-action-btn primary" onclick="updateQRCode()">
+          <i class="fas fa-sync"></i> Aggiorna QR Code
+        </button>
+        <button class="admin-action-btn secondary" onclick="showQRCodeInfo()">
+          <i class="fas fa-info-circle"></i> Istruzioni
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-container">
+    <div class="logo"><img src="1000011845.png" alt="SuperShop Logo" class="logo-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzAwNDA4MCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UzwvdGV4dD48L3N2Zz4='"><h1>Supershop Bisagno</h1></div>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <nav><ul id="navMenu"><li><a href="#home">Home</a></li><li><a href="#about">Chi Siamo</a></li><li><a href="#products">Prodotti</a></li><li><a href="#monthly-offer">Offerte</a></li><li><a href="#hours">Orari</a></li><li><a href="#products-showcase">Catalogo</a></li><li><a href="#contact">Contatti</a></li></ul></nav>
+      <button id="adminBtn" title="Pannello Admin"><i class="fas fa-user-shield"></i></button>
+      <button class="mobile-menu-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h2>Supershop Bisagno S.R.L.</h2>
+    <p>ARTICOLI REGALO - GIOCATOLI - CARTOLERIA - CASALINGHI - FERRAMENTA</p>
+    <a href="#products-showcase" class="btn">Scopri i nostri prodotti</a>
+  </div>
+</section>
+
+<main>
+  <section id="about">
+    <h2>Benvenuti</h2>
+    <p>Benvenuti nel sito ufficiale di Supershop Bisagno S.R.L., il vostro punto di riferimento a Genova dal 2019. Offriamo un'ampia selezione di articoli per la casa, articoli per l'igiene personale, prodotti per la pulizia della casa, giocattoli per bambini e articoli per animali domestici.</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3><i class="fas fa-store"></i> Il nostro negozio</h3>
+        <p>Un ambiente moderno e accogliente dove trovare tutto ciò che ti serve per la casa e la famiglia con la massima convenienza e qualità.</p>
+      </div>
+      <div class="info-card">
+        <h3><i class="fas fa-users"></i> La nostra filosofia</h3>
+        <p>Crediamo nel servicio al cliente eccellente e nella qualità dei prodotti. La soddisfazione dei nostri clienti è la nostra priorità.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="products">
+    <h2>I nostri prodotti</h2>
+    <p>Scopri la nostra vasta gamma di prodotti per tutte le esigenze domestiche:</p>
+    <div class="categories-grid">
+      <div class="category-card"><div class="category-icon"><i class="fas fa-gift"></i></div><h3>Articoli Regalo</h3><p>Idee regalo per ogni occasione e per tutte le età</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-gamepad"></i></div><h3>Giocattoli</h3><p>Giocattoli educativi e di intrattenimento per bambini</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-pencil-alt"></i></div><h3>Cartoleria</h3><p>Materiale scolastico e per ufficio di alta qualità</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-home"></i></div><h3>Casalinghi</h3><p>Accessori e complementi d'arredo per la casa</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-tools"></i></div><h3>Ferramenta</h3><p>Utensili e materiali per piccoli lavori domestici</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-paw"></i></div><h3>Articoli per animali</h3><p>Prodotti per la cura e il benessere dei tuoi amici a quattro zampe</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-lightbulb"></i></div><h3>Illuminazione</h3><p>Lampadari, lampade da terra, lampade da tavolo e illuminazione per internos</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-couch"></i></div><h3>Mobili</h3><p>Mobili per la casa, sedie, tavoli e complementi d'arredo</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-tree"></i></div><h3>Articoli Natalizi</h3><p>Decorazioni, addobbi e regali per il periodo natalizio</p></div>
+    </div>
+  </section>
+
+  <section id="monthly-offer" class="monthly-offer">
+    <h2>🎄 Speciale Natale</h2>
+    <div class="offer-highlight">SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!</div>
+    <div class="offer-details">
+      <h3><i class="fas fa-gift"></i> Cosa troverai in negozio:</h3>
+      <ul style="margin-left:1.5rem;margin-top:1rem">
+        <li>Addobbi natalizi di precedenti stagioni a prezzi stracciati</li>
+        <li>Decorazioni per l'albero di Natale con sconti fino al 70%</li>
+        <li>Luci e illuminazione natalizia a prezzi imbattibili</li>
+        <li>Idee regalo natalizie con incredibili occasioni</li>
+        <li>E tanto altro... vieni a scoprirlo di persona!</li>
+      </ul>
+    </div>
+    <p><strong>Perché non elenchiamo tutti i prodotti?</strong> Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.</p>
+    <p style="text-align:center;font-size:1.2rem;margin:1.5rem 0">📍 <strong>Vieni a caccia di occasioni!</strong><br><em>I prezzi più bassi li vedi solo qui da noi</em></p>
+    <div class="offer-validity"><strong>Affrettati! Offerte valide fino al: <span style="color:var(--secondary-color)">31 Dicembre 2025</span></strong><br><small>o fino ad esaurimento scorte</small></div>
+  </section>
+
+  <section id="hours">
+    <h2>Orari di apertura</h2>
+    <ul class="hours-list">
+      <li><span>Lunedì</span><span>08:45 — 19:45</span></li>
+      <li><span>Martedì</span><span>08:45 — 19:45</span></li>
+      <li><span>Mercoledì</span><span>08:45 — 19:45</span></li>
+      <li><span>Giovedì</span><span>08:45 — 19:45</span></li>
+      <li><span>Venerdì</span><span>08:45 — 19:45</span></li>
+      <li><span>Sabato</span><span>08:45 — 19:45</span></li>
+      <li><span>Domenica</span><span>08:45 — 19:45</span></li>
+    </ul>
+    <p style="margin-top:1rem;font-style:italic">Siamo aperti anche nei giorni festivi, salvo comunicazioni diverse.</p>
+  </section>
+
+  <section id="products-showcase" class="products-section">
+    <h2>Catalogo Prodotti</h2>
+    <p>Scopri tutti i nostri prodotti con prezzi e dettagli:</p>
+    <div class="search-filter-container">
+      <div class="search-box"><i class="fas fa-search"></i><input type="text" id="product-search" placeholder="Cerca per nome prodotto o codice a barre..."><div class="search-hint">Cerca per nome prodotto o codice a barre (es: 8005123456789)</div></div>
+      <select class="filter-select" id="category-filter"><option value="all">Tutte le categorie</option><option value="regalo">Articoli Regalo</option><option value="giocattoli">Giocattoli</option><option value="cartoleria">Cartoleria</option><option value="casalinghi">Casalinghi</option><option value="ferramenta">Ferramenta</option><option value="animali">Articoli per animali</option><option value="illuminazione">Illuminazione</option><option value="mobili">Mobili</option><option value="natale">🎄 Articoli Natalizi</option></select>
+    </div>
+    <div class="products-grid" id="products-container"></div>
+    <div class="load-more-container"><button class="load-more-btn" id="load-more">Carica più prodotti</button></div>
+  </section>
+
+  <section id="contact">
+    <h2>Contatti</h2>
+    <div class="contact-info">
+      <div class="contact-details">
+        <p><i class="fas fa-map-marker-alt"></i> <strong>Indirizzo:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
+        <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a></p>
+        <p><i class="fas fa-info-circle"></i> Per informazioni commerciali o partnership, contattaci via email.</p>
+        <p>Scansiona il QR code per visitare il sito:</p>
+        <img src="1000011850.png" alt="QR Code Supershop Bisagno" style="width:150px;height:150px">
+      </div>
+      <div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2817.256958424239!2d8.946223315544193!3d44.40722497909945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d3433c3b06d6a5%3A0x5b0e46e9e5a5a5a5!2sLungobisagno%20Istria%2C%2029F%2C%2016139%20Genova%20GE!5e0!3m2!1sit!2sit!4v1620000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-content">
+    <p>© <span id="year"></span> Supershop Bisagno S.R.L. — Tutti i diritti riservati</p>
+    <p>P.IVA: 02596100996 | REA: GE - 497926</p>
+    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.2)"><a href="#privacy-policy" style="color:white;margin:0 1rem;text-decoration:none" onclick="showPrivacyPolicy()">Privacy Policy</a><a href="#cookie-policy" style="color:white;margin:0 1rem;text-decoration:none" onclick="showCookiePolicy()">Cookie Policy</a></div>
+  </div>
+</footer>
+
+<a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+<div id="privacy-modal">
+  <div>
+    <button onclick="closeModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer">&times;</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
 
 <!-- Firebase SDK -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  // ==================== Firebase 配置和初始化 ====================
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-  // 你的 Firebase 配置
   const firebaseConfig = {
-    apiKey: "AIzaSyA-cfBzR8BIFwYqoTk3dUo2uXHkw-c8rPU",
+    apiKey: "AIzaSyA-cT0zR08IFwYqoTk3dUo2uXHRw-c0rPU",
     authDomain: "supershop-bisagno.firebaseapp.com",
+    databaseURL: "https://supershop-bisagno-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "supershop-bisagno",
     storageBucket: "supershop-bisagno.firebasestorage.app",
     messagingSenderId: "381483524192",
-    appId: "1:381483524192:web:ac657@bbd5725719e2e385"
+    appId: "1:381483524192:web:ac6570bbd5725719e2e305"
   };
 
   // 初始化 Firebase
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // 设置为全局变量
-  window.firebaseApp = app;
-  window.firestore = db;
-  window.firebaseModules = { collection, getDocs, addDoc, doc, updateDoc, deleteDoc };
+  const database = getDatabase(app);
   
-  console.log("Firebase inizializzato con successo");
+  console.log("✅ Firebase实时数据库连接成功！");
+</script>
+
 <script>
 // ==================== 动态密码系统 ====================
 const DYNAMIC_PASSWORD_CONFIG = {
@@ -54,15 +1086,208 @@ function validateAdminPassword(inputPassword) {
 }
 
 // ==================== 产品数据 ====================
-// 检查变量冲突并初始化
-console.log("🔧 初始化产品存储...");
-if (window.products && typeof window.products === 'object' && window.products.nodeType) {
-    console.log("⚠️ 检测到变量冲突，使用 storeProducts");
-    window.storeProducts = [];
-} else {
-    window.storeProducts = window.products || [];
+const products = [
+  {id:"8021785862708",name:"ANGELO CERAMICA A2MOD NAT CM7X5XH12",originalPrice:"€3,50",discountPrice:"€1,90",discountPercentage:45.71,category:"natale",image:"https://img.heliar.top/file/1762764412602_IMG_20251110_094009.jpg",description:"ANGELO CERAMICA A2MOD NAT CM7X5XH12"},
+  {id:"8021785780187",name:"BABBO NAT TERRACOT A2M CM6,5X6X11,5",originalPrice:"€3,90",discountPrice:"€1,50",discountPercentage:61.54,category:"natale",image:"https://img.heliar.top/file/1762764414728_IMG_20251110_094052.jpg",description:"BABBO NAT TERRACOT A2M CM6,5X6X11,5"},
+  {id:"8058641713447",name:"71344 SCHIACCIANOCICON MUSICA E LUCE LED TIMER 6/1",price:"€49,90",category:"natale",image:"https://img.heliar.top/file/1762764417669_IMG_20251110_094300.jpg",description:"71344 SCHIACCIANOCICON MUSICA E LUCE LED TIMER 6/1"},
+  {id:"8057586069817",name:"S/3 PIGNE SEGNAPOSTO CER NAT D6XH16",originalPrice:"€12,90",discountPrice:"€6,90",discountPercentage:46.51,category:"natale",image:"https://img.heliar.top/file/1762764419280_IMG_20251110_093022.jpg",description:"S/3 PIGNE SEGNAPOSTO CER NAT D6XH16"},
+  {id:"8033113579493",name:"TAPPETO PER ALBERO DI NATALE 60CM 2ASS ROSSO HY190",originalPrice:"€1,90",discountPrice:"€1,00",discountPercentage:47.37,category:"natale",image:"https://img.heliar.top/file/1762764427010_IMG_20251110_092743.jpg",description:"TAPPETO PER ALBERO DI NATALE 60CM 2ASS ROSSO HY190"},
+  {id:"8057586066489",name:"FARO PLASTICA 30LED NAT CM40X40XH177",originalPrice:"€109,90",discountPrice:"€69,90",discountPercentage:36.4,category:"natale",image:"https://img.heliar.top/file/1762764430670_IMG_20251110_092627.jpg",description:"FARO PLASTICA 30LED NAT CM40X40XH177"},
+  {id:"8021785780385",name:"BIMBO MAGNESIA A2M NAT 24X15,5X39,5",originalPrice:"€44,90",discountPrice:"€19,90",discountPercentage:55.68,category:"natale",image:"https://img.heliar.top/file/1762764425299_IMG_20251110_092849.jpg",description:"BIMBO MAGNESIA A2M NAT 24X15,5X39,5"},
+  {id:"8021785780446",name:"BIMBO MAGNESIA A2M NAT 39,5X24,5X42",originalPrice:"€69,90",discountPrice:"€29,90",discountPercentage:57.22,category:"natale",image:"https://img.heliar.top/file/1762764423686_IMG_20251110_092904.jpg",description:"BIMBO MAGNESIA A2M NAT 39,5X24,5X42"}
+];
+
+// ==================== 实时产品管理 ====================
+const ADMIN_PASSWORD = "123456";
+let currentRealtimeProducts = {};
+
+function enableRealtimeAdmin() {
+  const pwd = prompt("Inserisci password amministratore per la gestione real-time:");
+  if(pwd === null) return;
+  
+  if(pwd === ADMIN_PASSWORD){
+    document.getElementById('realtimeAdminSection').style.display = "block";
+    document.getElementById('realtimeAdminLoginBtn').style.display = "none";
+    listenRealtimeProducts();
+    showSyncStatus('Accesso real-time attivato', 'success');
+  } else {
+    alert("Password errata!");
+  }
 }
-console.log("初始化完成:", window.storeProducts);
+
+function listenRealtimeProducts() {
+  const productsRef = ref(database, 'products');
+  onValue(productsRef, (snapshot) => {
+    currentRealtimeProducts = snapshot.val() || {};
+    renderRealtimeProducts(currentRealtimeProducts);
+    updateRealtimeStats();
+  });
+}
+
+function renderRealtimeProducts(products) {
+  const list = document.getElementById('realtimeProductList');
+  list.innerHTML = '';
+  
+  if (Object.keys(products).length === 0) {
+    list.innerHTML = '<p style="color:#666;text-align:center;">Nessun prodotto nel database real-time</p>';
+    return;
+  }
+  
+  const sortedProducts = Object.entries(products).sort((a,b) => a[1].name.localeCompare(b[1].name));
+  
+  sortedProducts.forEach(([barcode, p]) => {
+    const div = document.createElement('div');
+    div.className = 'realtime-product';
+    
+    const info = document.createElement('div');
+    info.style.flex = '1';
+    
+    if(p.isDiscount && p.discountPrice != null){
+      info.innerHTML = `
+        <strong>${p.name}</strong><br>
+        <small>Codice: ${barcode}</small><br>
+        <span style="color:red;font-weight:bold;">€${p.discountPrice}</span> 
+        <s>€${p.price}</s> 
+        <span class="discount-tag" style="background:${p.discountTagColor||"#ff0000"}">
+          ${p.discountTagText||"Sconto"}
+        </span>
+      `;
+    } else {
+      info.innerHTML = `
+        <strong>${p.name}</strong><br>
+        <small>Codice: ${barcode}</small><br>
+        <span style="font-weight:bold;">€${p.price}</span>
+      `;
+    }
+    div.appendChild(info);
+    
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Modifica';
+    editBtn.className = 'admin-action-btn warning';
+    editBtn.style.fontSize = '0.8rem';
+    editBtn.onclick = () => editProduct(barcode);
+    div.appendChild(editBtn);
+    
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Elimina';
+    deleteBtn.className = 'admin-action-btn danger';
+    deleteBtn.style.fontSize = '0.8rem';
+    deleteBtn.onclick = () => deleteProduct(barcode);
+    div.appendChild(deleteBtn);
+    
+    list.appendChild(div);
+  });
+  
+  const timestamp = new Date().toLocaleTimeString();
+  document.getElementById('lastUpdate').textContent = `Ultimo aggiornamento: ${timestamp}`;
+}
+
+function updateRealtimeStats() {
+  const count = Object.keys(currentRealtimeProducts).length;
+  document.getElementById('realtimeAdminLoginBtn').innerHTML = 
+    `<i class="fas fa-database"></i> Prodotti Real-time (${count})`;
+}
+
+function editProduct(barcode) {
+  const p = currentRealtimeProducts[barcode];
+  document.getElementById('newProductBarcode').value = barcode;
+  document.getElementById('newProductName').value = p.name || "";
+  document.getElementById('newProductPrice').value = p.price || "";
+  document.getElementById('newProductDiscount').checked = p.isDiscount || false;
+  document.getElementById('newDiscountPrice').value = p.discountPrice != null ? p.discountPrice : "";
+  document.getElementById('newDiscountTagText').value = p.discountTagText || "";
+  document.getElementById('newDiscountTagColor').value = p.discountTagColor || "#ff0000";
+  document.getElementById('addOrUpdateBtn').textContent = "Aggiorna";
+  
+  // 滚动到表单
+  document.getElementById('newProductBarcode').scrollIntoView({ behavior: 'smooth' });
+}
+
+function deleteProduct(barcode) {
+  const productName = currentRealtimeProducts[barcode]?.name || barcode;
+  if(confirm(`Sei sicuro di voler eliminare il prodotto "${productName}"?`)) {
+    const productRef = ref(database, 'products/' + barcode);
+    remove(productRef)
+      .then(() => {
+        showSyncStatus('Prodotto eliminato con successo', 'success');
+      })
+      .catch(err => {
+        console.error(err);
+        showSyncStatus('Errore nell\'eliminazione del prodotto', 'error');
+      });
+  }
+}
+
+function addOrUpdateProduct() {
+  const barcode = document.getElementById('newProductBarcode').value.trim();
+  const name = document.getElementById('newProductName').value.trim();
+  const price = parseFloat(document.getElementById('newProductPrice').value);
+  const isDiscount = document.getElementById('newProductDiscount').checked;
+  const discountPrice = isDiscount ? parseFloat(document.getElementById('newDiscountPrice').value) : null;
+  const discountTagText = isDiscount ? document.getElementById('newDiscountTagText').value.trim() : "";
+  const discountTagColor = isDiscount ? document.getElementById('newDiscountTagColor').value : "#ff0000";
+
+  if(!barcode || !name || isNaN(price) || (isDiscount && isNaN(discountPrice))){
+    alert("Per favore, inserisci valori validi in tutti i campi obbligatori.");
+    return;
+  }
+
+  const productData = {
+    name, 
+    price, 
+    isDiscount, 
+    discountPrice, 
+    discountTagText, 
+    discountTagColor,
+    discountPercentage: isDiscount && discountPrice ? 
+      parseFloat(((price - discountPrice) / price * 100).toFixed(2)) : 0,
+    lastUpdated: new Date().toISOString(),
+    createdAt: currentRealtimeProducts[barcode]?.createdAt || new Date().toISOString()
+  };
+
+  const productRef = ref(database, 'products/' + barcode);
+  set(productRef, productData)
+  .then(() => {
+    const message = currentRealtimeProducts[barcode] ? "Prodotto aggiornato!" : "Prodotto aggiunto!";
+    showSyncStatus(message, 'success');
+    
+    // 清空表单
+    resetRealtimeForm();
+  })
+  .catch(err => {
+    console.error(err);
+    showSyncStatus('Errore nel salvataggio del prodotto', 'error');
+  });
+}
+
+function resetRealtimeForm() {
+  document.getElementById('newProductBarcode').value = "";
+  document.getElementById('newProductName').value = "";
+  document.getElementById('newProductPrice').value = "";
+  document.getElementById('newProductDiscount').checked = false;
+  document.getElementById('newDiscountPrice').value = "";
+  document.getElementById('newDiscountTagText').value = "";
+  document.getElementById('newDiscountTagColor').value = "#ff0000";
+  document.getElementById('addOrUpdateBtn').textContent = "Aggiungi";
+}
+
+// 自动检测条形码是否存在
+document.getElementById('newProductBarcode').addEventListener('input', function() {
+  const code = this.value.trim();
+  if(currentRealtimeProducts[code]){
+    document.getElementById('addOrUpdateBtn').textContent = "Aggiorna";
+    // 自动填充已有数据
+    const p = currentRealtimeProducts[code];
+    document.getElementById('newProductName').value = p.name || "";
+    document.getElementById('newProductPrice').value = p.price || "";
+    document.getElementById('newProductDiscount').checked = p.isDiscount || false;
+    document.getElementById('newDiscountPrice').value = p.discountPrice != null ? p.discountPrice : "";
+    document.getElementById('newDiscountTagText').value = p.discountTagText || "";
+    document.getElementById('newDiscountTagColor').value = p.discountTagColor || "#ff0000";
+  } else {
+    document.getElementById('addOrUpdateBtn').textContent = "Aggiungi";
+  }
+});
 
 // ==================== 工具函数 ====================
 const saveStorage = (key,val) => { 
@@ -91,105 +1316,107 @@ const showSyncStatus = (msg,type='success') => {
   setTimeout(()=>s.style.display='none',3000);
 };
 
-// ==================== Firebase 功能 ====================
-// 自动初始化数据库（如果为空）
-async function initializeFirebaseData() {
-  try {
-    const { collection, getDocs, addDoc } = window.firebaseModules;
-    
-    // 检查是否已有数据
-    const querySnapshot = await getDocs(collection(window.firestore, "products"));
-    console.log("当前产品数量:", querySnapshot.size);
-    
-    // 如果数据库为空，创建测试数据
-    if (querySnapshot.size === 0) {
-      console.log("🔄 初始化测试数据...");
-      
-      const testProducts = [
-        {
-          id: "TEST001",
-          name: "Prodotto di Test - Articolo Regalo",
-          category: "regalo",
-          price: "€15,00",
-          description: "Prodotto di test per verificare il funzionamento del sistema",
-          image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UHJvZG90dG8gZGUgdGVzdDwvdGV4dD48L3N2Zz4=",
-          createdAt: new Date().toISOString()
-        }
-      ];
-      
-      // 批量添加测试产品
-      for (const product of testProducts) {
-        await addDoc(collection(window.firestore, "products"), product);
-        console.log("✅ 添加产品:", product.name);
+// ==================== 二维码同步功能 ====================
+const updateQRCode = () => {
+  const productsData = encodeURIComponent(JSON.stringify(products));
+  const qrCodeUrl = `${window.location.origin}${window.location.pathname}?data=${productsData}&v=${Date.now()}`;
+  
+  const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrCodeUrl)}`;
+  
+  const qrCodeImg = document.querySelector('img[alt="QR Code Supershop Bisagno"]');
+  if (qrCodeImg) {
+    qrCodeImg.src = qrCodeImageUrl;
+    qrCodeImg.onerror = function() {
+      alert('QR Code aggiornato! I clienti possono utilizzare questo link:\\n\\n' + qrCodeUrl);
+    };
+  }
+  
+  showSyncStatus('QR Code aggiornato con successo', 'success');
+  alert('✅ QR Code aggiornato!\\n\\nI nuovi prodotti sono ora disponibili per i clienti che scannerizzano il codice.');
+};
+
+const loadProductsFromUrl = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productsData = urlParams.get('data');
+  
+  if (productsData) {
+    try {
+      const importedProducts = JSON.parse(decodeURIComponent(productsData));
+      if (Array.isArray(importedProducts) && importedProducts.length > 0) {
+        // 合并而不是替换
+        const existingIds = new Set(products.map(p => p.id));
+        const newProducts = importedProducts.filter(p => !existingIds.has(p.id));
+        products.push(...newProducts);
+        saveStorage('supershop_products', products);
+        renderProducts();
+        updateAdminStats();
+        console.log('Prodotti caricati da URL:', newProducts.length);
       }
-      
-      console.log("🎉 初始化完成！添加了", testProducts.length, "个测试产品");
-      showSyncStatus('Database inizializzato con prodotti di test', 'success');
-    } else {
-      console.log("✅ 数据库已有数据，无需初始化");
+    } catch (error) {
+      console.error('Errore nel caricamento prodotti da URL:', error);
     }
-    
-  } catch (error) {
-    console.error("❌ 初始化失败:", error);
-    showSyncStatus('Errore nell\'inizializzazione', 'error');
   }
-}
+};
 
-async function loadProductsFromFirebase() {
-  try {
-    showSyncStatus('Caricamento prodotti...', 'syncing');
-    
-    // 先初始化检查
-    await initializeFirebaseData();
-    
-    const { collection, getDocs } = window.firebaseModules;
-    const querySnapshot = await getDocs(collection(window.firestore, "products"));
-    
-    const products = [];
-    querySnapshot.forEach((doc) => {
-      products.push({ id: doc.id, ...doc.data() });
-    });
-    
-    // 使用 storeProducts 避免冲突
-    window.storeProducts = products;
-    
-    // 重新渲染产品
-    renderProducts();
-    updateAdminStats();
-    
-    showSyncStatus(`Caricati ${products.length} prodotti`, 'success');
-    return products;
-  } catch (error) {
-    console.error("Errore nel caricamento prodotti:", error);
-    showSyncStatus('Errore nel caricamento', 'error');
-    return [];
-  }
-}
+const showQRCodeInfo = () => {
+  alert(`📋 ISTRUZIONI SINCRONIZZAZIONE QR CODE
 
-async function addProductToFirebase(productData) {
-  try {
-    const { addDoc, collection } = window.firebaseModules;
-    const docRef = await addDoc(collection(window.firestore, "products"), productData);
-    console.log("Prodotto aggiunto con ID: ", docRef.id);
-    return docRef.id;
-  } catch (error) {
-    console.error("Errore nell'aggiunta prodotto: ", error);
-    throw error;
+1. AGGIUNGI PRODOTTI: Usa il modulo "Aggiungi Prodotto"
+2. AGGIORNA QR CODE: Clicca "Aggiorna QR Code"
+3. STAMPA: Scansiona il nuovo QR code nella sezione Contatti
+4. CONDIVIDI: I clienti vedranno i prodotti più recenti
+
+✅ I prodotti vengono sincronizzati immediatamente!
+`);
+};
+
+// ==================== 管理员面板改进 ====================
+let adminAuthenticated = false;
+
+const enableAdminPanel = () => {
+  if (adminAuthenticated) { 
+    openAdminPanel(); 
+    return; 
   }
-}
+  
+  const pwd = prompt('🔐 Accesso Amministratore\\n\\nInserisci la password:');
+  if (validateAdminPassword(pwd)) { 
+    adminAuthenticated = true; 
+    openAdminPanel(); 
+    showSyncStatus('Accesso amministratore autorizzato','success'); 
+  } else if (pwd !== null) {
+    alert('❌ Password non valida');
+  }
+};
+
+const openAdminPanel = () => {
+  document.getElementById('adminPanel').classList.add('active');
+  document.getElementById('adminOverlay').classList.add('active');
+  updateAdminStats();
+};
+
+const closeAdminPanel = () => {
+  document.getElementById('adminPanel').classList.remove('active');
+  document.getElementById('adminOverlay').classList.remove('active');
+};
+
+const updateAdminStats = () => {
+  document.getElementById('totalProducts').textContent = products.length;
+  const categories = new Set(products.map(p => p.category));
+  document.getElementById('totalCategories').textContent = categories.size;
+};
 
 // ==================== 产品展示 ====================
 let currentPage = 1; 
 const productsPerPage = 8; 
-let filteredProducts = [];
+let filteredProducts = [...products];
 
 const renderProducts = () => {
   const container = document.getElementById('products-container');
   const search = document.getElementById('product-search').value.toLowerCase();
   const category = document.getElementById('category-filter').value;
   
-  // 使用 storeProducts
-  filteredProducts = window.storeProducts.filter(p=>
+  filteredProducts = products.filter(p=>
     (p.name.toLowerCase().includes(search)||p.id.includes(search)) &&
     (category==='all'||p.category===category)
   );
@@ -237,8 +1464,7 @@ const getCategoryName = (category) => {
 
 // ==================== 产品详情弹窗 ====================
 const openProductModal = (productId) => {
-  // 使用 storeProducts
-  const product = window.storeProducts.find(p => p.id === productId);
+  const product = products.find(p => p.id === productId);
   if (!product) return;
   
   const modal = document.getElementById('privacy-modal');
@@ -272,8 +1498,7 @@ const closeModal = () => {
 };
 
 const printProduct = (id) => {
-  // 使用 storeProducts
-  const p = window.storeProducts.find(x => x.id === id);
+  const p = products.find(x => x.id === id);
   const win = window.open('', '', 'width=600,height=400');
   win.document.write(`
     <html lang="it">
@@ -295,8 +1520,7 @@ const printProduct = (id) => {
 };
 
 const shareProduct = (id) => {
-  // 使用 storeProducts
-  const p = window.storeProducts.find(x => x.id === id);
+  const p = products.find(x => x.id === id);
   const text = `Scopri ${p.name} da Supershop Bisagno! ${p.discountPrice || p.price}. Visita il negozio!`;
   if (navigator.share) {
     navigator.share({title: p.name, text, url: location.href});
@@ -306,7 +1530,7 @@ const shareProduct = (id) => {
 };
 
 // ==================== 管理员功能 ====================
-const addProduct = async () => {
+const addProduct = () => {
   const name = document.getElementById('adminProductName').value.trim();
   const barcode = document.getElementById('adminProductBarcode').value.trim();
   const category = document.getElementById('adminProductCategory').value;
@@ -319,84 +1543,250 @@ const addProduct = async () => {
     alert('Nome e barcode obbligatori!');
     return;
   }
-
-  // 使用 storeProducts 检查重复
-  if (window.storeProducts.some(p => p.id === barcode)) {
+  
+  if (products.some(p => p.id === barcode)) {
     alert('Barcode già esistente!');
     return;
   }
-
-  // 构建产品数据
-  const productData = {
+  
+  const product = {
     id: barcode,
     name,
     category,
     image: image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==',
-    description: desc,
-    createdAt: new Date().toISOString()
+    description: desc
   };
-
-  // 价格处理
+  
   if (original && discount) {
     const orig = parseFloat(original.replace(',','.'));
     const disc = parseFloat(discount.replace(',','.'));
-    productData.originalPrice = `€${original}`;
-    productData.discountPrice = `€${discount}`;
-    productData.discountPercentage = parseFloat(((orig-disc)/orig*100).toFixed(2));
+    product.originalPrice = `€${original}`;
+    product.discountPrice = `€${discount}`;
+    product.discountPercentage = parseFloat(((orig-disc)/orig*100).toFixed(2));
   } else if (original) {
-    productData.price = `€${original}`;
+    product.price = `€${original}`;
   } else if (discount) {
-    productData.price = `€${discount}`;
+    product.price = `€${discount}`;
   } else {
-    productData.price = 'Prezzo su richiesta';
+    product.price = 'Prezzo su richiesta';
   }
-
-  try {
-    // 添加到 Firebase
-    await addProductToFirebase(productData);
-    
-    // 重新加载产品列表
-    await loadProductsFromFirebase();
-    
-    // 清空表单
-    document.getElementById('adminProductName').value = '';
-    document.getElementById('adminProductBarcode').value = '';
-    document.getElementById('adminOriginalPrice').value = '';
-    document.getElementById('adminDiscountPrice').value = '';
-    document.getElementById('adminProductImage').value = '';
-    document.getElementById('adminProductDescription').value = '';
-    
-    alert('✅ Prodotto aggiunto con successo al database cloud!');
-  } catch (error) {
-    alert('❌ Errore nell\'aggiunta del prodotto: ' + error.message);
-  }
+  
+  products.unshift(product);
+  saveStorage('supershop_products', products);
+  renderProducts(); 
+  updateAdminStats();
+  
+  document.getElementById('adminProductName').value = '';
+  document.getElementById('adminProductBarcode').value = '';
+  document.getElementById('adminOriginalPrice').value = '';
+  document.getElementById('adminDiscountPrice').value = '';
+  document.getElementById('adminProductImage').value = '';
+  document.getElementById('adminProductDescription').value = '';
+  
+  alert('✅ Prodotto aggiunto con successo! Il modulo è stato resettato.');
 };
 
-// 其余管理员函数也需要更新...
-const updateAdminStats = () => {
-  // 使用 storeProducts
-  document.getElementById('totalProducts').textContent = window.storeProducts.length;
-  const categories = new Set(window.storeProducts.map(p => p.category));
-  document.getElementById('totalCategories').textContent = categories.size;
+const exportProducts = () => {
+  const csv = [
+    "Codice,Nome Prodotto,Categoria,Prezzo Originale,Prezzo Scontato,Sconto %,Immagine,Descrizione",
+    ...products.map(p => 
+      `"${p.id}","${p.name}","${p.category}","${p.originalPrice||''}","${p.discountPrice||p.price||''}","${p.discountPercentage||''}","${p.image}","${p.description}"`
+    )
+  ].join('\\n');
+  
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'supershop_products.csv';
+  a.click();
+  showSyncStatus('CSV esportato con successo','success');
 };
 
-// 其他函数如 exportProducts, importProducts 等也需要类似更新...
+const importProducts = () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.csv';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const lines = ev.target.result.split('\\n').slice(1);
+      let added = 0;
+      
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        
+        const [id, name, category, orig, disc, perc, img, desc] = line.split(',').map(x => x.replace(/^"|"$/g, ''));
+        
+        if (!id || !name || products.some(p => p.id === id)) continue;
+        
+        const p = {
+          id,
+          name,
+          category,
+          image: img || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI5MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==',
+          description: desc || name
+        };
+        
+        if (orig && disc) {
+          p.originalPrice = `€${orig}`;
+          p.discountPrice = `€${disc}`;
+          p.discountPercentage = parseFloat(perc) || 0;
+        } else if (orig) {
+          p.price = `€${orig}`;
+        } else if (disc) {
+          p.price = `€${disc}`;
+        } else {
+          p.price = 'Prezzo su richiesta';
+        }
+        
+        products.push(p);
+        added++;
+      }
+      
+      saveStorage('supershop_products', products);
+      renderProducts();
+      updateAdminStats();
+      alert(`Importati ${added} prodotti con successo!`);
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+};
+
+const backupData = () => {
+  const data = JSON.stringify({
+    products,
+    date: new Date().toISOString(),
+    version: '1.0'
+  }, null, 2);
+  
+  const blob = new Blob([data], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `supershop_backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  showSyncStatus('Backup dati effettuato','success');
+};
+
+const clearAllData = () => {
+  if (!confirm('Sei sicuro di voler cancellare tutti i dati dei prodotti? Questa operazione non può essere annullata!')) return;
+  products.length = 0;
+  saveStorage('supershop_products', products);
+  renderProducts();
+  updateAdminStats();
+  showSyncStatus('Tutti i dati sono stati cancellati','success');
+};
+
+const adminQuickSearch = () => {
+  const q = document.getElementById('adminQuickSearch').value.toLowerCase();
+  const res = document.getElementById('adminSearchResults');
+  
+  if (!q) {
+    res.innerHTML = '';
+    return;
+  }
+  
+  const found = products.filter(p => 
+    p.name.toLowerCase().includes(q) || p.id.includes(q)
+  );
+  
+  res.innerHTML = found.map(p => `
+    <div style="padding:0.5rem;border-bottom:1px solid #eee;cursor:pointer" onclick="openProductModal('${p.id}')">
+      <strong>${p.name}</strong><br>
+      <small>${p.id} - ${p.discountPrice || p.price}</small>
+    </div>
+  `).join('');
+};
+
+const applyDiscountToAll = () => {
+  const discount = prompt('Inserisci lo sconto percentuale (es: 20 per 20%):');
+  if (!discount || isNaN(discount)) return;
+  
+  products.forEach(p => {
+    if (p.originalPrice) {
+      const original = parseFloat(p.originalPrice.replace('€','').replace(',','.'));
+      const discountAmount = original * (parseFloat(discount) / 100);
+      const newPrice = original - discountAmount;
+      p.discountPrice = `€${newPrice.toFixed(2).replace('.',',')}`;
+      p.discountPercentage = parseFloat(discount);
+    }
+  });
+  
+  saveStorage('supershop_products', products);
+  renderProducts();
+  showSyncStatus(`Sconto del ${discount}% applicato a tutti i prodotti`,'success');
+};
+
+const deleteAllProducts = () => {
+  if (!confirm('Sei sicuro di voler eliminare TUTTI i prodotti?')) return;
+  products.length = 0;
+  saveStorage('supershop_products', products);
+  renderProducts();
+  updateAdminStats();
+  showSyncStatus('Tutti i prodotti sono stati eliminati','success');
+};
+
+// ==================== 合规声明内容 ====================
+const complianceContent = {
+  privacy: `
+    <h2 style="color:var(--primary-color)">Informativa Privacy</h2>
+    <p><strong>Supershop Bisagno S.R.L.</strong> rispetta la tua privacy.</p>
+    <h3>📊 Dati raccolti</h3>
+    <p>Questo sito <strong>NON raccoglie dati personali</strong> degli utenti:</p>
+    <ul><li>Nessuna registrazione obbligatoria</li><li>Nessun modulo di contatto</li><li>Nessuna newsletter</li><li>Nessun profilo utente</li></ul>
+    <h3>🔍 Funzionalità del sito</h3>
+    <ul><li>La <strong>ricerca prodotti</strong> funziona solo sul tuo dispositivo</li><li>I <strong>preferiti o carrello</strong> sono temporanei (sessioni browser)</li><li>Nessun dato viene inviato ai nostri servers</li></ul>
+    <h3>📞 Contatti</h3>
+    <p>Per qualsiasi domanda sulla privacy:<br><strong>Email:</strong> supershopbisagnosrl@gmail.com<br><strong>Indirizzo:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
+    <div style="background:#f0f7ff;padding:1rem;border-left:4px solid var(--primary-color);margin-top:1.5rem"><p style="margin:0"><strong>ℹ️ Trasparenza:</strong> Questo sito è una vetrina digitale del nostro negozio fisico. Venite a trovarci in negozio per acquistare i nostri prodotti!</p></div>
+  `,
+  cookie: `
+    <h2 style="color:var(--primary-color)">Informativa Cookie</h2>
+    <h3>🍪 Cosa sono i Cookie?</h3><p>I cookie sono piccoli file di testo che i siti web salvano sul tuo dispositivo.</p>
+    <h3>🔍 Cookie utilizzati su questo sito</h3>
+    <div style="background:#fff3cd;padding:1rem;border-left:4px solid #ffc107"><p style="margin:0"><strong>✅ Questo sito NON utilizza cookie di tracciamento</strong></p></div>
+    <ul><li><strong>Nessun cookie analytics</strong> (Google Analytics, Facebook Pixel, ecc.)</li><li><strong>Nessun cookie di profilazione</strong></li><li><strong>Nessun cookie di marketing</strong></li><li><strong>Nessun cookie di terze parti</strong></li></ul>
+    <h3>⚙️ Cookie tecnici (se presenti)</h3><p>Eventuali cookie tecnici sono utilizzati esclusivamente per:</p><ul><li>Memorizzare preferenze di visualizzazione temporanee</li><li>Funzionalità di ricerca interna al sito</li><li>Migliorare l'esperienza di navigazione</li></ul>
+    <div style="background:#d4edda;padding:1rem;border-left:4px solid #28a745;margin-top:1.5rem"><p style="margin:0"><strong>🛡️ Navigazione sicura:</strong> Puoi navigare questo sito tranquillamente senza preoccupazioni per la tua privacy. Non tracciamo le tue attività online.</p></div>
+  `
+};
+
+const showPrivacyPolicy = () => {
+  document.getElementById('modal-content').innerHTML = complianceContent.privacy;
+  document.getElementById('privacy-modal').style.display = 'flex';
+};
+
+const showCookiePolicy = () => {
+  document.getElementById('modal-content').innerHTML = complianceContent.cookie;
+  document.getElementById('privacy-modal').style.display = 'flex';
+};
 
 // ==================== 页面初始化 ====================
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
+  
+  // 显示隐藏的管理员按钮
   document.getElementById('hiddenAdminBtn').style.display = 'block';
   
-  // 初始化 storeProducts
-  window.storeProducts = [];
+  // 🆕 FIXED: 合并产品数据而不是替换
+  const saved = loadStorage('supershop_products');
+  if (saved && saved.length > 0) {
+    const existingIds = new Set(products.map(p => p.id));
+    const newProducts = saved.filter(p => !existingIds.has(p.id));
+    products.push(...newProducts);
+    console.log('Prodotti caricati da localStorage:', newProducts.length);
+  }
   
-  // 等待 Firebase 初始化完成后加载产品
-  setTimeout(async () => {
-    console.log("🔄 开始加载 Firebase 数据...");
-    await loadProductsFromFirebase();
-  }, 1000);
+  // Carica prodotti da URL parameters
+  loadProductsFromUrl();
   
-  // 其余事件监听器保持不变
+  renderProducts();
+  updateAdminStats();
+  
+  // Event listeners
   document.getElementById('product-search').addEventListener('input', () => {
     currentPage = 1;
     renderProducts();
@@ -437,21 +1827,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.scrollTo({top: 0, behavior: 'smooth'});
   });
 });
-
-// 强制刷新函数（测试用）
-function forceRefresh() {
-  console.log("🔄 强制刷新...");
-  console.log("storeProducts:", window.storeProducts);
-  if (window.storeProducts && window.storeProducts.length > 0) {
-    renderProducts();
-    updateAdminStats();
-  } else {
-    loadProductsFromFirebase();
-  }
-}
-
-// 5秒后强制刷新一次（确保数据显示）
-setTimeout(forceRefresh, 5000);
 </script>
 </body>
 </html>
