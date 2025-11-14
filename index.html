@@ -1046,7 +1046,7 @@ footer{
           <option value="illuminazione">Illuminazione</option>
           <option value="mobili">Mobili</option>
           <option value="natale">Articoli Natalizi</option>
-        </select>
+          </select>
       </div>
       <div class="admin-form-group">
         <label>Prezzo Originale (€)</label>
@@ -1182,7 +1182,7 @@ footer{
         <li>Decorazioni per l'albero di Natale con sconti fino al 70%</li>
         <li>Luci e illuminazione natalizia a prezzi imbattibili</li>
         <li>Idee regalo natalizie con incredibili occasioni</li>
-        <li>E tanto altro... vieni a scoprirlo di persona!</li>
+        <li>E tanto altro... vieni a descubrirlo di persona!</li>
       </ul>
     </div>
     <p><strong>Perché non elenchiamo tutti i prodotti?</strong> Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.</p>
@@ -1239,9 +1239,8 @@ footer{
 
 <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
 
-<!-- Firebase SDK -->
+<!-- Firebase SDK - 修复版本 -->
 <script type="module">
-  // ==================== Firebase 配置和初始化 ====================
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
   import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
@@ -1255,14 +1254,81 @@ footer{
     appId: "1:381483524192:web:ac6570bbd5725719e2e305"
   };
 
-  // 初始化 Firebase
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-  
-  console.log("✅ Firebase实时数据库连接成功！");
-  
-  // 设置全局变量以便其他函数使用
-  window.firebaseDatabase = database;
+  try {
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    
+    console.log("✅ Firebase实时数据库连接成功！");
+    
+    // 设置全局变量以便其他函数使用
+    window.firebaseDatabase = database;
+    window.firebaseRef = ref;
+    window.firebaseSet = set;
+    window.firebaseOnValue = onValue;
+    window.firebaseRemove = remove;
+
+    // 立即测试连接
+    const testRef = ref(database, 'connection_test');
+    await set(testRef, { 
+      timestamp: new Date().toISOString(),
+      status: 'connected_from_github_pages',
+      userAgent: navigator.userAgent
+    });
+    
+    console.log("✅ Firebase连接测试成功");
+    window.firebaseAvailable = true;
+    updateFirebaseStatus(true);
+    showSyncStatus('在线 - Firebase连接正常', 'success');
+    
+    // 开始监听连接状态
+    monitorFirebaseConnection();
+    
+    // 监听产品数据
+    listenRealtimeProducts();
+    
+  } catch (error) {
+    console.error("Firebase初始化失败:", error);
+    window.firebaseAvailable = false;
+    updateFirebaseStatus(false);
+    showSyncStatus('Firebase连接失败: ' + error.code, 'error');
+  }
+
+  function monitorFirebaseConnection() {
+    if (!window.firebaseDatabase || !window.firebaseRef || !window.firebaseOnValue) return;
+    
+    const connectedRef = ref(window.firebaseDatabase, '.info/connected');
+    onValue(connectedRef, (snap) => {
+      const connected = snap.val() === true;
+      window.firebaseAvailable = connected;
+      updateFirebaseStatus(connected);
+      
+      if (connected) {
+        console.log("✅ Connesso a Firebase");
+        showSyncStatus('Connesso a Firebase', 'success');
+      } else {
+        console.log("❌ Disconnesso da Firebase");
+        showSyncStatus('Disconnesso - Modalità locale', 'warning');
+      }
+    });
+  }
+
+  function listenRealtimeProducts() {
+    if (!window.firebaseAvailable || !window.firebaseDatabase || !window.firebaseRef || !window.firebaseOnValue) return;
+    
+    const productsRef = ref(window.firebaseDatabase, 'products');
+    onValue(productsRef, (snapshot) => {
+      window.currentRealtimeProducts = snapshot.val() || {};
+      renderRealtimeProducts(window.currentRealtimeProducts);
+      updateAdminStats();
+      renderProducts();
+      
+      const timestamp = new Date().toLocaleTimeString();
+      const lastUpdateElement = document.getElementById('lastUpdate');
+      if (lastUpdateElement) {
+        lastUpdateElement.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${timestamp}`;
+      }
+    });
+  }
 </script>
 
 <script>
@@ -1289,8 +1355,11 @@ let products = [
   {id:"8021785780385",name:"BIMBO MAGNESIA A2M NAT 24X15,5X39,5",originalPrice:"€44,90",discountPrice:"€19,90",discountPercentage:55.68,category:"natale",image:"https://img.heliar.top/file/1762764425299_IMG_20251110_092849.jpg",description:"BIMBO MAGNESIA A2M NAT 24X15,5X39,5"},
   {id:"8021785780446",name:"BIMBO MAGNESIA A2M NAT 39,5X24,5X42",originalPrice:"€69,90",discountPrice:"€29,90",discountPercentage:57.22,category:"natale",image:"https://img.heliar.top/file/1762764423686_IMG_20251110_092904.jpg",description:"BIMBO MAGNESIA A2M NAT 39,5X24,5X42"}
 ];
-let currentRealtimeProducts = {};
-let firebaseAvailable = false;
+
+// 初始化全局变量
+window.currentRealtimeProducts = window.currentRealtimeProducts || {};
+window.firebaseAvailable = window.firebaseAvailable || false;
+
 let adminAuthenticated = false;
 let currentPage = 1;
 const productsPerPage = 8;
@@ -1407,78 +1476,27 @@ const loadStorage = key => {
 const showSyncStatus = (msg, type = 'success') => {
   const s = document.getElementById('sync-status'); 
   const t = document.getElementById('sync-text');
-  t.textContent = msg; 
-  s.className = 'sync-status ' + type; 
-  s.style.display = 'flex';
-  setTimeout(() => s.style.display = 'none', 3000);
+  if (s && t) {
+    t.textContent = msg; 
+    s.className = 'sync-status ' + type; 
+    s.style.display = 'flex';
+    setTimeout(() => s.style.display = 'none', 3000);
+  }
 };
-
-// ==================== Firebase 连接管理 ====================
-function checkFirebaseAvailability() {
-  return new Promise((resolve) => {
-    try {
-      if (!window.firebaseDatabase) {
-        console.warn("Firebase database non disponibile");
-        resolve(false);
-        return;
-      }
-      
-      const testRef = ref(window.firebaseDatabase, 'connection_test');
-      set(testRef, { 
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent 
-      })
-        .then(() => {
-          firebaseAvailable = true;
-          updateFirebaseStatus(true);
-          console.log("✅ Firebase连接正常");
-          resolve(true);
-        })
-        .catch((error) => {
-          firebaseAvailable = false;
-          updateFirebaseStatus(false);
-          console.warn("⚠️ Firebase连接失败:", error);
-          resolve(false);
-        });
-    } catch (error) {
-      firebaseAvailable = false;
-      updateFirebaseStatus(false);
-      console.warn("⚠️ Firebase初始化失败:", error);
-      resolve(false);
-    }
-  });
-}
 
 function updateFirebaseStatus(connected) {
   const indicator = document.getElementById('firebaseIndicator');
   const statusText = document.getElementById('firebaseStatusText');
   
-  if (connected) {
-    indicator.className = 'sync-indicator online';
-    statusText.textContent = 'Online';
-  } else {
-    indicator.className = 'sync-indicator offline';
-    statusText.textContent = 'Offline';
-  }
-}
-
-function monitorFirebaseConnection() {
-  if (!window.firebaseDatabase) return;
-  
-  const connectedRef = ref(window.firebaseDatabase, '.info/connected');
-  onValue(connectedRef, (snap) => {
-    const connected = snap.val() === true;
-    firebaseAvailable = connected;
-    updateFirebaseStatus(connected);
-    
+  if (indicator && statusText) {
     if (connected) {
-      console.log("✅ Connesso a Firebase");
-      showSyncStatus('Connesso a Firebase', 'success');
+      indicator.className = 'sync-indicator online';
+      statusText.textContent = 'Online';
     } else {
-      console.log("❌ Disconnesso da Firebase");
-      showSyncStatus('Disconnesso - Modalità locale', 'warning');
+      indicator.className = 'sync-indicator offline';
+      statusText.textContent = 'Offline';
     }
-  });
+  }
 }
 
 // ==================== 实时产品管理 ====================
@@ -1490,38 +1508,21 @@ function enableRealtimeAdmin() {
     document.getElementById('realtimeAdminSection').style.display = "block";
     document.getElementById('realtimeAdminLoginBtn').style.display = "none";
     
-    checkFirebaseAvailability().then((available) => {
-      if (available) {
-        listenRealtimeProducts();
-        showSyncStatus('Accesso real-time attivato', 'success');
-      } else {
-        showSyncStatus('Firebase不可用，使用本地模式', 'warning');
-        renderLocalProductsInAdmin();
-      }
-    });
+    if (window.firebaseAvailable) {
+      showSyncStatus('Accesso real-time attivato', 'success');
+    } else {
+      showSyncStatus('Firebase不可用，使用本地模式', 'warning');
+      renderLocalProductsInAdmin();
+    }
   } else {
     alert("Password errata!");
   }
 }
 
-function listenRealtimeProducts() {
-  if (!firebaseAvailable || !window.firebaseDatabase) return;
-  
-  const productsRef = ref(window.firebaseDatabase, 'products');
-  onValue(productsRef, (snapshot) => {
-    currentRealtimeProducts = snapshot.val() || {};
-    renderRealtimeProducts(currentRealtimeProducts);
-    updateAdminStats();
-    renderProducts(); // 更新主产品列表
-    
-    const timestamp = new Date().toLocaleTimeString();
-    document.getElementById('lastUpdate').innerHTML = 
-      `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${timestamp}`;
-  });
-}
-
 function renderRealtimeProducts(products) {
   const container = document.getElementById('realtimeProductsContainer');
+  if (!container) return;
+  
   container.innerHTML = '';
   
   if (Object.keys(products).length === 0) {
@@ -1598,6 +1599,8 @@ function createRealtimeProductElement(barcode, product) {
 
 function renderLocalProductsInAdmin() {
   const container = document.getElementById('realtimeProductsContainer');
+  if (!container) return;
+  
   container.innerHTML = `
     <div style="text-align:center;padding:2rem;color:#666;">
       <i class="fas fa-exclamation-triangle" style="font-size:3rem;margin-bottom:1rem;"></i>
@@ -1610,16 +1613,18 @@ function renderLocalProductsInAdmin() {
 function toggleDiscountFields() {
   const discountFields = document.getElementById('discountFields');
   const discountCheckbox = document.getElementById('newProductDiscount');
-  discountFields.style.display = discountCheckbox.checked ? 'block' : 'none';
+  if (discountFields) {
+    discountFields.style.display = discountCheckbox.checked ? 'block' : 'none';
+  }
 }
 
 function editProduct(barcode) {
-  if (!firebaseAvailable || !window.firebaseDatabase) {
+  if (!window.firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法编辑实时产品");
     return;
   }
   
-  const p = currentRealtimeProducts[barcode];
+  const p = window.currentRealtimeProducts[barcode];
   if (!p) return;
   
   // 填充表单
@@ -1647,15 +1652,15 @@ function editProduct(barcode) {
 }
 
 function deleteProduct(barcode) {
-  if (!firebaseAvailable || !window.firebaseDatabase) {
+  if (!window.firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法删除实时产品");
     return;
   }
   
-  const productName = currentRealtimeProducts[barcode]?.name || barcode;
+  const productName = window.currentRealtimeProducts[barcode]?.name || barcode;
   if(confirm(`Sei sicuro di voler eliminare il prodotto "${productName}" dal database real-time?`)) {
-    const productRef = ref(window.firebaseDatabase, 'products/' + barcode);
-    remove(productRef)
+    const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + barcode);
+    window.firebaseRemove(productRef)
       .then(() => {
         showSyncStatus('Prodotto eliminato con successo', 'success');
       })
@@ -1667,7 +1672,7 @@ function deleteProduct(barcode) {
 }
 
 function addOrUpdateProduct() {
-  if (!firebaseAvailable || !window.firebaseDatabase) {
+  if (!window.firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法 gestire prodotti real-time");
     return;
   }
@@ -1717,13 +1722,13 @@ function addOrUpdateProduct() {
     discountPercentage: isDiscount && discountPrice ? 
       parseFloat(((price - discountPrice) / price * 100).toFixed(2)) : 0,
     lastUpdated: new Date().toISOString(),
-    createdAt: currentRealtimeProducts[barcode]?.createdAt || new Date().toISOString()
+    createdAt: window.currentRealtimeProducts[barcode]?.createdAt || new Date().toISOString()
   };
 
-  const productRef = ref(window.firebaseDatabase, 'products/' + barcode);
-  set(productRef, productData)
+  const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + barcode);
+  window.firebaseSet(productRef, productData)
   .then(() => {
-    const isUpdate = currentRealtimeProducts[barcode];
+    const isUpdate = window.currentRealtimeProducts[barcode];
     const message = isUpdate ? "Prodotto aggiornato con successo!" : "Prodotto aggiunto con successo!";
     showSyncStatus(message, 'success');
     resetRealtimeForm();
@@ -1751,33 +1756,40 @@ function resetRealtimeForm() {
 }
 
 // 自动检测条形码是否存在
-document.getElementById('newProductBarcode').addEventListener('input', function() {
-  if (!firebaseAvailable) return;
-  
-  const code = this.value.trim();
-  if(code && currentRealtimeProducts[code]){
-    document.getElementById('addOrUpdateBtn').innerHTML = '<i class="fas fa-save"></i> Aggiorna Prodotto';
-    document.getElementById('addOrUpdateBtn').className = 'admin-action-btn warning';
-    const p = currentRealtimeProducts[code];
-    document.getElementById('newProductName').value = p.name || "";
-    document.getElementById('newProductCategory').value = p.category || "regalo";
-    document.getElementById('newProductPrice').value = p.price || "";
-    document.getElementById('newProductImage').value = p.image || "";
-    document.getElementById('newProductDescription').value = p.description || "";
-    document.getElementById('newProductDiscount').checked = p.isDiscount || false;
-    document.getElementById('newDiscountPrice').value = p.discountPrice != null ? p.discountPrice : "";
-    document.getElementById('newDiscountTagText').value = p.discountTagText || "Offerta!";
-    document.getElementById('newDiscountTagColor').value = p.discountTagColor || "#ff0000";
-    toggleDiscountFields();
-  } else {
-    document.getElementById('addOrUpdateBtn').innerHTML = '<i class="fas fa-plus"></i> Aggiungi Prodotto';
-    document.getElementById('addOrUpdateBtn').className = 'admin-action-btn success';
+document.addEventListener('DOMContentLoaded', function() {
+  const barcodeInput = document.getElementById('newProductBarcode');
+  if (barcodeInput) {
+    barcodeInput.addEventListener('input', function() {
+      if (!window.firebaseAvailable) return;
+      
+      const code = this.value.trim();
+      if(code && window.currentRealtimeProducts[code]){
+        document.getElementById('addOrUpdateBtn').innerHTML = '<i class="fas fa-save"></i> Aggiorna Prodotto';
+        document.getElementById('addOrUpdateBtn').className = 'admin-action-btn warning';
+        const p = window.currentRealtimeProducts[code];
+        document.getElementById('newProductName').value = p.name || "";
+        document.getElementById('newProductCategory').value = p.category || "regalo";
+        document.getElementById('newProductPrice').value = p.price || "";
+        document.getElementById('newProductImage').value = p.image || "";
+        document.getElementById('newProductDescription').value = p.description || "";
+        document.getElementById('newProductDiscount').checked = p.isDiscount || false;
+        document.getElementById('newDiscountPrice').value = p.discountPrice != null ? p.discountPrice : "";
+        document.getElementById('newDiscountTagText').value = p.discountTagText || "Offerta!";
+        document.getElementById('newDiscountTagColor').value = p.discountTagColor || "#ff0000";
+        toggleDiscountFields();
+      } else {
+        document.getElementById('addOrUpdateBtn').innerHTML = '<i class="fas fa-plus"></i> Aggiungi Prodotto';
+        document.getElementById('addOrUpdateBtn').className = 'admin-action-btn success';
+      }
+    });
   }
 });
 
 // ==================== 产品展示 ====================
 function renderProducts() {
   const container = document.getElementById('products-container');
+  if (!container) return;
+  
   const search = document.getElementById('product-search').value.toLowerCase();
   const category = document.getElementById('category-filter').value;
   
@@ -1806,15 +1818,18 @@ function renderProducts() {
     container.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
   }
   
-  document.getElementById('load-more').style.display = end < filteredProducts.length ? 'block' : 'none';
+  const loadMoreBtn = document.getElementById('load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.style.display = end < filteredProducts.length ? 'block' : 'none';
+  }
 }
 
 function getAllMergedProducts() {
   const allProducts = [...products];
   
   // 添加或更新实时产品
-  if (firebaseAvailable) {
-    Object.entries(currentRealtimeProducts).forEach(([barcode, realtimeProduct]) => {
+  if (window.firebaseAvailable) {
+    Object.entries(window.currentRealtimeProducts).forEach(([barcode, realtimeProduct]) => {
       const convertedProduct = convertRealtimeToLocal(realtimeProduct, barcode);
       
       // 查找现有产品
@@ -1875,7 +1890,7 @@ function getCategoryName(category) {
 
 // ==================== 同步功能 ====================
 function syncAllProducts() {
-  if (!firebaseAvailable || !window.firebaseDatabase) {
+  if (!window.firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法同步");
     return;
   }
@@ -1883,10 +1898,10 @@ function syncAllProducts() {
   let synced = 0;
   products.forEach(product => {
     const barcode = product.id;
-    if (!currentRealtimeProducts[barcode]) {
+    if (!window.currentRealtimeProducts[barcode]) {
       const realtimeData = convertLocalToRealtime(product);
-      const productRef = ref(window.firebaseDatabase, 'products/' + barcode);
-      set(productRef, realtimeData)
+      const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + barcode);
+      window.firebaseSet(productRef, realtimeData)
         .then(() => synced++)
         .catch(err => console.error(`Errore sincronizzazione ${barcode}:`, err));
     }
@@ -1896,7 +1911,7 @@ function syncAllProducts() {
 }
 
 function migrateToFirebase() {
-  if (!firebaseAvailable || !window.firebaseDatabase) {
+  if (!window.firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法 migrare");
     return;
   }
@@ -1911,9 +1926,9 @@ function migrateToFirebase() {
   products.forEach(product => {
     const barcode = product.id;
     const realtimeData = convertLocalToRealtime(product);
-    const productRef = ref(window.firebaseDatabase, 'products/' + barcode);
+    const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + barcode);
     
-    set(productRef, realtimeData)
+    window.firebaseSet(productRef, realtimeData)
       .then(() => {
         migrated++;
         if (migrated === total) {
@@ -1930,13 +1945,23 @@ function migrateToFirebase() {
 // ==================== 管理员功能 ====================
 function updateAdminStats() {
   const allProducts = getAllMergedProducts();
-  document.getElementById('totalProducts').textContent = allProducts.length;
+  const totalProductsElement = document.getElementById('totalProducts');
+  const totalCategoriesElement = document.getElementById('totalCategories');
+  const realtimeProductsElement = document.getElementById('realtimeProducts');
   
-  const categories = new Set(allProducts.map(p => p.category));
-  document.getElementById('totalCategories').textContent = categories.size;
+  if (totalProductsElement) {
+    totalProductsElement.textContent = allProducts.length;
+  }
   
-  const realtimeCount = firebaseAvailable ? Object.keys(currentRealtimeProducts).length : 0;
-  document.getElementById('realtimeProducts').textContent = realtimeCount;
+  if (totalCategoriesElement) {
+    const categories = new Set(allProducts.map(p => p.category));
+    totalCategoriesElement.textContent = categories.size;
+  }
+  
+  if (realtimeProductsElement) {
+    const realtimeCount = window.firebaseAvailable ? Object.keys(window.currentRealtimeProducts).length : 0;
+    realtimeProductsElement.textContent = realtimeCount;
+  }
 }
 
 // ==================== 初始化 ====================
@@ -1950,34 +1975,37 @@ document.addEventListener('DOMContentLoaded', () => {
     products = [...savedProducts];
   }
   
-  // 检查并初始化Firebase
+  // 延迟初始化以确保Firebase已加载
   setTimeout(() => {
-    checkFirebaseAvailability().then(() => {
-      monitorFirebaseConnection();
-      if (firebaseAvailable) {
-        listenRealtimeProducts();
-      }
-    });
-  }, 1000);
-  
-  renderProducts();
-  updateAdminStats();
+    renderProducts();
+    updateAdminStats();
+  }, 500);
   
   // 绑定事件
-  document.getElementById('product-search').addEventListener('input', () => {
-    currentPage = 1;
-    renderProducts();
-  });
+  const productSearch = document.getElementById('product-search');
+  const categoryFilter = document.getElementById('category-filter');
+  const loadMoreBtn = document.getElementById('load-more');
   
-  document.getElementById('category-filter').addEventListener('change', () => {
-    currentPage = 1;
-    renderProducts();
-  });
+  if (productSearch) {
+    productSearch.addEventListener('input', () => {
+      currentPage = 1;
+      renderProducts();
+    });
+  }
   
-  document.getElementById('load-more').addEventListener('click', () => {
-    currentPage++;
-    renderProducts();
-  });
+  if (categoryFilter) {
+    categoryFilter.addEventListener('change', () => {
+      currentPage = 1;
+      renderProducts();
+    });
+  }
+  
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+      currentPage++;
+      renderProducts();
+    });
+  }
   
   // 管理员按钮事件
   document.getElementById('hiddenAdminBtn').addEventListener('click', enableAdminPanel);
