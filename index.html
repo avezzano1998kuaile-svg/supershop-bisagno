@@ -812,6 +812,34 @@ footer{
   background: #dc3545;
 }
 
+/* 新增的优化样式 */
+.qr-code-section {
+  transition: transform 0.3s ease;
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f0f7ff, #e6f3ff);
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.qr-code-section:hover {
+  transform: translateY(-5px);
+}
+
+.contact-highlight a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+}
+
+.store-guide {
+  background: #e8f5e8;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  text-align: center;
+}
+
 @media(max-width:768px){
     .header-container{
         flex-direction:column;
@@ -1014,6 +1042,20 @@ footer{
       </div>
     </div>
     
+    <!-- QR Code 使用提示部分 -->
+    <div class="admin-section">
+      <h3><i class="fas fa-qrcode"></i> QR Code Utilizzo</h3>
+      <div style="background: #e8f5e8; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+        <p style="margin: 0 0 0.5rem 0;"><strong>Utilizzo del QR Code in negozio:</strong></p>
+        <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.9rem;">
+          <li>Stampa il QR code per esporlo in negozio</li>
+          <li>Posizionalo vicino alla cassa e nelle aree prodotti</li>
+          <li>I clienti possono scansionare per vedere il catalogo completo</li>
+          <li>I prezzi si aggiornano automaticamente via Firebase</li>
+        </ul>
+      </div>
+    </div>
+    
     <!-- 其余管理员部分 -->
     <div class="admin-section">
       <h3><i class="fas fa-key"></i> Gestione Password</h3>
@@ -1111,7 +1153,7 @@ footer{
   <div class="header-container">
     <div class="logo">
       <img src="1000011845.png" alt="SuperShop Logo" class="logo-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzAwNDA4MCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UzwvdGV4dD48L3N2Zz4='">
-      <h1>Supershop Bisagno</h1>
+      <h1>Supershop</h1>
     </div>
     <div style="display:flex;align-items:center;gap:1rem">
       <nav>
@@ -1143,7 +1185,7 @@ footer{
   <!-- 页面内容保持不变 -->
   <section id="about">
     <h2>Benvenuti</h2>
-    <p>Benvenuti nel sito ufficiale di Supershop Bisagno S.R.L., il vostro punto di riferimento a Genova dal 2019. Offriamo un'ampia selezione di articoli per la casa, articoli per l'igiene personale, prodotti per la pulizia della casa, giocattoli per bambini e articoli per animali domestici.</p>
+    <p>Benvenuti nel sito ufficiale di Supershop Bisagno S.R.L., il vostro punto di riferimento a Genova dal 2019. Offriamo un'ampia selezione di articoli per la casa, articoli per l'igiene personale, prodotti per la pulizia della casa, giocattoli per bambini e articoli per animali domestici,ecc.</p>
     <div class="info-grid">
       <div class="info-card">
         <h3><i class="fas fa-store"></i> Il nostro negozio</h3>
@@ -1151,7 +1193,7 @@ footer{
       </div>
       <div class="info-card">
         <h3><i class="fas fa-users"></i> La nostra filosofia</h3>
-        <p>Crediamo nel servicio al cliente eccellente e nella qualità dei prodotti. La soddisfazione dei nostri clienti è la nostra priorità.</p>
+        <p>Crediamo nel servicio al cliente eccellente e nella qualità dei productos. La soddisfazione dei nostri clienti è la nostra priorità.</p>
       </div>
     </div>
   </section>
@@ -1215,6 +1257,7 @@ footer{
     <div class="load-more-container"><button class="load-more-btn" id="load-more">Carica più prodotti</button></div>
   </section>
 
+  <!-- 优化的联系信息部分 -->
   <section id="contact">
     <h2>Contatti</h2>
     <div class="contact-info">
@@ -1222,22 +1265,90 @@ footer{
         <p><i class="fas fa-map-marker-alt"></i> <strong>Indirizzo:</strong> Lungobisagno Istria, 29F, 16139 Genova GE</p>
         <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a></p>
         <p><i class="fas fa-info-circle"></i> Per informazioni commerciali o partnership, contattaci via email.</p>
-        <p>Scansiona il QR code per visitare il sito:</p>
-        <img src="1000011850.png" alt="QR Code Supershop Bisagno" style="width:150px;height:150px">
+        
+        <!-- 优化的二维码展示 -->
+        <div class="qr-code-section">
+          <h4 style="color: var(--primary-color); margin-bottom: 1rem;">
+            <i class="fas fa-mobile-alt"></i> Salva il nostro sito sul tuo telefono
+          </h4>
+          <img src="1000011850.png" alt="QR Code Supershop Bisagno" 
+               style="width: 160px; height: 160px; border: 3px solid var(--primary-color); padding: 12px; background: white; border-radius: 8px;">
+          <div style="margin-top: 1rem;">
+            <p style="font-weight: 600; margin-bottom: 0.5rem;">Scansiona con la fotocamera</p>
+            <p style="font-size: 0.8rem; color: #666; margin: 0;">
+              Per prodotti, prezzi e offerte sempre aggiornati
+            </p>
+          </div>
+        </div>
+
+        <!-- 优化的邮箱联系部分 -->
+        <div class="contact-highlight" style="background: #fff8e1; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid var(--secondary-color);">
+          <h4 style="color: var(--secondary-color); margin-bottom: 1rem;"><i class="fas fa-envelope"></i> Contattaci</h4>
+          <p style="margin-bottom: 1rem;">Per informazioni, prezzi o disponibilità:</p>
+          <a href="mailto:supershopbisagnosrl@gmail.com" 
+             style="display: inline-block; background: var(--secondary-color); color: white; padding: 0.8rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: bold; transition: all 0.3s ease;">
+            <i class="fas fa-paper-plane"></i> Invia Email
+          </a>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+            Rispondiamo entro 24 ore
+          </p>
+        </div>
+
+        <!-- 到店引导 -->
+        <div class="store-guide">
+          <p style="margin: 0; color: #2d5a2d;">
+            <i class="fas fa-store"></i> <strong>Visita il nostro negozio</strong> per consulenza personalizzata
+          </p>
+          <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">
+            I nostri esperti ti aiuteranno a trovare il prodotto perfetto
+          </p>
+        </div>
       </div>
-      <div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2817.256958424239!2d8.946223315544193!3d44.40722497909945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d3433c3b06d6a5%3A0x5b0e46e9e5a5a5a5!2sLungobisagno%20Istria%2C%2029F%2C%2016139%20Genova%20GE!5e0!3m2!1sit!2sit!4v1620000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe></div>
+      
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2817.256958424239!2d8.946223315544193!3d44.40722497909945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d3433c3b06d6a5%3A0x5b0e46e9e5a5a5a5!2sLungobisagno%20Istria%2C%2029F%2C%2016139%20Genova%20GE!5e0!3m2!1sit!2sit!4v1620000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
+      </div>
     </div>
   </section>
 </main>
 
+<!-- 优化的页脚 -->
 <footer>
   <div class="footer-content">
     <p>© <span id="year"></span> Supershop Bisagno S.R.L. — Tutti i diritti riservati</p>
     <p>P.IVA: 02596100996 | REA: GE - 497926</p>
+    <!-- 添加号召性用语 -->
+    <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 6px;">
+      <p style="margin: 0; font-size: 0.9rem;">
+        <i class="fas fa-qrcode"></i> 
+        <strong>Scansiona il QR code in negozio</strong> per scoprire tutti i prodotti e le offerte
+      </p>
+    </div>
   </div>
 </footer>
 
 <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+<!-- ==================== COMPLIANCE DISCLAIMER ==================== -->
+<section id="compliance" style="background:#f8f9fa;border-left:4px solid #004080;padding:1.5rem;margin-top:2rem;border-radius:8px;">
+<h2>Informazioni Legali e Conformità</h2>
+<p>SuperShop Bisagno S.R.L. dichiara che tutte le informazioni sui prodotti, immagini e prezzi presenti sul sito sono fornite a scopo informativo. Nonostante l’accuratezza dei dati, potrebbero verificarsi variazioni senza preavviso o piccoli errori involontari.</p>
+<p>I prezzi validi sono esclusivamente quelli esposti in negozio al momento dell’acquisto.</p>
+<p>Le eventuali informazioni di contatto fornite dall’utente vengono trattate secondo il Regolamento (UE) 2016/679 (GDPR). Il sito non raccoglie dati personali sensibili.</p>
+</section>
+
+<!-- ==================== PRODUCT MODAL ==================== -->
+<div id="productModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;padding:1rem;">
+  <div style="background:white;border-radius:10px;max-width:600px;width:100%;padding:1.5rem;position:relative;">
+    <button onclick="closeProductModal()" style="position:absolute;top:10px;right:10px;border:none;background:none;font-size:1.5rem;cursor:pointer;">✖</button>
+    <img id="modalImage" src="" alt="" style="width:100%;border-radius:8px;margin-bottom:1rem;object-fit:cover;">
+    <h2 id="modalName" style="margin-bottom:0.5rem;"></h2>
+    <p id="modalPrice"></p>
+    <p id="modalCategory"></p>
+    <p id="modalBarcode" style="font-family:monospace;color:#666;"></p>
+    <p id="modalDescription" style="margin-top:1rem;"></p>
+  </div>
+</div>
 
 <!-- Firebase SDK - 修复版本 -->
 <script type="module">
@@ -1338,7 +1449,7 @@ footer{
 const ADMIN_CONFIG = {
   ENABLED: true,
   BASE_PASSWORD: 'supershop',
-  STATIC_PASSWORDS: ['admin123', 'bisagno2024', '123456'],
+  STATIC_PASSWORDS: ['Supershop@2019!', 'bisagno2025chen'],
   PASSWORD_VALIDITY_HOURS: 24
 };
 
@@ -2077,34 +2188,7 @@ function clearAllData() {
 }
 
 function openProductModal(productId) {
-  alert("Apertura dettagli prodotto: " + productId);
-}
-</script>
-
-<!-- ==================== COMPLIANCE DISCLAIMER ==================== -->
-<section id="compliance" style="background:#f8f9fa;border-left:4px solid #004080;padding:1.5rem;margin-top:2rem;border-radius:8px;">
-<h2>Informazioni Legali e Conformità</h2>
-<p>SuperShop Bisagno S.R.L. dichiara che tutte le informazioni sui prodotti, immagini e prezzi presenti sul sito sono fornite a scopo informativo. Nonostante l’accuratezza dei dati, potrebbero verificarsi variazioni senza preavviso o piccoli errori involontari.</p>
-<p>I prezzi validi sono esclusivamente quelli esposti in negozio al momento dell’acquisto.</p>
-<p>Le eventuali informazioni di contatto fornite dall’utente vengono trattate secondo il Regolamento (UE) 2016/679 (GDPR). Il sito non raccoglie dati personali sensibili.</p>
-</section>
-
-<!-- ==================== PRODUCT MODAL ==================== -->
-<div id="productModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;padding:1rem;">
-  <div style="background:white;border-radius:10px;max-width:600px;width:100%;padding:1.5rem;position:relative;">
-    <button onclick="closeProductModal()" style="position:absolute;top:10px;right:10px;border:none;background:none;font-size:1.5rem;cursor:pointer;">✖</button>
-    <img id="modalImage" src="" alt="" style="width:100%;border-radius:8px;margin-bottom:1rem;object-fit:cover;">
-    <h2 id="modalName" style="margin-bottom:0.5rem;"></h2>
-    <p id="modalPrice"></p>
-    <p id="modalCategory"></p>
-    <p id="modalBarcode" style="font-family:monospace;color:#666;"></p>
-    <p id="modalDescription" style="margin-top:1rem;"></p>
-  </div>
-</div>
-
-<script>
-function openProductModal(id){
-  const p = getAllMergedProducts().find(x => x.id === id);
+  const p = getAllMergedProducts().find(x => x.id === productId);
   if(!p) return;
   document.getElementById('modalImage').src = p.image;
   document.getElementById('modalName').textContent = p.name || '';
