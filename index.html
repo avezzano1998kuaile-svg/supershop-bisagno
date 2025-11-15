@@ -924,6 +924,117 @@ footer{
   margin-bottom: 1.5rem;
 }
 
+/* ==================== 修复的产品模态框样式 ==================== */
+#productModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 10000;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+#productModal > div {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100%;
+  padding: 2rem 0;
+}
+
+#productModal > div > div {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  margin: auto;
+}
+
+#productModal button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background: #ff4444;
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+#productModal button:hover {
+  background: #ff0000;
+  transform: scale(1.1);
+}
+
+#productModal img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  background: #f8f9fa;
+  padding: 1rem;
+}
+
+/* 响应式产品模态框 */
+@media (max-width: 768px) {
+  #productModal {
+    padding: 0.5rem;
+  }
+  
+  #productModal > div {
+    padding: 0.5rem 0;
+    align-items: flex-start;
+  }
+  
+  #productModal > div > div {
+    margin: 0.5rem;
+    border-radius: 8px;
+  }
+  
+  #productModal button {
+    width: 40px;
+    height: 40px;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  #productModal {
+    padding: 0.25rem;
+  }
+  
+  #productModal > div > div {
+    margin: 0.25rem;
+  }
+}
+
+/* 确保所有浏览器的一致性 */
+#productModal * {
+  box-sizing: border-box;
+}
+
+#productModal img {
+  max-width: 100%;
+  height: auto;
+}
+
 @media(max-width:768px){
     .header-container{
         flex-direction:column;
@@ -1639,7 +1750,7 @@ footer{
         <li>Rettifica dei dati inesatti</li>
         <li>Cancellazione dei dati (diritto all'oblio)</li>
         <li>Limitazione del trattamento</li>
-        <li>Portabilità dei dati</li>
+        <li>Portabilità dei datos</li>
         <li>Opposizione al trattamento</li>
         <li>Revoca del consenso in qualsiasi momento</li>
       </ul>
@@ -1681,16 +1792,27 @@ footer{
 
 <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
 
-<!-- ==================== PRODUCT MODAL ==================== -->
-<div id="productModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;padding:1rem;">
-  <div style="background:white;border-radius:10px;max-width:600px;width:100%;padding:1.5rem;position:relative;">
-    <button onclick="closeProductModal()" style="position:absolute;top:10px;right:10px;border:none;background:none;font-size:1.5rem;cursor:pointer;">✖</button>
-    <img id="modalImage" src="" alt="" style="width:100%;border-radius:8px;margin-bottom:1rem;object-fit:cover;">
-    <h2 id="modalName" style="margin-bottom:0.5rem;"></h2>
-    <p id="modalPrice"></p>
-    <p id="modalCategory"></p>
-    <p id="modalBarcode" style="font-family:monospace;color:#666;"></p>
-    <p id="modalDescription" style="margin-top:1rem;"></p>
+<!-- ==================== 修复的产品模态框 ==================== -->
+<div id="productModal">
+  <div>
+    <div style="padding:2rem;">
+      <button onclick="closeProductModal()">✖</button>
+      <img id="modalImage" src="" alt="" 
+           style="width:100%;max-height:400px;object-fit:contain;border-radius:8px;margin-bottom:1.5rem;background:#f8f9fa;padding:1rem;">
+      <h2 id="modalName" style="margin-bottom:1rem;color:#333;font-size:1.5rem;line-height:1.3;"></h2>
+      
+      <div id="modalPrice" style="margin-bottom:1rem;"></div>
+      
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;padding:1rem;background:#f8f9fa;border-radius:8px;">
+        <span id="modalCategory" style="color:#666;"></span>
+        <span id="modalBarcode" style="font-family:monospace;color:#888;"></span>
+      </div>
+      
+      <div style="border-top:1px solid #eee;padding-top:1.5rem;">
+        <h3 style="margin-bottom:0.5rem;color:#333;">Descrizione</h3>
+        <p id="modalDescription" style="line-height:1.6;color:#555;margin:0;"></p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2946,30 +3068,181 @@ function updateAdminStats() {
   }
 }
 
+// ==================== 修复的产品模态框功能 ====================
+function openProductModal(productId) {
+  const allProducts = getAllMergedProducts();
+  const p = allProducts.find(x => x.id === productId);
+  
+  if(!p) {
+    console.error("Prodotto non trovato:", productId);
+    return;
+  }
+  
+  const modal = document.getElementById('productModal');
+  if (!modal) {
+    console.error("Modal non trovato nel DOM");
+    return;
+  }
+  
+  try {
+    // 设置图片
+    const modalImage = document.getElementById('modalImage');
+    if (modalImage) {
+      modalImage.src = p.image || DEFAULT_IMAGE;
+      modalImage.onerror = function() {
+        this.src = DEFAULT_IMAGE;
+      };
+    }
+    
+    // 设置名称
+    const modalName = document.getElementById('modalName');
+    if (modalName) {
+      modalName.textContent = p.name || 'Prodotto senza nome';
+    }
+    
+    // 设置价格显示
+    const modalPrice = document.getElementById('modalPrice');
+    if (modalPrice) {
+      if (p.discountPrice && p.originalPrice) {
+        modalPrice.innerHTML = `
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+            <span style="font-size:1.5rem;font-weight:bold;color:#e74c3c;">${p.discountPrice}</span>
+            <span style="color:#999;text-decoration:line-through;">${p.originalPrice}</span>
+            <span style="background:#e74c3c;color:white;padding:4px 8px;border-radius:4px;font-size:0.9rem;font-weight:bold;">
+              -${p.discountPercentage}%
+            </span>
+          </div>
+        `;
+      } else {
+        modalPrice.innerHTML = `
+          <span style="font-size:1.5rem;font-weight:bold;color:#004080;">
+            ${p.price || 'Prezzo su richiesta'}
+          </span>
+        `;
+      }
+    }
+    
+    // 设置类别和条形码
+    const modalCategory = document.getElementById('modalCategory');
+    const modalBarcode = document.getElementById('modalBarcode');
+    if (modalCategory) modalCategory.textContent = 'Categoria: ' + (getCategoryName(p.category) || 'Generale');
+    if (modalBarcode) modalBarcode.textContent = 'Codice: ' + p.id;
+    
+    // 设置描述
+    const modalDescription = document.getElementById('modalDescription');
+    if (modalDescription) {
+      modalDescription.textContent = p.description || 'Nessuna descrizione disponibile per questo prodotto.';
+    }
+    
+    // 显示模态框
+    modal.style.display = 'block';
+    
+    // 防止背景滚动
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    
+  } catch (error) {
+    console.error("Errore nell'apertura del modal:", error);
+    alert("Si è verificato un errore nel caricamento del prodotto");
+  }
+}
+
+function closeProductModal(){
+  const modal = document.getElementById('productModal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+  
+  // 恢复滚动
+  document.body.style.overflow = 'auto';
+  document.documentElement.style.overflow = 'auto';
+}
+
+// 点击模态框背景关闭
+document.getElementById('productModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeProductModal();
+  }
+});
+
+// ESC键关闭 - 跨浏览器兼容
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' || e.keyCode === 27) {
+    const modal = document.getElementById('productModal');
+    if (modal.style.display === 'block') {
+      closeProductModal();
+    }
+  }
+});
+
+// 触摸事件支持 - 移动端兼容
+let startY = 0;
+document.getElementById('productModal').addEventListener('touchstart', function(e) {
+  startY = e.touches[0].clientY;
+});
+
+document.getElementById('productModal').addEventListener('touchmove', function(e) {
+  // 防止模态框内滚动传播到背景
+  e.stopPropagation();
+}, { passive: false });
+
+// 响应式调整
+function handleModalResize() {
+  const modal = document.getElementById('productModal');
+  if (window.innerWidth <= 768) {
+    modal.style.padding = '0.5rem';
+  } else {
+    modal.style.padding = '1rem';
+  }
+}
+
+window.addEventListener('resize', handleModalResize);
+
 // ==================== 初始化 ====================
-document.addEventListener('DOMContentLoaded', () => {
+// 增强的初始化函数
+function enhancedInit() {
+  console.log("🚀 Avvio inizializzazione avanzata");
+  
+  // 1. 设置基础信息
   document.getElementById('year').textContent = new Date().getFullYear();
   document.getElementById('hiddenAdminBtn').style.display = 'block';
   
-  // 初始化产品数据
+  // 2. 初始化产品数据
   const savedProducts = loadStorage('supershop_products') || [];
   if (savedProducts.length > 0) {
     products = [...savedProducts];
   }
   
-  // 初始化cookie系统
+  // 3. 立即显示产品（不等待Firebase）
+  renderProducts();
+  updateAdminStats();
+  
+  // 4. 初始化Cookie系统
   initCookieBanner();
   
-  // 延迟初始化以确保Firebase已加载
+  // 5. 确保优惠内容立即显示
   setTimeout(() => {
-    renderProducts();
-    updateAdminStats();
-    
-    // 初始化优惠内容监听
-    initOfferContentListener();
-  }, 1000);
+    ensureOfferContent();
+  }, 500);
   
-  // 绑定事件
+  // 6. 设置事件监听器
+  setupEventListeners();
+  
+  // 7. 检查Firebase状态
+  setTimeout(() => {
+    if (window.firebaseAvailable) {
+      console.log("✅ Firebase connesso");
+      showSyncStatus('Connesso a Firebase', 'success');
+    } else {
+      console.log("⚠️ Firebase non disponibile - Modalità locale");
+      showSyncStatus('Modalità locale attiva', 'warning');
+    }
+  }, 1000);
+}
+
+// 设置事件监听器
+function setupEventListeners() {
+  // 搜索功能
   const productSearch = document.getElementById('product-search');
   const categoryFilter = document.getElementById('category-filter');
   const loadMoreBtn = document.getElementById('load-more');
@@ -2995,26 +3268,137 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  // 管理员按钮事件
-  document.getElementById('hiddenAdminBtn').addEventListener('click', enableAdminPanel);
-  document.getElementById('adminBtn').addEventListener('click', enableAdminPanel);
+  // 管理员按钮
+  const hiddenAdminBtn = document.getElementById('hiddenAdminBtn');
+  const adminBtn = document.getElementById('adminBtn');
+  
+  if (hiddenAdminBtn) {
+    hiddenAdminBtn.addEventListener('click', enableAdminPanel);
+  }
+  
+  if (adminBtn) {
+    adminBtn.addEventListener('click', enableAdminPanel);
+  }
   
   // 移动菜单
-  document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-    const nav = document.getElementById('navMenu');
-    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-  });
+  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', function() {
+      const nav = document.getElementById('navMenu');
+      if (nav) {
+        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+      }
+    });
+  }
   
   // 返回顶部
   const backToTop = document.getElementById('backToTop');
-  window.addEventListener('scroll', () => {
-    backToTop.classList.toggle('visible', window.pageYOffset > 300);
-  });
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.pageYOffset > 300);
+    });
+    
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  }
   
-  backToTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  });
+  // 模态框事件
+  setupModalEvents();
+}
+
+// 设置模态框事件
+function setupModalEvents() {
+  const modal = document.getElementById('productModal');
+  if (modal) {
+    // 点击背景关闭
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeProductModal();
+      }
+    });
+    
+    // ESC键关闭
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' || e.keyCode === 27) {
+        if (modal.style.display === 'block') {
+          closeProductModal();
+        }
+      }
+    });
+  }
+}
+
+// 确保优惠内容始终显示
+function ensureOfferContent() {
+  const offerSection = document.querySelector('#monthly-offer');
+  if (!offerSection) {
+    console.error("Sezione offerta non trovata");
+    return;
+  }
+  
+  // 检查当前内容
+  const currentContent = offerSection.innerHTML.trim();
+  if (!currentContent || currentContent.includes('Caricamento')) {
+    loadOfferContentImmediately();
+  }
+}
+
+// 立即加载优惠内容
+function loadOfferContentImmediately() {
+  // 1. 先尝试Firebase
+  if (window.firebaseAvailable) {
+    loadOfferContentFromFirebase();
+  } 
+  // 2. 然后尝试localStorage
+  else {
+    const savedOffer = loadStorage('supershop_offer_content');
+    if (savedOffer) {
+      updateOfferDisplay(savedOffer);
+    } else {
+      setDefaultOfferContent();
+    }
+  }
+}
+
+// 从Firebase加载优惠内容
+function loadOfferContentFromFirebase() {
+  if (!window.firebaseDatabase || !window.firebaseRef || !window.firebaseOnValue) {
+    setDefaultOfferContent();
+    return;
+  }
+  
+  try {
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseOnValue(offerRef, (snapshot) => {
+      const offerData = snapshot.val();
+      if (offerData) {
+        updateOfferDisplay(offerData);
+        saveStorage('supershop_offer_content', offerData);
+      } else {
+        setDefaultOfferContent();
+      }
+    }, { onlyOnce: true }); // 只监听一次
+  } catch (error) {
+    console.error("Errore caricamento Firebase:", error);
+    setDefaultOfferContent();
+  }
+}
+
+// 在DOM加载时使用增强初始化
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("📄 DOM caricato - Avvio inizializzazione");
+  enhancedInit();
+});
+
+// 确保在窗口完全加载后再次检查
+window.addEventListener('load', function() {
+  console.log("🖼️ Pagina completamente caricata");
+  // 最终检查优惠内容
+  setTimeout(() => {
+    ensureOfferContent();
+  }, 1000);
 });
 
 // 管理员面板功能
@@ -3062,24 +3446,6 @@ function backupData() {
 
 function clearAllData() {
   alert("Funzione cancella tutto - da implementare");
-}
-
-function openProductModal(productId) {
-  const p = getAllMergedProducts().find(x => x.id === productId);
-  if(!p) return;
-  document.getElementById('modalImage').src = p.image;
-  document.getElementById('modalName').textContent = p.name || '';
-  document.getElementById('modalPrice').textContent = p.discountPrice ? 
-    `Prezzo: ${p.discountPrice} (Originale: ${p.originalPrice})` :
-    `Prezzo: ${p.price || 'N/D'}`;
-  document.getElementById('modalCategory').textContent = 'Categoria: ' + (getCategoryName(p.category)||'');
-  document.getElementById('modalBarcode').textContent = 'Codice: ' + p.id;
-  document.getElementById('modalDescription').textContent = p.description || '';
-  document.getElementById('productModal').style.display = 'flex';
-}
-
-function closeProductModal(){
-  document.getElementById('productModal').style.display = 'none';
 }
 
 // ==================== 海报生成器功能 ====================
@@ -3341,6 +3707,211 @@ function printPoster() {
   `);
   printWindow.document.close();
 }
+
+// ==================== 测试和调试函数 ====================
+// 添加测试函数到全局作用域
+window.testOfferContent = function() {
+  console.log("🧪 Test contenuti offerta:");
+  console.log("- Sezione trovata:", !!document.querySelector('#monthly-offer'));
+  console.log("- Contenuto attuale:", document.querySelector('#monthly-offer')?.innerHTML);
+  
+  const testOffer = {
+    title: "🧪 Test Offerta",
+    highlight: "QUESTA È UNA OFFERTA DI TEST!",
+    details: "<p>Se vedi questo messaggio, il sistema offerte funziona correttamente.</p>",
+    motivation: "<p>Test completato con successo!</p>",
+    expiry: "31 Dicembre 2025",
+    status: "active"
+  };
+  
+  updateOfferDisplay(testOffer);
+  alert("Test offerta completato! Controlla la sezione offerte.");
+};
+
+// 强制显示优惠内容的函数
+window.forceShowOffers = function() {
+  console.log("🔄 Forzatura visualizzazione offerte...");
+  
+  // 检查Firebase状态
+  if (window.firebaseAvailable) {
+    console.log("✅ Firebase disponibile");
+  } else {
+    console.log("⚠️ Firebase non disponibile, uso contenuti locali");
+  }
+  
+  // 尝试从localStorage加载
+  const savedOffer = loadStorage('supershop_offer_content');
+  if (savedOffer) {
+    console.log("📁 Contenuti trovati in localStorage:", savedOffer);
+    updateOfferDisplay(savedOffer);
+  } else {
+    console.log("📝 Nessun contenuto salvato, uso default");
+    setDefaultOfferContent();
+  }
+};
+
+// 重置优惠内容为默认值
+window.resetToDefaultOffers = function() {
+  if (confirm("Sei sicuro di voler ripristinare le offerte ai valori predefiniti?")) {
+    setDefaultOfferContent();
+    alert("Offer ripristinate ai valori predefiniti!");
+  }
+};
+
+// 在DOM加载完成后立即初始化优惠内容
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("🚀 Inizializzazione contenuti offerta...");
+  
+  // 确保优惠部分存在
+  const offerSection = document.querySelector('#monthly-offer');
+  if (!offerSection) {
+    console.error("❌ Sezione offerta non trovata nel DOM!");
+    // 创建紧急占位符
+    const placeholder = document.createElement('div');
+    placeholder.innerHTML = `
+      <div style="background:#fff3cd; border:1px solid #ffeaa7; padding:2rem; text-align:center; border-radius:8px;">
+        <h2>🎄 Offerte Speciali</h2>
+        <p>Le nostre promozioni saranno disponibili a breve</p>
+        <button onclick="forceShowOffers()" style="background:#004080; color:white; border:none; padding:10px 20px; border-radius:4px; margin-top:1rem; cursor:pointer;">
+          Carica Offerte
+        </button>
+      </div>
+    `;
+    
+    // 找到正确的位置插入占位符
+    const productsSection = document.querySelector('#products');
+    if (productsSection && productsSection.nextElementSibling) {
+      productsSection.parentNode.insertBefore(placeholder, productsSection.nextElementSibling);
+    }
+    return;
+  }
+  
+  console.log("✅ Sezione offerta trovata");
+  
+  // 显示加载状态
+  offerSection.innerHTML = `
+    <div style="text-align:center;padding:2rem;color:#666;">
+      <i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;"></i>
+      <p>Caricamento offerte in corso...</p>
+      <button onclick="forceShowOffers()" style="background:var(--secondary-color); color:white; border:none; padding:8px 16px; border-radius:4px; margin-top:1rem; cursor:pointer;">
+        Carica Ora
+      </button>
+    </div>
+  `;
+  
+  // 延迟初始化以确保所有资源已加载
+  setTimeout(() => {
+    initOfferContentListener();
+  }, 1000);
+});
+
+// 修复 initOfferContentListener 函数
+function initOfferContentListener() {
+  console.log("📡 Inizializzazione listener contenuti offerta");
+  
+  // 立即尝试加载内容
+  loadOfferContent();
+  
+  // 设置Firebase监听（如果可用）
+  if (window.firebaseAvailable && window.firebaseDatabase && window.firebaseRef && window.firebaseOnValue) {
+    console.log("🔥 Firebase attivo - attivazione listener real-time");
+    
+    try {
+      const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+      window.firebaseOnValue(offerRef, (snapshot) => {
+        const offerData = snapshot.val();
+        console.log("📥 Dati ricevuti da Firebase:", offerData);
+        
+        if (offerData) {
+          // 更新localStorage缓存
+          saveStorage('supershop_offer_content', offerData);
+          // 更新页面显示
+          updateOfferDisplay(offerData);
+          console.log("✅ Contenuti promozionali aggiornati in tempo reale");
+        } else {
+          console.log("ℹ️ Nessun dato in Firebase, uso default");
+          setDefaultOfferContent();
+        }
+      }, (error) => {
+        console.error("❌ Errore listener Firebase:", error);
+        // Fallback a contenuti locali
+        loadLocalOfferContent();
+      });
+    } catch (error) {
+      console.error("❌ Errore inizializzazione Firebase:", error);
+      loadLocalOfferContent();
+    }
+  } else {
+    console.log("📱 Firebase non disponibile, uso contenuti locali");
+    loadLocalOfferContent();
+  }
+}
+
+// 加载本地优惠内容
+function loadLocalOfferContent() {
+  const savedOffer = loadStorage('supershop_offer_content');
+  if (savedOffer) {
+    console.log("📁 Caricamento contenuti da localStorage:", savedOffer);
+    updateOfferDisplay(savedOffer);
+  } else {
+    console.log("📝 Nessun contenuto salvato, uso default");
+    setDefaultOfferContent();
+  }
+}
+
+// 修复 loadOfferContent 函数
+function loadOfferContent() {
+  console.log("📥 Caricamento contenuti offerta...");
+  
+  // 先尝试从Firebase加载
+  if (window.firebaseAvailable && window.firebaseDatabase && window.firebaseRef && window.firebaseOnValue) {
+    console.log("🔥 Tentativo caricamento da Firebase");
+    
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseOnValue(offerRef, (snapshot) => {
+      const offerData = snapshot.val();
+      if (offerData) {
+        console.log("✅ Dati caricati da Firebase:", offerData);
+        fillOfferForm(offerData);
+        updateOfferDisplay(offerData);
+        
+        const lastUpdateElement = document.getElementById('offerLastUpdate');
+        if (lastUpdateElement && offerData.lastUpdated) {
+          const date = new Date(offerData.lastUpdated).toLocaleString('it-IT');
+          lastUpdateElement.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${date}`;
+        }
+      } else {
+        console.log("ℹ️ Nessun dato in Firebase, uso default");
+        setDefaultOfferContent();
+      }
+    }, (error) => {
+      console.error("❌ Errore caricamento Firebase:", error);
+      // Fallback a localStorage
+      loadLocalOfferContentForAdmin();
+    });
+  } else {
+    console.log("📱 Firebase non disponibile, uso localStorage");
+    loadLocalOfferContentForAdmin();
+  }
+}
+
+// 为管理员面板加载本地内容
+function loadLocalOfferContentForAdmin() {
+  const savedOffer = loadStorage('supershop_offer_content');
+  if (savedOffer) {
+    console.log("📁 Caricamento contenuti admin da localStorage");
+    fillOfferForm(savedOffer);
+    updateOfferDisplay(savedOffer);
+  } else {
+    console.log("📝 Nessun contenuto salvato, uso default per admin");
+    setDefaultOfferContent();
+  }
+}
+
+console.log("✅ Funzioni di test offerta caricate!");
+console.log("💡 Usa testOfferContent() per testare le offerte");
+console.log("💡 Usa forceShowOffers() per forzare il caricamento");
+console.log("💡 Usa resetToDefaultOffers() per ripristinare i default");
 </script>
 </body>
 </html>
