@@ -870,6 +870,60 @@ footer{
   text-align: center;
 }
 
+/* Cookie Banner Styles */
+.cookie-banner {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #004080, #00264d);
+  color: white;
+  padding: 20px;
+  z-index: 10000;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cookie-settings-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 10001;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.cookie-settings-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Privacy Policy Styles */
+.privacy-policy-section {
+  background: #f8f9fa;
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid #004080;
+}
+
+.privacy-section-block {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
 @media(max-width:768px){
     .header-container{
         flex-direction:column;
@@ -914,6 +968,9 @@ footer{
     .realtime-form-grid {
         grid-template-columns: 1fr;
     }
+    .cookie-banner {
+        padding: 15px;
+    }
 }
 @media(max-width:480px){
     .products-grid{
@@ -943,6 +1000,104 @@ footer{
 <button class="hidden-admin-btn" id="hiddenAdminBtn" title="Pannello Admin" style="display:none">
     <i class="fas fa-user-shield" style="color:white;font-size:1.2rem"></i>
 </button>
+
+<!-- ==================== COOKIE BANNER - GDPR COMPLIANT ==================== -->
+<div id="cookie-banner" class="cookie-banner">
+  <div style="max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; gap:15px; align-items:center; justify-content:space-between;">
+    <div style="flex:1; min-width:300px;">
+      <h4 style="margin:0 0 8px 0; color:white; display:flex; align-items:center; gap:8px;">
+        <i class="fas fa-cookie-bite"></i> Cookie e Privacy
+      </h4>
+      <p style="margin:0; font-size:0.9rem; opacity:0.9; line-height:1.4;">
+        Utilizziamo cookie tecnici e di terze parti per migliorare la tua esperienza e per analisi del traffico. 
+        Puoi gestire le tue preferenze qui sotto. 
+        <a href="#privacy-policy" onclick="scrollToPrivacyPolicy()" style="color:#ff6b00; text-decoration:underline;">Leggi la Privacy Policy</a>
+      </p>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button onclick="acceptAllCookies()" style="background:#ff6b00; color:white; border:none; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold; transition:all 0.3s; display:flex; align-items:center; gap:8px;">
+        <i class="fas fa-check"></i> Accetta Tutto
+      </button>
+      <button onclick="acceptNecessaryCookies()" style="background:transparent; color:white; border:2px solid white; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold; transition:all 0.3s;">
+        Solo Necessari
+      </button>
+      <button onclick="openCookieSettings()" style="background:transparent; color:white; border:2px solid white; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold; transition:all 0.3s; display:flex; align-items:center; gap:8px;">
+        <i class="fas fa-cog"></i> Personalizza
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Cookie Settings Modal -->
+<div id="cookie-settings" class="cookie-settings-modal">
+  <div class="cookie-settings-content">
+    <div style="padding:25px; border-bottom:1px solid #eee;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0; color:#004080;"><i class="fas fa-sliders-h"></i> Gestione Cookie</h3>
+        <button onclick="closeCookieSettings()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;">✖</button>
+      </div>
+    </div>
+    
+    <div style="padding:25px;">
+      <div style="margin-bottom:25px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <label style="font-weight:bold; color:#004080; cursor:pointer;">
+            <i class="fas fa-lock"></i> Cookie Necessari
+          </label>
+          <input type="checkbox" id="necessary-cookies" checked disabled style="width:20px; height:20px;">
+        </div>
+        <p style="margin:0; color:#666; font-size:0.9rem;">
+          Cookie essenziali per il funzionamento del sito. Non possono essere disattivati.
+        </p>
+      </div>
+
+      <div style="margin-bottom:25px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <label style="font-weight:bold; color:#004080; cursor:pointer;">
+            <i class="fas fa-map-marked-alt"></i> Google Maps
+          </label>
+          <input type="checkbox" id="maps-cookies" style="width:20px; height:20px;">
+        </div>
+        <p style="margin:0; color:#666; font-size:0.9rem;">
+          Cookie per la visualizzazione della mappa e localizzazione del negozio.
+        </p>
+      </div>
+
+      <div style="margin-bottom:25px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <label style="font-weight:bold; color:#004080; cursor:pointer;">
+            <i class="fas fa-database"></i> Firebase (Prodotti)
+          </label>
+          <input type="checkbox" id="firebase-cookies" style="width:20px; height:20px;">
+        </div>
+        <p style="margin:0; color:#666; font-size:0.9rem;">
+          Cookie per la sincronizzazione in tempo reale dei prodotti e prezzi.
+        </p>
+      </div>
+
+      <div style="margin-bottom:25px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <label style="font-weight:bold; color:#004080; cursor:pointer;">
+            <i class="fas fa-chart-bar"></i> Cookie Analitici
+          </label>
+          <input type="checkbox" id="analytics-cookies" style="width:20px; height:20px;">
+        </div>
+        <p style="margin:0; color:#666; font-size:0.9rem;">
+          Cookie per analisi del traffico e miglioramento del sito.
+        </p>
+      </div>
+    </div>
+
+    <div style="padding:20px 25px; background:#f8f9fa; border-top:1px solid #eee; display:flex; gap:10px; justify-content:flex-end;">
+      <button onclick="closeCookieSettings()" style="background:#666; color:white; border:none; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold;">
+        Annulla
+      </button>
+      <button onclick="saveCookiePreferences()" style="background:#004080; color:white; border:none; padding:12px 25px; border-radius:6px; cursor:pointer; font-weight:bold;">
+        Salva Preferenze
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- ADMIN PANEL -->
 <div class="admin-overlay" id="adminOverlay"></div>
@@ -1151,6 +1306,18 @@ footer{
       </div>
     </div>
     
+    <!-- 海报生成器部分 -->
+    <div class="admin-section">
+      <h3><i class="fas fa-print"></i> Generatore Poster Promozionale</h3>
+      <div style="background:#f5f5f5; padding:1rem; border-radius:6px; margin-bottom:1rem; border-left:4px solid #000;">
+        <p style="margin:0 0 0.5rem 0; font-weight:bold;"><i class="fas fa-desktop"></i> Interfaccia ottimizzata per computer</p>
+        <p style="margin:0; font-size:0.9rem;">Anteprima in tempo reale e stampa A4 professionale</p>
+      </div>
+      <button class="admin-action-btn" style="background:#333; color:white;" onclick="openPosterGenerator()">
+        <i class="fas fa-palette"></i> Crea Poster Promozionale
+      </button>
+    </div>
+    
     <!-- 其余管理员部分 -->
     <div class="admin-section">
       <h3><i class="fas fa-key"></i> Gestione Password</h3>
@@ -1301,7 +1468,7 @@ footer{
       <div class="category-card"><div class="category-icon"><i class="fas fa-gamepad"></i></div><h3>Giocattoli</h3><p>Giocattoli educativi e di intrattenimento per bambini</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-pencil-alt"></i></div><h3>Cartoleria</h3><p>Materiale scolastico e per ufficio di alta qualità</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-home"></i></div><h3>Casalinghi</h3><p>Accessori e complementi d'arredo per la casa</p></div>
-      <div class="category-card"><div class="category-icon"><i class="fas fa-tools"></i></div><h3>Ferramenta</h3><p>Utensili e materiali per piccoli lavori domestici</p></div>
+      <div class="category-card"><div class="category-icon"><i class="fas fa-tools"></i></div><h3>Ferramenta</h3><p>Utensili e materiali per piccoli lavori domesticos</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-paw"></i></div><h3>Articoli per animali</h3><p>Prodotti per la cura e il benessere dei tuoi amici a quattro zampe</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-lightbulb"></i></div><h3>Illuminazione</h3><p>Lampadari, lampade da terra, lampade da tavolo e illuminazione per internos</p></div>
       <div class="category-card"><div class="category-icon"><i class="fas fa-couch"></i></div><h3>Mobili</h3><p>Mobili per la casa, sedie, tavoli e complementi d'arredo</p></div>
@@ -1392,6 +1559,109 @@ footer{
       </div>
     </div>
   </section>
+
+  <!-- ==================== COMPLIANCE DISCLAIMER ==================== -->
+  <section id="compliance" style="background:#f8f9fa;border-left:4px solid #004080;padding:1.5rem;margin-top:2rem;border-radius:8px;">
+    <h2>Informazioni Legali e Conformità</h2>
+    <p>Supershop Bisagno S.R.L. dichiara che tutte le informazioni sui prodotti, immagini e prezzi presenti sul sito sono fornite a scopo informativo. Nonostante l'accuratezza dei dati, potrebbero verificarsi variazioni senza preavviso o piccoli errori involontari.</p>
+    <p>I prezzi validi sono esclusivamente quelli esposti in negozio al momento dell'acquisto.</p>
+    <p>Questo sito rispetta il <strong>Regolamento (UE) 2016/679 (GDPR)</strong> e la normativa italiana sulla privacy. 
+       Per informazioni dettagliate sul trattamento dei dati personali, consulta la nostra 
+       <a href="#privacy-policy" onclick="scrollToPrivacyPolicy()" style="color:#004080; font-weight:bold;">Privacy Policy completa</a>.</p>
+    <p>Utilizziamo cookie tecnici e di terze parti per migliorare la tua esperienza. 
+       <a href="javascript:void(0)" onclick="openCookieSettings()" style="color:#004080; font-weight:bold;">Gestisci le tue preferenze cookie</a>.</p>
+  </section>
+
+  <!-- ==================== PRIVACY POLICY - GDPR COMPLIANT ==================== -->
+  <section id="privacy-policy" class="privacy-policy-section">
+    <h2 style="color:#004080; margin-bottom:1.5rem;">Informativa Privacy - GDPR</h2>
+    
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Titolare del Trattamento dei Dati</h3>
+      <p><strong>Supershop Bisagno S.R.L.</strong><br>
+      Lungobisagno Istria, 29F, 16139 Genova GE<br>
+      P.IVA: 02596100996 | REA: GE - 497926<br>
+      Email: supershopbisagnosrl@gmail.com</p>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Tipi di Dati Raccolti</h3>
+      <p>Il sito raccoglie i seguenti dati personali:</p>
+      <ul>
+        <li><strong>Dati di navigazione</strong>: indirizzo IP, browser, dispositivo, orario di accesso</li>
+        <li><strong>Dati di utilizzo</strong>: pagine visitate, tempo di permanenza</li>
+        <li><strong>Dati di contatto</strong>: quando ci contatti via email</li>
+        <li><strong>Cookie e tecnologie simili</strong></li>
+      </ul>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Finalità del Trattamento</h3>
+      <ul>
+        <li>Fornire i servizi richiesti attraverso il sito web</li>
+        <li>Rispondere alle richieste di informazioni via email</li>
+        <li>Migliorare l'esperienza di navigazione degli utenti</li>
+        <li>Adempiere agli obblighi di legge</li>
+      </ul>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Base Giuridica</h3>
+      <p>Il trattamento dei dati si basa su:</p>
+      <ul>
+        <li><strong>Consenso dell'interessato</strong> (per i cookie)</li>
+        <li><strong>Legittimo interesse</strong> (per la sicurezza del sito)</li>
+        <li><strong>Adempimento contrattuale</strong> (per rispondere alle richieste)</li>
+      </ul>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Servizi di Terze Parti</h3>
+      <p>Utilizziamo i seguenti servizi che possono raccogliere dati:</p>
+      <ul>
+        <li><strong>Firebase</strong> (Google): hosting database e sincronizzazione prodotti</li>
+        <li><strong>Google Maps</strong>: visualizzazione mappa e posizione negozio</li>
+        <li><strong>FontAwesome</strong>: icone e elementi grafici</li>
+      </ul>
+      <p>Questi servizi potrebbero trasferire dati al di fuori dell'UE in paesi con adeguate tutele privacy.</p>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Conservazione dei Dati</h3>
+      <p>I dati personali sono conservati per il tempo strettamente necessario al conseguimento delle finalità per lesquali sono stati raccolti, salvo diversi obblighi di legge.</p>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Diritti dell'Interessato</h3>
+      <p>Ai sensi degli articoli 15-22 GDPR, hai diritto a:</p>
+      <ul>
+        <li>Accesso ai tuoi dati personali</li>
+        <li>Rettifica dei dati inesatti</li>
+        <li>Cancellazione dei dati (diritto all'oblio)</li>
+        <li>Limitazione del trattamento</li>
+        <li>Portabilità dei dati</li>
+        <li>Opposizione al trattamento</li>
+        <li>Revoca del consenso in qualsiasi momento</li>
+      </ul>
+      <p>Per esercitare questi diritti, contattaci all'indirizzo email: supershopbisagnosrl@gmail.com</p>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Cookie Policy</h3>
+      <p>Utilizziamo i seguenti tipi di cookie:</p>
+      <ul>
+        <li><strong>Cookie tecnici</strong>: necessari per il funzionamento del sito</li>
+        <li><strong>Cookie di terze parti</strong>: Google Maps, Firebase, FontAwesome</li>
+        <li><strong>Cookie di preferenze</strong>: per ricordare le tue scelte</li>
+      </ul>
+      <p>Puoi gestire le tue preferenze cookie attraverso il banner apposito.</p>
+    </div>
+
+    <div style="background:#e8f4ff; padding:1.5rem; border-radius:8px; text-align:center;">
+      <p><strong>Ultimo aggiornamento:</strong> 15 Gennaio 2025</p>
+      <p>Per qualsiasi domanda sulla privacy, contattaci a: <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a></p>
+    </div>
+  </section>
 </main>
 
 <!-- 优化的页脚 -->
@@ -1410,14 +1680,6 @@ footer{
 </footer>
 
 <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
-
-<!-- ==================== COMPLIANCE DISCLAIMER ==================== -->
-<section id="compliance" style="background:#f8f9fa;border-left:4px solid #004080;padding:1.5rem;margin-top:2rem;border-radius:8px;">
-<h2>Informazioni Legali e Conformità</h2>
-<p>SuperShop Bisagno S.R.L. dichiara che tutte le informazioni sui prodotti, immagini e prezzi presenti sul sito sono fornite a scopo informativo. Nonostante l’accuratezza dei dati, potrebbero verificarsi variazioni senza preavviso o piccoli errori involontari.</p>
-<p>I prezzi validi sono esclusivamente quelli esposti in negozio al momento dell’acquisto.</p>
-<p>Le eventuali informazioni di contatto fornite dall’utente vengono trattate secondo il Regolamento (UE) 2016/679 (GDPR). Il sito non raccoglie dati personali sensibili.</p>
-</section>
 
 <!-- ==================== PRODUCT MODAL ==================== -->
 <div id="productModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;padding:1rem;">
@@ -1444,6 +1706,101 @@ footer{
     <div id="offerPreviewContent" style="padding: 2rem;"></div>
   </div>
 </div>
+
+<!-- A4黑白海报生成器 - 电脑端优化版 -->
+<div id="poster-generator" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; justify-content:center; align-items:center; padding:20px; overflow:auto;">
+  <div style="background:white; border-radius:12px; width:95%; max-width:1200px; max-height:95vh; padding:25px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.3); overflow-y:auto;">
+    <!-- 关闭按钮 -->
+    <button onclick="closePosterGenerator()" 
+            style="position:absolute; top:15px; right:15px; border:none; background:#ff4444; color:white; width:40px; height:40px; border-radius:50%; font-size:1.5rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10001; box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+      ✖
+    </button>
+    
+    <h2 style="color:#000; margin-bottom:20px; text-align:center; padding-right:40px;">
+      <i class="fas fa-print"></i> Generatore Poster Promozionale
+    </h2>
+    
+    <div style="display:grid; grid-template-columns:350px 1fr; gap:30px; margin-bottom:25px;">
+      <!-- 左侧：控制面板 -->
+      <div style="border-right:2px solid #eee; padding-right:25px;">
+        <h3 style="color:#000; margin-bottom:20px; font-size:1.3rem; border-bottom:2px solid #000; padding-bottom:10px;">Configurazione</h3>
+        
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Titolo Principale:</label>
+          <input type="text" id="posterTitle" value="🎉 SUPER PROMOZIONI" 
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;">
+        </div>
+        
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Sottotitolo:</label>
+          <input type="text" id="posterSubtitle" value="SCONTI FINO AL 70% SU ARTICOLI SELEZIONATI" 
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;">
+        </div>
+        
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Prodotti in Promozione:</label>
+          <textarea id="featuredProducts" style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:0.9rem; height:120px; resize:vertical; background:#f9f9f9;">• Articoli per la casa
+• Decorazioni e accessori
+• Idee regalo
+• Prodotti stagionali
+• Piccoli elettrodomestici
+• Prodotti per animali</textarea>
+          <small style="color:#666; font-size:0.8rem;">Separare ogni prodotto con una nuova riga</small>
+        </div>
+        
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Data di Scadenza:</label>
+          <input type="text" id="expiryDate" value="31 DICEMBRE 2025" 
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;"
+                 placeholder="es: 15 GENNAIO 2026">
+        </div>
+        
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:25px; padding:15px; background:#f0f0f0; border-radius:6px;">
+          <input type="checkbox" id="includeQR" checked style="width:20px; height:20px;">
+          <label for="includeQR" style="font-weight:bold; margin:0; color:#333;">Includi QR Code</label>
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-top:30px;">
+          <button onclick="updatePosterPreview()" 
+                  style="flex:1; padding:15px; background:#666; color:white; border:none; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s;">
+            <i class="fas fa-sync"></i> Aggiorna
+          </button>
+          <button onclick="printPoster()" 
+                  style="flex:1; padding:15px; background:#000; color:white; border:none; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s;">
+            <i class="fas fa-print"></i> Stampa
+          </button>
+        </div>
+
+        <div style="margin-top:20px; padding:15px; background:#e8f4ff; border-radius:6px; border-left:4px solid #0066cc;">
+          <h4 style="margin:0 0 8px 0; color:#0066cc; font-size:0.9rem;">💡 Suggerimenti:</h4>
+          <ul style="margin:0; padding-left:15px; font-size:0.8rem; color:#333;">
+            <li>Usa testo breve e impatto</li>
+            <li>Massimo 6-7 prodotti</li>
+            <li>Controlla l'anteprima prima di stampare</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- 右侧：预览区域 -->
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+          <h3 style="color:#000; margin:0; font-size:1.3rem;">Anteprima Poster A4</h3>
+          <div style="font-size:0.9rem; color:#666; background:#f0f0f0; padding:5px 10px; border-radius:4px;">
+            <i class="fas fa-info-circle"></i> Dimensioni: 210mm × 297mm
+          </div>
+        </div>
+        
+        <div id="posterPreview" 
+             style="border:3px solid #666; background:#fff; min-height:500px; border-radius:8px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+          <!-- 预览内容将通过JavaScript生成 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 实际打印的海报内容 -->
+<div id="printable-poster" style="display:none;"></div>
 
 <!-- Firebase SDK -->
 <script type="module">
@@ -1573,6 +1930,181 @@ let adminAuthenticated = false;
 let currentPage = 1;
 const productsPerPage = 8;
 let filteredProducts = [];
+
+// ==================== COOKIE MANAGEMENT - GDPR COMPLIANT ====================
+let cookiesAccepted = false;
+let cookiePreferences = {
+  necessary: true,  // Sempre attivi
+  maps: false,
+  firebase: false,
+  analytics: false
+};
+
+// Inizializzazione cookie
+function initCookieBanner() {
+  const savedPreferences = getCookie('cookiePreferences');
+  
+  if (savedPreferences) {
+    cookiePreferences = JSON.parse(savedPreferences);
+    cookiesAccepted = true;
+    applyCookiePreferences();
+  } else {
+    // Mostra il banner dopo 1 secondo
+    setTimeout(() => {
+      document.getElementById('cookie-banner').style.display = 'block';
+    }, 1000);
+  }
+}
+
+// Funzioni di gestione cookie
+function acceptAllCookies() {
+  cookiePreferences = {
+    necessary: true,
+    maps: true,
+    firebase: true,
+    analytics: true
+  };
+  saveCookiePreferences();
+  hideCookieBanner();
+}
+
+function acceptNecessaryCookies() {
+  cookiePreferences = {
+    necessary: true,
+    maps: false,
+    firebase: false,
+    analytics: false
+  };
+  saveCookiePreferences();
+  hideCookieBanner();
+}
+
+function openCookieSettings() {
+  document.getElementById('cookie-settings').style.display = 'flex';
+  // Imposta lo stato corrente delle checkbox
+  document.getElementById('maps-cookies').checked = cookiePreferences.maps;
+  document.getElementById('firebase-cookies').checked = cookiePreferences.firebase;
+  document.getElementById('analytics-cookies').checked = cookiePreferences.analytics;
+}
+
+function closeCookieSettings() {
+  document.getElementById('cookie-settings').style.display = 'none';
+}
+
+function saveCookiePreferences() {
+  cookiePreferences.maps = document.getElementById('maps-cookies').checked;
+  cookiePreferences.firebase = document.getElementById('firebase-cookies').checked;
+  cookiePreferences.analytics = document.getElementById('analytics-cookies').checked;
+  
+  setCookie('cookiePreferences', JSON.stringify(cookiePreferences), 365);
+  cookiesAccepted = true;
+  applyCookiePreferences();
+  closeCookieSettings();
+  hideCookieBanner();
+  showCookieConfirmation();
+}
+
+function applyCookiePreferences() {
+  // Applica le preferenze cookie
+  if (cookiePreferences.maps) {
+    loadGoogleMaps();
+  } else {
+    disableGoogleMaps();
+  }
+  
+  if (cookiePreferences.firebase) {
+    enableFirebase();
+  } else {
+    disableFirebase();
+  }
+  
+  if (cookiePreferences.analytics) {
+    enableAnalytics();
+  } else {
+    disableAnalytics();
+  }
+}
+
+function hideCookieBanner() {
+  document.getElementById('cookie-banner').style.display = 'none';
+}
+
+function scrollToPrivacyPolicy() {
+  document.getElementById('privacy-policy').scrollIntoView({ behavior: 'smooth' });
+  hideCookieBanner();
+}
+
+// Funzioni di utilità cookie
+function setCookie(name, value, days) {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(';');
+  for(let i=0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+function showCookieConfirmation() {
+  showSyncStatus('Preferenze cookie salvate con successo', 'success');
+}
+
+// Gestione servizi in base ai cookie
+function loadGoogleMaps() {
+  console.log('Google Maps abilitato');
+  // Il tuo codice esistente per Google Maps rimane attivo
+}
+
+function disableGoogleMaps() {
+  console.log('Google Maps disabilitato');
+  const mapContainer = document.querySelector('.map-container');
+  if (mapContainer) {
+    mapContainer.innerHTML = `
+      <div style="width:100%; height:100%; background:#f5f5f5; display:flex; align-items:center; justify-content:center; border-radius:8px;">
+        <div style="text-align:center; padding:2rem;">
+          <i class="fas fa-map-marker-alt" style="font-size:3rem; color:#666; margin-bottom:1rem;"></i>
+          <p style="color:#666; margin:0;">Mappa disabilitata per rispetto della tua privacy</p>
+          <button onclick="enableMapsFromPlaceholder()" style="background:#004080; color:white; border:none; padding:10px 20px; border-radius:4px; margin-top:1rem; cursor:pointer;">
+            Attiva Mappa
+          </button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function enableMapsFromPlaceholder() {
+  cookiePreferences.maps = true;
+  saveCookiePreferences();
+}
+
+function enableFirebase() {
+  console.log('Firebase abilitato');
+  // Firebase rimane attivo come nel tuo codice esistente
+}
+
+function disableFirebase() {
+  console.log('Firebase disabilitato');
+  // Mostra messaggio che i prodotti real-time non sono disponibili
+  showSyncStatus('Prodotti in tempo reale disabilitati', 'warning');
+}
+
+function enableAnalytics() {
+  console.log('Analytics abilitato');
+  // Puoi aggiungere Google Analytics qui se necessario
+}
+
+function disableAnalytics() {
+  console.log('Analytics disabilitato');
+  // Disabilita eventuali script analytics
+}
 
 // ==================== 密码系统 ====================
 function generateDynamicPassword() {
@@ -2425,6 +2957,9 @@ document.addEventListener('DOMContentLoaded', () => {
     products = [...savedProducts];
   }
   
+  // 初始化cookie系统
+  initCookieBanner();
+  
   // 延迟初始化以确保Firebase已加载
   setTimeout(() => {
     renderProducts();
@@ -2546,104 +3081,8 @@ function openProductModal(productId) {
 function closeProductModal(){
   document.getElementById('productModal').style.display = 'none';
 }
-</script>
-<!-- A4黑白海报生成器 - 电脑端优化版 -->
-<div id="poster-generator" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; justify-content:center; align-items:center; padding:20px; overflow:auto;">
-  <div style="background:white; border-radius:12px; width:95%; max-width:1200px; max-height:95vh; padding:25px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.3); overflow-y:auto;">
-    <!-- 关闭按钮 -->
-    <button onclick="closePosterGenerator()" 
-            style="position:absolute; top:15px; right:15px; border:none; background:#ff4444; color:white; width:40px; height:40px; border-radius:50%; font-size:1.5rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10001; box-shadow:0 2px 8px rgba(0,0,0,0.3);">
-      ✖
-    </button>
-    
-    <h2 style="color:#000; margin-bottom:20px; text-align:center; padding-right:40px;">
-      <i class="fas fa-print"></i> Generatore Poster Promozionale
-    </h2>
-    
-    <div style="display:grid; grid-template-columns:350px 1fr; gap:30px; margin-bottom:25px;">
-      <!-- 左侧：控制面板 -->
-      <div style="border-right:2px solid #eee; padding-right:25px;">
-        <h3 style="color:#000; margin-bottom:20px; font-size:1.3rem; border-bottom:2px solid #000; padding-bottom:10px;">Configurazione</h3>
-        
-        <div style="margin-bottom:20px;">
-          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Titolo Principale:</label>
-          <input type="text" id="posterTitle" value="🎉 SUPER PROMOZIONI" 
-                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;">
-        </div>
-        
-        <div style="margin-bottom:20px;">
-          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Sottotitolo:</label>
-          <input type="text" id="posterSubtitle" value="SCONTI FINO AL 70% SU ARTICOLI SELEZIONATI" 
-                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;">
-        </div>
-        
-        <div style="margin-bottom:20px;">
-          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Prodotti in Promozione:</label>
-          <textarea id="featuredProducts" style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:0.9rem; height:120px; resize:vertical; background:#f9f9f9;">• Articoli per la casa
-• Decorazioni e accessori
-• Idee regalo
-• Prodotti stagionali
-• Piccoli elettrodomestici
-• Prodotti per animali</textarea>
-          <small style="color:#666; font-size:0.8rem;">Separare ogni prodotto con una nuova riga</small>
-        </div>
-        
-        <div style="margin-bottom:20px;">
-          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Data di Scadenza:</label>
-          <input type="text" id="expiryDate" value="31 DICEMBRE 2025" 
-                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;"
-                 placeholder="es: 15 GENNAIO 2026">
-        </div>
-        
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:25px; padding:15px; background:#f0f0f0; border-radius:6px;">
-          <input type="checkbox" id="includeQR" checked style="width:20px; height:20px;">
-          <label for="includeQR" style="font-weight:bold; margin:0; color:#333;">Includi QR Code</label>
-        </div>
-        
-        <div style="display:flex; gap:10px; margin-top:30px;">
-          <button onclick="updatePosterPreview()" 
-                  style="flex:1; padding:15px; background:#666; color:white; border:none; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s;">
-            <i class="fas fa-sync"></i> Aggiorna
-          </button>
-          <button onclick="printPoster()" 
-                  style="flex:1; padding:15px; background:#000; color:white; border:none; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s;">
-            <i class="fas fa-print"></i> Stampa
-          </button>
-        </div>
 
-        <div style="margin-top:20px; padding:15px; background:#e8f4ff; border-radius:6px; border-left:4px solid #0066cc;">
-          <h4 style="margin:0 0 8px 0; color:#0066cc; font-size:0.9rem;">💡 Suggerimenti:</h4>
-          <ul style="margin:0; padding-left:15px; font-size:0.8rem; color:#333;">
-            <li>Usa testo breve e impatto</li>
-            <li>Massimo 6-7 prodotti</li>
-            <li>Controlla l'anteprima prima di stampare</li>
-          </ul>
-        </div>
-      </div>
-      
-      <!-- 右侧：预览区域 -->
-      <div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-          <h3 style="color:#000; margin:0; font-size:1.3rem;">Anteprima Poster A4</h3>
-          <div style="font-size:0.9rem; color:#666; background:#f0f0f0; padding:5px 10px; border-radius:4px;">
-            <i class="fas fa-info-circle"></i> Dimensioni: 210mm × 297mm
-          </div>
-        </div>
-        
-        <div id="posterPreview" 
-             style="border:3px solid #666; background:#fff; min-height:500px; border-radius:8px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
-          <!-- 预览内容将通过JavaScript生成 -->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 实际打印的海报内容 -->
-<div id="printable-poster" style="display:none;"></div>
-
-<script>
-// 海报生成器 - 电脑端优化版
+// ==================== 海报生成器功能 ====================
 function openPosterGenerator() {
   document.getElementById('poster-generator').style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -2902,31 +3341,6 @@ function printPoster() {
   `);
   printWindow.document.close();
 }
-
-// 在管理员面板添加海报生成器按钮
-function addPosterGeneratorToAdmin() {
-  const adminSection = document.querySelector('.admin-content');
-  if (adminSection) {
-    const posterSection = document.createElement('div');
-    posterSection.className = 'admin-section';
-    posterSection.innerHTML = `
-      <h3><i class="fas fa-print"></i> Generatore Poster Promozionale</h3>
-      <div style="background:#f5f5f5; padding:1rem; border-radius:6px; margin-bottom:1rem; border-left:4px solid #000;">
-        <p style="margin:0 0 0.5rem 0; font-weight:bold;"><i class="fas fa-desktop"></i> Interfaccia ottimizzata per computer</p>
-        <p style="margin:0; font-size:0.9rem;">Anteprima in tempo reale e stampa A4 professionale</p>
-      </div>
-      <button class="admin-action-btn" style="background:#333; color:white;" onclick="openPosterGenerator()">
-        <i class="fas fa-palette"></i> Crea Poster Promozionale
-      </button>
-    `;
-    adminSection.appendChild(posterSection);
-  }
-}
-
-// 初始化
-document.addEventListener('DOMContentLoaded', function() {
-  addPosterGeneratorToAdmin();
-});
 </script>
 </body>
 </html>
