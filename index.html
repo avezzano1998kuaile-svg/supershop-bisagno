@@ -621,12 +621,18 @@ footer{
     font-weight:500;
     color:var(--dark-color)
 }
-.admin-form-group input,.admin-form-group select,.admin-form-group textarea{
+.admin-form-control{
     width:100%;
     padding:0.8rem;
     border:1px solid #ddd;
     border-radius:4px;
-    font-size:1rem
+    font-size:1rem;
+    font-family:inherit
+}
+.admin-form-control:focus{
+    border-color:var(--primary-color);
+    outline:none;
+    box-shadow:0 0 0 2px rgba(0,64,128,0.1)
 }
 .admin-form-group textarea{
     height:100px;
@@ -812,6 +818,30 @@ footer{
   background: #dc3545;
 }
 
+/* 优惠预览模态框 */
+.offer-preview-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 10000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+.offer-preview-content {
+  background: white;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+}
+
 /* 新增的优化样式 */
 .qr-code-section {
   transition: transform 0.3s ease;
@@ -946,6 +976,71 @@ footer{
           </span>
           <span class="stat-label">Stato Firebase</span>
         </div>
+      </div>
+    </div>
+    
+    <!-- Firebase优惠内容管理部分 -->
+    <div class="admin-section">
+      <h3><i class="fas fa-fire"></i> Gestione Contenuti Promozionali (Firebase)</h3>
+      <div class="password-hint">
+        <strong>Modifica i contenuti delle offerte - Sincronizzazione in tempo reale</strong><br>
+        <small>Le modifiche si sincronizzano immediatamente su tutti i dispositivi</small>
+      </div>
+      
+      <button id="offerAdminLoginBtn" class="admin-action-btn primary" onclick="enableOfferAdmin()">
+        <i class="fas fa-edit"></i> Gestione Contenuti Promozionali
+      </button>
+      
+      <div id="offerAdminSection" class="realtime-admin-section" style="display:none;">
+        <h4>Modifica Contenuti Promozionali</h4>
+        
+        <div class="admin-form-group">
+          <label>Titolo Offerta *</label>
+          <input type="text" id="offerTitle" placeholder="es: 🎄 Speciale Natale" class="admin-form-control">
+        </div>
+        
+        <div class="admin-form-group">
+          <label>Testo Evidenziato *</label>
+          <textarea id="offerHighlight" placeholder="Testo in evidenza..." rows="3" class="admin-form-control">SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!</textarea>
+        </div>
+        
+        <div class="admin-form-group">
+          <label>Dettagli Offerta (HTML)</label>
+          <textarea id="offerDetails" placeholder="Dettagli dell'offerta in HTML..." rows="5" class="admin-form-control"></textarea>
+          <small style="color:#666;">Puoi usare HTML per formattazione avanzata</small>
+        </div>
+        
+        <div class="admin-form-group">
+          <label>Testo Motivazionale (HTML)</label>
+          <textarea id="offerMotivation" placeholder="Testo motivazionale in HTML..." rows="3" class="admin-form-control"></textarea>
+        </div>
+        
+        <div class="admin-form-group">
+          <label>Data di Scadenza *</label>
+          <input type="text" id="offerExpiry" placeholder="es: 31 Dicembre 2025" class="admin-form-control" value="31 Dicembre 2025">
+        </div>
+        
+        <div class="admin-form-group">
+          <label>Stato Offerta</label>
+          <select id="offerStatus" class="admin-form-control">
+            <option value="active">Attiva</option>
+            <option value="hidden">Nascosta</option>
+          </select>
+        </div>
+        
+        <div class="admin-actions">
+          <button class="admin-action-btn success" onclick="saveOfferContent()">
+            <i class="fas fa-save"></i> Salva e Sincronizza
+          </button>
+          <button class="admin-action-btn secondary" onclick="resetOfferContent()">
+            <i class="fas fa-redo"></i> Ripristina Default
+          </button>
+          <button class="admin-action-btn primary" onclick="previewOffer()">
+            <i class="fas fa-eye"></i> Anteprima Live
+          </button>
+        </div>
+        
+        <div id="offerLastUpdate" style="margin-top: 1rem; font-size: 0.9rem; color: #555; text-align: center;"></div>
       </div>
     </div>
     
@@ -1214,22 +1309,9 @@ footer{
     </div>
   </section>
 
+  <!-- 动态优惠内容部分 -->
   <section id="monthly-offer" class="monthly-offer">
-    <h2>🎄 Speciale Natale</h2>
-    <div class="offer-highlight">SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!</div>
-    <div class="offer-details">
-      <h3><i class="fas fa-gift"></i> Cosa troverai in negozio:</h3>
-      <ul style="margin-left:1.5rem;margin-top:1rem">
-        <li>Addobbi natalizi di precedenti stagioni a prezzi stracciati</li>
-        <li>Decorazioni per l'albero di Natale con sconti fino al 70%</li>
-        <li>Luci e illuminazione natalizia a prezzi imbattibili</li>
-        <li>Idee regalo natalizie con incredibili occasioni</li>
-        <li>E tanto altro... vieni a descubrirlo di persona!</li>
-      </ul>
-    </div>
-    <p><strong>Perché non elenchiamo tutti i prodotti?</strong> Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.</p>
-    <p style="text-align:center;font-size:1.2rem;margin:1.5rem 0">📍 <strong>Vieni a caccia di occasioni!</strong><br><em>I prezzi più bassi li vedi solo qui da noi</em></p>
-    <div class="offer-validity"><strong>Affrettati! Offerte valide fino al: <span style="color:var(--secondary-color)">31 Dicembre 2025</span></strong><br><small>o fino ad esaurimento scorte</small></div>
+    <!-- 内容将通过JavaScript动态加载 -->
   </section>
 
   <section id="hours">
@@ -1350,7 +1432,20 @@ footer{
   </div>
 </div>
 
-<!-- Firebase SDK - 修复版本 -->
+<!-- 优惠预览模态框 -->
+<div id="offerPreviewModal" class="offer-preview-modal">
+  <div class="offer-preview-content">
+    <div style="padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0; color: var(--primary-color);">
+        <i class="fas fa-eye"></i> Anteprima Offerta
+      </h3>
+      <button onclick="closeOfferPreview()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">✖</button>
+    </div>
+    <div id="offerPreviewContent" style="padding: 2rem;"></div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
   import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
@@ -1396,6 +1491,9 @@ footer{
     
     // 监听产品数据
     listenRealtimeProducts();
+    
+    // 监听优惠内容
+    initOfferContentListener();
     
   } catch (error) {
     console.error("Firebase初始化失败:", error);
@@ -1488,6 +1586,247 @@ function validateAdminPassword(inputPassword) {
   const dynamicPassword = generateDynamicPassword();
   return inputPassword === dynamicPassword || 
          ADMIN_CONFIG.STATIC_PASSWORDS.includes(inputPassword);
+}
+
+// ==================== Firebase优惠内容管理 ====================
+function enableOfferAdmin() {
+  const pwd = prompt("Inserisci password amministratore per la gestione contenuti:");
+  if(pwd === null) return;
+  
+  if(validateAdminPassword(pwd)){
+    document.getElementById('offerAdminSection').style.display = "block";
+    document.getElementById('offerAdminLoginBtn').style.display = "none";
+    loadOfferContent();
+    
+    if (window.firebaseAvailable) {
+      showSyncStatus('Gestione contenuti attivata - Sincronizzazione Firebase attiva', 'success');
+    } else {
+      showSyncStatus('Firebase不可用，使用本地模式', 'warning');
+    }
+  } else {
+    alert("Password errata!");
+  }
+}
+
+function loadOfferContent() {
+  // 先尝试从Firebase加载
+  if (window.firebaseAvailable && window.firebaseDatabase) {
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseOnValue(offerRef, (snapshot) => {
+      const offerData = snapshot.val();
+      if (offerData) {
+        fillOfferForm(offerData);
+        updateOfferDisplay(offerData);
+        
+        const lastUpdateElement = document.getElementById('offerLastUpdate');
+        if (lastUpdateElement && offerData.lastUpdated) {
+          const date = new Date(offerData.lastUpdated).toLocaleString('it-IT');
+          lastUpdateElement.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${date}`;
+        }
+      } else {
+        // Firebase没有数据，使用默认值
+        setDefaultOfferContent();
+      }
+    });
+  } else {
+    // Firebase不可用，从localStorage加载
+    const savedOffer = loadStorage('supershop_offer_content');
+    if (savedOffer) {
+      fillOfferForm(savedOffer);
+      updateOfferDisplay(savedOffer);
+    } else {
+      setDefaultOfferContent();
+    }
+  }
+}
+
+function fillOfferForm(offerData) {
+  document.getElementById('offerTitle').value = offerData.title || '';
+  document.getElementById('offerHighlight').value = offerData.highlight || '';
+  document.getElementById('offerDetails').value = offerData.details || '';
+  document.getElementById('offerMotivation').value = offerData.motivation || '';
+  document.getElementById('offerExpiry').value = offerData.expiry || '';
+  document.getElementById('offerStatus').value = offerData.status || 'active';
+}
+
+function setDefaultOfferContent() {
+  const defaultOffer = {
+    title: "🎄 Speciale Natale",
+    highlight: "SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!",
+    details: `<h3><i class="fas fa-gift"></i> Cosa troverai in negozio:</h3>
+<ul style="margin-left:1.5rem;margin-top:1rem">
+  <li>Addobbi natalizi di precedenti stagioni a prezzi stracciati</li>
+  <li>Decorazioni per l'albero di Natale con sconti fino al 70%</li>
+  <li>Luci e illuminazione natalizia a prezzi imbattibili</li>
+  <li>Idee regalo natalizie con incredibili occasioni</li>
+  <li>E tanto altro... vieni a descubrirlo di persona!</li>
+</ul>`,
+    motivation: `<p><strong>Perché non elenchiamo tutti i prodotti?</strong> Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.</p>
+<p style="text-align:center;font-size:1.2rem;margin:1.5rem 0">📍 <strong>Vieni a caccia di occasioni!</strong><br><em>I prezzi più bassi li vedi solo qui da noi</em></p>`,
+    expiry: "31 Dicembre 2025",
+    status: "active",
+    lastUpdated: new Date().toISOString()
+  };
+  
+  fillOfferForm(defaultOffer);
+  updateOfferDisplay(defaultOffer);
+}
+
+function saveOfferContent() {
+  const offerData = {
+    title: document.getElementById('offerTitle').value,
+    highlight: document.getElementById('offerHighlight').value,
+    details: document.getElementById('offerDetails').value,
+    motivation: document.getElementById('offerMotivation').value,
+    expiry: document.getElementById('offerExpiry').value,
+    status: document.getElementById('offerStatus').value,
+    lastUpdated: new Date().toISOString()
+  };
+  
+  // 验证必填字段
+  if (!offerData.title || !offerData.highlight || !offerData.expiry) {
+    alert("Per favore compila tutti i campi obbligatori (*)");
+    return;
+  }
+  
+  // 保存到Firebase（主要存储）
+  if (window.firebaseAvailable && window.firebaseDatabase) {
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseSet(offerRef, offerData)
+      .then(() => {
+        showSyncStatus('Contenuti promozionali salvati e sincronizzati!', 'success');
+        
+        // 更新最后更新时间显示
+        const lastUpdateElement = document.getElementById('offerLastUpdate');
+        if (lastUpdateElement) {
+          const date = new Date().toLocaleString('it-IT');
+          lastUpdateElement.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${date} (Live)`;
+        }
+      })
+      .catch(err => {
+        console.error("Errore salvataggio Firebase:", err);
+        showSyncStatus('Errore nel salvataggio Firebase', 'error');
+        // Fallback: 保存到localStorage
+        saveStorage('supershop_offer_content', offerData);
+      });
+  } else {
+    // Firebase不可用，保存到localStorage
+    saveStorage('supershop_offer_content', offerData);
+    showSyncStatus('Contenuti salvati localmente (Firebase不可用)', 'warning');
+  }
+  
+  // 立即更新页面显示
+  updateOfferDisplay(offerData);
+}
+
+function resetOfferContent() {
+  if (confirm("Sei sicuro di voler ripristinare i contenuti predefiniti? I dati attuali verranno sovrascritti.")) {
+    setDefaultOfferContent();
+    showSyncStatus('Contenuti ripristinati alle impostazioni predefinite', 'success');
+  }
+}
+
+function previewOffer() {
+  const offerData = {
+    title: document.getElementById('offerTitle').value,
+    highlight: document.getElementById('offerHighlight').value,
+    details: document.getElementById('offerDetails').value,
+    motivation: document.getElementById('offerMotivation').value,
+    expiry: document.getElementById('offerExpiry').value,
+    status: document.getElementById('offerStatus').value
+  };
+  
+  // 创建预览模态框
+  let previewModal = document.getElementById('offerPreviewModal');
+  if (!previewModal) {
+    previewModal = document.createElement('div');
+    previewModal.id = 'offerPreviewModal';
+    previewModal.className = 'offer-preview-modal';
+    previewModal.innerHTML = `
+      <div class="offer-preview-content">
+        <div style="padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="margin: 0; color: var(--primary-color);">
+            <i class="fas fa-eye"></i> Anteprima Offerta
+          </h3>
+          <button onclick="closeOfferPreview()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">✖</button>
+        </div>
+        <div id="offerPreviewContent" style="padding: 2rem;"></div>
+      </div>
+    `;
+    document.body.appendChild(previewModal);
+  }
+  
+  // 填充预览内容
+  const previewContent = document.getElementById('offerPreviewContent');
+  previewContent.innerHTML = createOfferHTML(offerData);
+  
+  // 显示模态框
+  previewModal.style.display = 'flex';
+}
+
+function closeOfferPreview() {
+  const previewModal = document.getElementById('offerPreviewModal');
+  if (previewModal) {
+    previewModal.style.display = 'none';
+  }
+}
+
+function createOfferHTML(offerData) {
+  return `
+    <section class="monthly-offer" style="margin: 0; transform: none;">
+      <h2>${offerData.title}</h2>
+      <div class="offer-highlight">${offerData.highlight}</div>
+      <div class="offer-details">
+        ${offerData.details}
+      </div>
+      ${offerData.motivation}
+      <div class="offer-validity">
+        <strong>Affrettati! Offerte valide fino al: 
+          <span style="color:var(--secondary-color)">${offerData.expiry}</span>
+        </strong><br>
+        <small>o fino ad esaurimento scorte</small>
+      </div>
+    </section>
+  `;
+}
+
+function updateOfferDisplay(offerData) {
+  const offerSection = document.querySelector('.monthly-offer');
+  if (!offerSection) return;
+  
+  // 更新HTML内容
+  offerSection.innerHTML = createOfferHTML(offerData);
+  
+  // 控制显示/隐藏
+  if (offerData.status === 'hidden') {
+    offerSection.classList.add('hidden');
+  } else {
+    offerSection.classList.remove('hidden');
+  }
+}
+
+// 初始化优惠内容监听
+function initOfferContentListener() {
+  if (window.firebaseAvailable && window.firebaseDatabase) {
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseOnValue(offerRef, (snapshot) => {
+      const offerData = snapshot.val();
+      if (offerData) {
+        // 更新localStorage缓存
+        saveStorage('supershop_offer_content', offerData);
+        // 更新页面显示
+        updateOfferDisplay(offerData);
+        
+        console.log("Contenuti promozionali aggiornati in tempo reale");
+      }
+    });
+  } else {
+    // Fallback: 从localStorage加载
+    const savedOffer = loadStorage('supershop_offer_content');
+    if (savedOffer) {
+      updateOfferDisplay(savedOffer);
+    }
+  }
 }
 
 // ==================== 数据转换函数 ====================
@@ -2090,7 +2429,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     renderProducts();
     updateAdminStats();
-  }, 500);
+    
+    // 初始化优惠内容监听
+    initOfferContentListener();
+  }, 1000);
   
   // 绑定事件
   const productSearch = document.getElementById('product-search');
@@ -2205,9 +2547,9 @@ function closeProductModal(){
   document.getElementById('productModal').style.display = 'none';
 }
 </script>
-<!-- A4黑白海报生成器 - 固定店铺名称 -->
+<!-- A4黑白海报生成器 - 电脑端优化版 -->
 <div id="poster-generator" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; justify-content:center; align-items:center; padding:20px; overflow:auto;">
-  <div style="background:white; border-radius:12px; max-width:900px; width:95%; max-height:90vh; padding:25px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.3); overflow-y:auto;">
+  <div style="background:white; border-radius:12px; width:95%; max-width:1200px; max-height:95vh; padding:25px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.3); overflow-y:auto;">
     <!-- 关闭按钮 -->
     <button onclick="closePosterGenerator()" 
             style="position:absolute; top:15px; right:15px; border:none; background:#ff4444; color:white; width:40px; height:40px; border-radius:50%; font-size:1.5rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10001; box-shadow:0 2px 8px rgba(0,0,0,0.3);">
@@ -2218,60 +2560,78 @@ function closeProductModal(){
       <i class="fas fa-print"></i> Generatore Poster Promozionale
     </h2>
     
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:25px; margin-bottom:25px;">
-      <div>
-        <h3 style="color:#000; margin-bottom:15px; font-size:1.3rem;">Opzioni Poster</h3>
+    <div style="display:grid; grid-template-columns:350px 1fr; gap:30px; margin-bottom:25px;">
+      <!-- 左侧：控制面板 -->
+      <div style="border-right:2px solid #eee; padding-right:25px;">
+        <h3 style="color:#000; margin-bottom:20px; font-size:1.3rem; border-bottom:2px solid #000; padding-bottom:10px;">Configurazione</h3>
         
-        <div style="margin-bottom:15px;">
-          <label style="display:block; margin-bottom:8px; font-weight:bold;">Titolo Principale:</label>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Titolo Principale:</label>
           <input type="text" id="posterTitle" value="🎉 SUPER PROMOZIONI" 
-                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1.1rem;">
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;">
         </div>
         
-        <div style="margin-bottom:15px;">
-          <label style="display:block; margin-bottom:8px; font-weight:bold;">Sottotitolo:</label>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Sottotitolo:</label>
           <input type="text" id="posterSubtitle" value="SCONTI FINO AL 70% SU ARTICOLI SELEZIONATI" 
-                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1.1rem;">
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;">
         </div>
         
-        <div style="margin-bottom:15px;">
-          <label style="display:block; margin-bottom:8px; font-weight:bold;">Prodotti in Promozione:</label>
-          <textarea id="featuredProducts" style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; height:100px; resize:vertical;">• Articoli per la casa
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Prodotti in Promozione:</label>
+          <textarea id="featuredProducts" style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:0.9rem; height:120px; resize:vertical; background:#f9f9f9;">• Articoli per la casa
 • Decorazioni e accessori
 • Idee regalo
 • Prodotti stagionali
 • Piccoli elettrodomestici
 • Prodotti per animali</textarea>
+          <small style="color:#666; font-size:0.8rem;">Separare ogni prodotto con una nuova riga</small>
         </div>
         
-        <div style="margin-bottom:15px;">
-          <label style="display:block; margin-bottom:8px; font-weight:bold;">Data di Scadenza:</label>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Data di Scadenza:</label>
           <input type="text" id="expiryDate" value="31 DICEMBRE 2025" 
-                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1.1rem;"
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;"
                  placeholder="es: 15 GENNAIO 2026">
         </div>
         
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:25px; padding:15px; background:#f0f0f0; border-radius:6px;">
           <input type="checkbox" id="includeQR" checked style="width:20px; height:20px;">
-          <label for="includeQR" style="font-weight:bold; margin:0;">Includi QR Code</label>
+          <label for="includeQR" style="font-weight:bold; margin:0; color:#333;">Includi QR Code</label>
         </div>
         
-        <div style="margin-top:25px;">
+        <div style="display:flex; gap:10px; margin-top:30px;">
           <button onclick="updatePosterPreview()" 
-                  style="width:100%; padding:15px; background:#666; color:white; border:none; border-radius:8px; font-size:1.1rem; font-weight:bold; cursor:pointer; margin-bottom:10px;">
-            <i class="fas fa-sync"></i> Aggiorna Anteprima
+                  style="flex:1; padding:15px; background:#666; color:white; border:none; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s;">
+            <i class="fas fa-sync"></i> Aggiorna
           </button>
           <button onclick="printPoster()" 
-                  style="width:100%; padding:15px; background:#000; color:white; border:none; border-radius:8px; font-size:1.1rem; font-weight:bold; cursor:pointer;">
-            <i class="fas fa-print"></i> Stampa Poster A4
+                  style="flex:1; padding:15px; background:#000; color:white; border:none; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s;">
+            <i class="fas fa-print"></i> Stampa
           </button>
+        </div>
+
+        <div style="margin-top:20px; padding:15px; background:#e8f4ff; border-radius:6px; border-left:4px solid #0066cc;">
+          <h4 style="margin:0 0 8px 0; color:#0066cc; font-size:0.9rem;">💡 Suggerimenti:</h4>
+          <ul style="margin:0; padding-left:15px; font-size:0.8rem; color:#333;">
+            <li>Usa testo breve e impatto</li>
+            <li>Massimo 6-7 prodotti</li>
+            <li>Controlla l'anteprima prima di stampare</li>
+          </ul>
         </div>
       </div>
       
+      <!-- 右侧：预览区域 -->
       <div>
-        <h3 style="color:#000; margin-bottom:15px; font-size:1.3rem;">Anteprima</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+          <h3 style="color:#000; margin:0; font-size:1.3rem;">Anteprima Poster A4</h3>
+          <div style="font-size:0.9rem; color:#666; background:#f0f0f0; padding:5px 10px; border-radius:4px;">
+            <i class="fas fa-info-circle"></i> Dimensioni: 210mm × 297mm
+          </div>
+        </div>
+        
         <div id="posterPreview" 
-             style="border:3px dashed #666; padding:20px; background:#fff; min-height:400px; border-radius:8px; overflow:auto;">
+             style="border:3px solid #666; background:#fff; min-height:500px; border-radius:8px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
           <!-- 预览内容将通过JavaScript生成 -->
         </div>
       </div>
@@ -2283,7 +2643,7 @@ function closeProductModal(){
 <div id="printable-poster" style="display:none;"></div>
 
 <script>
-// 海报生成器 - 固定店铺名称
+// 海报生成器 - 电脑端优化版
 function openPosterGenerator() {
   document.getElementById('poster-generator').style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -2318,73 +2678,85 @@ function updatePosterPreview() {
 
   const preview = document.getElementById('posterPreview');
   preview.innerHTML = `
-    <div style="border:3px solid #000; padding:25px; background:#fff; min-height:350px; text-align:center; font-family:Arial, sans-serif; color:#000;">
-      <!-- Titolo principale -->
-      <h1 style="font-weight:900; font-size:32px; margin:0 0 8px 0; background:#000; color:#fff; padding:20px; border-radius:8px; letter-spacing:1px;">
-        ${title}
-      </h1>
+    <div style="width:595px; height:842px; padding:40px; background:white; font-family:Arial, sans-serif; box-sizing:border-box; margin:0 auto; color:#000; display:flex; flex-direction:column; justify-content:space-between; border:1px solid #ccc;">
       
-      <!-- Sottotitolo -->
-      <h2 style="font-weight:bold; font-size:18px; margin:0 0 25px 0; border-bottom:3px solid #000; padding-bottom:12px;">
-        ${subtitle}
-      </h2>
+      <!-- Header -->
+      <div style="text-align:center; margin-bottom:30px;">
+        <h1 style="font-weight:900; font-size:42px; margin:0 0 15px 0; background:#000; color:#fff; padding:25px 20px; border-radius:8px; letter-spacing:1px; line-height:1.2;">
+          ${title}
+        </h1>
+        <h2 style="font-weight:bold; font-size:20px; margin:0; border-bottom:3px solid #000; padding-bottom:12px; line-height:1.3;">
+          ${subtitle}
+        </h2>
+      </div>
       
-      <!-- Prodotti in promozione -->
-      <div style="background:#f8f8f8; padding:20px; border-radius:8px; margin:0 0 20px 0; border-left:6px solid #000;">
-        <h3 style="font-weight:bold; margin:0 0 15px 0; font-size:18px; color:#000;">🛍️ IN PROMOZIONE:</h3>
-        <div style="text-align:left; font-size:15px; line-height:1.6;">
-          ${featuredProducts.split('\n').map(line => `
-            <div style="margin-bottom:8px; padding:5px 0; border-bottom:1px dashed #ccc;">
-              ${line}
-            </div>
-          `).join('')}
+      <!-- Main Content -->
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:25px;">
+        
+        <!-- Prodotti in promozione -->
+        <div style="background:#f8f8f8; padding:25px; border-radius:8px; border-left:6px solid #000; flex:1;">
+          <h3 style="font-weight:bold; margin:0 0 20px 0; font-size:22px; text-align:center; color:#000;">🛍️ IN PROMOZIONE</h3>
+          <div style="font-size:16px; line-height:1.6; text-align:center;">
+            ${featuredProducts.split('\n').map(line => `
+              <div style="margin-bottom:12px; padding:8px 0; border-bottom:1px dashed #999;">
+                ${line}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <!-- Call to Action -->
+        <div style="background:#e8e8e8; padding:20px; border-radius:8px; border:3px dashed #666; text-align:center; min-height:80px;">
+          <p style="margin:0 0 10px 0; font-size:18px; font-weight:bold;">
+            🏃‍♂️ APPROFITTA SUBITO!
+          </p>
+          <p style="margin:0; font-size:14px;">
+            Le migliori occasioni ti aspettano in negozio
+          </p>
+        </div>
+        
+        ${includeQR ? `
+        <!-- QR Code -->
+        <div style="text-align:center; min-height:150px;">
+          <div style="display:inline-block; padding:15px; border:3px solid #000; background:#fff; border-radius:8px;">
+            <p style="margin:0 0 12px 0; font-size:16px; font-weight:bold;">📱 SCANSIONA PER TUTTI I PRODOTTI</p>
+            <img src="1000011850.png" alt="QR Code Supershop Bisagno" 
+                 style="width:120px; height:120px; border:2px solid #ccc; padding:5px; background:white; border-radius:5px;">
+          </div>
+        </div>
+        ` : '<div style="min-height:150px;"></div>'}
+        
+      </div>
+      
+      <!-- Footer -->
+      <div style="margin-top:30px;">
+        <!-- Validità -->
+        <div style="background:#000; color:#fff; padding:15px; border-radius:6px; text-align:center; margin-bottom:15px;">
+          <p style="margin:0; font-size:16px; font-weight:bold;">
+            📆 OFFERTE VALIDE FINO AL: ${expiryDate}
+          </p>
+        </div>
+        
+        <!-- Info negozio -->
+        <div style="background:#f0f0f0; padding:15px; border-radius:6px; text-align:center; margin-bottom:15px; border:2px solid #333;">
+          <p style="margin:0 0 8px 0; font-size:14px; font-weight:bold;">
+            🏪 SUPERSHOP BISAGNO S.R.L.
+          </p>
+          <p style="margin:0; font-size:11px;">
+            Lungobisagno Istria, 29F - 16139 Genova GE | 8:45-19:45 | supershopbisagnosrl@gmail.com
+          </p>
+        </div>
+        
+        <!-- Note legali -->
+        <div style="background:#e8e8e8; padding:10px; border-radius:4px; border:1px solid #999;">
+          <p style="margin:0; font-size:9px; color:#666; line-height:1.3; text-align:center;">
+            ⚖️ Le promozioni si applicano esclusivamente a una selezione di articoli. 
+            Le percentuali di sconto possono variare in base al prodotto. 
+            Disponibilità limitata fino ad esaurimento scorte.
+          </p>
         </div>
       </div>
       
-      <!-- Call to Action -->
-      <div style="background:#e8e8e8; padding:18px; border-radius:8px; margin:0 0 20px 0; border:3px dashed #666;">
-        <p style="margin:0 0 8px 0; font-weight:bold; font-size:16px;">
-          🏃‍♂️ APPROFITTA SUBITO DELLE OFFERTE!
-        </p>
-        <p style="margin:0; font-size:14px; font-weight:normal;">
-          Le migliori occasioni ti aspettano in negozio
-        </p>
-      </div>
-      
-      ${includeQR ? `
-      <!-- QR Code -->
-      <div style="margin:20px 0; padding:18px; border:3px solid #000; background:#fff; border-radius:8px;">
-        <p style="margin:0 0 12px 0; font-weight:bold; font-size:16px;">📱 SCANSIONA PER TUTTI I PRODOTTI</p>
-        <img src="1000011850.png" alt="QR Code Supershop Bisagno" 
-             style="width:120px; height:120px; border:2px solid #ccc; padding:5px; background:white; border-radius:4px;">
-      </div>
-      ` : ''}
-      
-      <!-- Validità -->
-      <div style="background:#000; color:#fff; padding:15px; border-radius:8px; margin:0 0 20px 0;">
-        <p style="margin:0; font-size:16px; font-weight:bold;">
-          📆 OFFERTE VALIDE FINO AL: ${expiryDate}
-        </p>
-      </div>
-      
-      <!-- Info negozio -->
-      <div style="background:#f0f0f0; padding:18px; border-radius:8px; border:2px solid #ccc;">
-        <p style="margin:0 0 8px 0; font-weight:bold; font-size:16px;">
-          🏪 SUPERSHOP BISAGNO S.R.L.
-        </p>
-        <p style="margin:0; font-size:13px;">
-          Lungobisagno Istria, 29F - Genova • 8:45-19:45 • supershopbisagnosrl@gmail.com
-        </p>
-      </div>
-      
-      <!-- Note legali -->
-      <div style="margin-top:15px; padding:12px; background:#e8e8e8; border-radius:6px; border:1px solid #999;">
-        <p style="margin:0; font-size:10px; color:#666; line-height:1.4;">
-          ⚖️ Le promozioni si applicano esclusivamente a una selezione di articoli. 
-          Le percentuali di sconto possono variare in base al prodotto. 
-          Disponibilità limitata fino ad esaurimento scorte.
-        </p>
-      </div>
     </div>
   `;
 }
@@ -2398,27 +2770,27 @@ function printPoster() {
 
   const printablePoster = document.getElementById('printable-poster');
   printablePoster.innerHTML = `
-    <div style="width:210mm; height:297mm; padding:20mm; background:white; font-family:Arial, sans-serif; box-sizing:border-box; margin:0 auto; color:#000; display:flex; flex-direction:column; justify-content:space-between;">
+    <div style="width:210mm; height:297mm; padding:15mm; background:white; font-family:Arial, sans-serif; box-sizing:border-box; margin:0 auto; color:#000; display:flex; flex-direction:column; justify-content:space-between; page-break-inside:avoid;">
       
       <!-- Header -->
-      <div style="text-align:center; margin-bottom:10mm;">
-        <h1 style="font-weight:900; font-size:42pt; margin:0 0 5mm 0; background:#000; color:#fff; padding:10mm 5mm; border-radius:4mm; letter-spacing:1.5pt;">
+      <div style="text-align:center; margin-bottom:10mm; flex-shrink:0;">
+        <h1 style="font-weight:900; font-size:36pt; margin:0 0 4mm 0; background:#000; color:#fff; padding:8mm 4mm; border-radius:3mm; letter-spacing:1pt; line-height:1.2;">
           ${title}
         </h1>
-        <h2 style="font-weight:bold; font-size:22pt; margin:0; border-bottom:2pt solid #000; padding-bottom:3mm;">
+        <h2 style="font-weight:bold; font-size:18pt; margin:0; border-bottom:1.5pt solid #000; padding-bottom:2mm; line-height:1.3;">
           ${subtitle}
         </h2>
       </div>
       
       <!-- Main Content -->
-      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:8mm;">
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:space-around; gap:6mm;">
         
         <!-- Prodotti in promozione -->
-        <div style="background:#f8f8f8; padding:8mm; border-radius:4mm; border-left:5pt solid #000;">
-          <h3 style="font-weight:bold; margin:0 0 6mm 0; font-size:20pt; text-align:center; color:#000;">🛍️ IN PROMOZIONE</h3>
-          <div style="font-size:14pt; line-height:1.6; text-align:center;">
+        <div style="background:#f8f8f8; padding:6mm; border-radius:3mm; border-left:4pt solid #000; min-height:0; flex:1;">
+          <h3 style="font-weight:bold; margin:0 0 4mm 0; font-size:16pt; text-align:center; color:#000;">🛍️ IN PROMOZIONE</h3>
+          <div style="font-size:12pt; line-height:1.5; text-align:center;">
             ${featuredProducts.split('\n').map(line => `
-              <div style="margin-bottom:3mm; padding:2mm 0; border-bottom:1pt dashed #999;">
+              <div style="margin-bottom:2mm; padding:1mm 0; border-bottom:0.5pt dashed #999;">
                 ${line}
               </div>
             `).join('')}
@@ -2426,22 +2798,22 @@ function printPoster() {
         </div>
         
         <!-- Call to Action -->
-        <div style="background:#e8e8e8; padding:7mm; border-radius:4mm; border:2pt dashed #666; text-align:center;">
-          <p style="margin:0 0 3mm 0; font-size:18pt; font-weight:bold;">
+        <div style="background:#e8e8e8; padding:5mm; border-radius:3mm; border:1.5pt dashed #666; text-align:center; min-height:0; flex-shrink:0;">
+          <p style="margin:0 0 2mm 0; font-size:14pt; font-weight:bold;">
             🏃‍♂️ APPROFITTA SUBITO!
           </p>
-          <p style="margin:0; font-size:13pt;">
+          <p style="margin:0; font-size:11pt;">
             Le migliori occasioni ti aspettano in negozio
           </p>
         </div>
         
         ${includeQR ? `
         <!-- QR Code -->
-        <div style="text-align:center;">
-          <div style="display:inline-block; padding:5mm; border:2pt solid #000; background:#fff; border-radius:4mm;">
-            <p style="margin:0 0 4mm 0; font-size:14pt; font-weight:bold;">📱 SCANSIONA PER TUTTI I PRODOTTI</p>
+        <div style="text-align:center; min-height:0; flex-shrink:0;">
+          <div style="display:inline-block; padding:4mm; border:1.5pt solid #000; background:#fff; border-radius:3mm;">
+            <p style="margin:0 0 3mm 0; font-size:12pt; font-weight:bold;">📱 SCANSIONA PER TUTTI I PRODOTTI</p>
             <img src="1000011850.png" alt="QR Code Supershop Bisagno" 
-                 style="width:80mm; height:80mm; border:2pt solid #ccc; padding:3mm; background:white; border-radius:3mm;">
+                 style="width:60mm; height:60mm; border:1pt solid #ccc; padding:2mm; background:white; border-radius:2mm;">
           </div>
         </div>
         ` : ''}
@@ -2449,27 +2821,27 @@ function printPoster() {
       </div>
       
       <!-- Footer -->
-      <div style="margin-top:10mm;">
+      <div style="margin-top:8mm; flex-shrink:0;">
         <!-- Validità -->
-        <div style="background:#000; color:#fff; padding:5mm; border-radius:3mm; text-align:center; margin-bottom:4mm;">
-          <p style="margin:0; font-size:16pt; font-weight:bold;">
+        <div style="background:#000; color:#fff; padding:4mm; border-radius:2mm; text-align:center; margin-bottom:3mm;">
+          <p style="margin:0; font-size:12pt; font-weight:bold;">
             📆 OFFERTE VALIDE FINO AL: ${expiryDate}
           </p>
         </div>
         
         <!-- Info negozio -->
-        <div style="background:#f0f0f0; padding:5mm; border-radius:3mm; text-align:center; margin-bottom:4mm; border:1pt solid #333;">
-          <p style="margin:0 0 2mm 0; font-size:14pt; font-weight:bold;">
+        <div style="background:#f0f0f0; padding:4mm; border-radius:2mm; text-align:center; margin-bottom:3mm; border:0.5pt solid #333;">
+          <p style="margin:0 0 1mm 0; font-size:10pt; font-weight:bold;">
             🏪 SUPERSHOP BISAGNO S.R.L.
           </p>
-          <p style="margin:0; font-size:10pt;">
+          <p style="margin:0; font-size:8pt;">
             Lungobisagno Istria, 29F - 16139 Genova GE | 8:45-19:45 | supershopbisagnosrl@gmail.com
           </p>
         </div>
         
         <!-- Note legali -->
-        <div style="background:#e8e8e8; padding:3mm; border-radius:2mm; border:1pt solid #999;">
-          <p style="margin:0; font-size:8pt; color:#666; line-height:1.3; text-align:center;">
+        <div style="background:#e8e8e8; padding:2mm; border-radius:1mm; border:0.5pt solid #999;">
+          <p style="margin:0; font-size:6pt; color:#666; line-height:1.2; text-align:center;">
             ⚖️ Le promozioni si applicano esclusivamente a una selezione di articoli. 
             Le percentuali di sconto possono variare in base al prodotto. 
             Disponibilità limitata fino ad esaurimento scorte.
@@ -2495,6 +2867,7 @@ function printPoster() {
           }
           body { 
             margin: 0; 
+            padding: 0;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             color-adjust: exact !important;
@@ -2503,11 +2876,13 @@ function printPoster() {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             color-adjust: exact !important;
+            box-sizing: border-box;
           }
         }
         body { 
           font-family: Arial, sans-serif; 
           margin: 0;
+          padding: 0;
           background: white;
         }
       </style>
@@ -2537,8 +2912,8 @@ function addPosterGeneratorToAdmin() {
     posterSection.innerHTML = `
       <h3><i class="fas fa-print"></i> Generatore Poster Promozionale</h3>
       <div style="background:#f5f5f5; padding:1rem; border-radius:6px; margin-bottom:1rem; border-left:4px solid #000;">
-        <p style="margin:0 0 0.5rem 0; font-weight:bold;"><i class="fas fa-star"></i> Template promozionale professionale</p>
-        <p style="margin:0; font-size:0.9rem;">Ottimizzato per offerte e sconti</p>
+        <p style="margin:0 0 0.5rem 0; font-weight:bold;"><i class="fas fa-desktop"></i> Interfaccia ottimizzata per computer</p>
+        <p style="margin:0; font-size:0.9rem;">Anteprima in tempo reale e stampa A4 professionale</p>
       </div>
       <button class="admin-action-btn" style="background:#333; color:white;" onclick="openPosterGenerator()">
         <i class="fas fa-palette"></i> Crea Poster Promozionale
@@ -2553,6 +2928,5 @@ document.addEventListener('DOMContentLoaded', function() {
   addPosterGeneratorToAdmin();
 });
 </script>
-
 </body>
 </html>
