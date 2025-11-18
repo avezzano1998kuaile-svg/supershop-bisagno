@@ -9,7 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-/* 样式代码保持不变 */
+/* 保持所有原有的CSS样式不变 */
 :root{
     --primary-color:#004080;
     --secondary-color:#ff6b00;
@@ -924,117 +924,6 @@ footer{
   margin-bottom: 1.5rem;
 }
 
-/* ==================== 修复的产品模态框样式 ==================== */
-#productModal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  z-index: 10000;
-  padding: 1rem;
-  overflow-y: auto;
-}
-
-#productModal > div {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100%;
-  padding: 2rem 0;
-}
-
-#productModal > div > div {
-  background: white;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 100%;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  margin: auto;
-}
-
-#productModal button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  border: none;
-  background: #ff4444;
-  color: white;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10001;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  transition: all 0.3s ease;
-}
-
-#productModal button:hover {
-  background: #ff0000;
-  transform: scale(1.1);
-}
-
-#productModal img {
-  width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  background: #f8f9fa;
-  padding: 1rem;
-}
-
-/* 响应式产品模态框 */
-@media (max-width: 768px) {
-  #productModal {
-    padding: 0.5rem;
-  }
-  
-  #productModal > div {
-    padding: 0.5rem 0;
-    align-items: flex-start;
-  }
-  
-  #productModal > div > div {
-    margin: 0.5rem;
-    border-radius: 8px;
-  }
-  
-  #productModal button {
-    width: 40px;
-    height: 40px;
-    top: 10px;
-    right: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  #productModal {
-    padding: 0.25rem;
-  }
-  
-  #productModal > div > div {
-    margin: 0.25rem;
-  }
-}
-
-/* 确保所有浏览器的一致性 */
-#productModal * {
-  box-sizing: border-box;
-}
-
-#productModal img {
-  max-width: 100%;
-  height: auto;
-}
-
 @media(max-width:768px){
     .header-container{
         flex-direction:column;
@@ -1486,10 +1375,9 @@ footer{
       </div>
     </div>
     
-    <!-- 数据管理部分 - 包含批量导入和删除功能 -->
+    <!-- 其余部分 -->
     <div class="admin-section">
-      <h3><i class="fas fa-file-export"></i> Gestione Dati e Import/Export</h3>
-      
+      <h3><i class="fas fa-file-export"></i> Gestione Dati</h3>
       <div class="admin-actions">
         <button class="admin-action-btn primary" onclick="exportProducts()">
           <i class="fas fa-download"></i> Esporta CSV
@@ -1497,64 +1385,14 @@ footer{
         <button class="admin-action-btn secondary" onclick="importProducts()">
           <i class="fas fa-upload"></i> Importa CSV
         </button>
-        <!-- 新增Firebase上传按钮 -->
-        <button class="admin-action-btn success" onclick="uploadToFirebase()">
-          <i class="fas fa-cloud-upload-alt"></i> Carica su Firebase
-        </button>
-        <button class="admin-action-btn warning" onclick="syncWithFirebase()">
-          <i class="fas fa-sync-alt"></i> Sincronizza con Firebase
-        </button>
       </div>
-      
-      <!-- 高级Firebase管理 -->
-      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
-        <h4 style="color: var(--primary-color); margin-bottom: 1rem;">
-          <i class="fas fa-database"></i> Gestione Avanzata Firebase
-        </h4>
-        
-        <div class="admin-actions">
-          <button class="admin-action-btn primary" onclick="uploadToFirebase()">
-            <i class="fas fa-cloud-upload-alt"></i> Carica Tutto su Firebase
-          </button>
-          <button class="admin-action-btn success" onclick="syncWithFirebase()">
-            <i class="fas fa-sync-alt"></i> Sincronizza Intelligente
-          </button>
-          <button class="admin-action-btn warning" onclick="compareLocalFirebase()">
-            <i class="fas fa-code-compare"></i> Confronta Dati
-          </button>
-          <button class="admin-action-btn danger" onclick="clearFirebaseProducts()">
-            <i class="fas fa-trash"></i> Svuota Firebase
-          </button>
-        </div>
-      </div>
-      
-      <!-- 新增批量管理功能 -->
-      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
-        <h4 style="color: var(--primary-color); margin-bottom: 1rem;">
-          <i class="fas fa-trash-alt"></i> Gestione Bulk Prodotti
-        </h4>
-        
-        <div class="admin-actions">
-          <button class="admin-action-btn warning" onclick="selectiveBatchDelete()" 
-                  title="Elimina prodotti per categoria, nome o codice">
-            <i class="fas fa-search-minus"></i> Elimina Selettiva
-          </button>
-          <button class="admin-action-btn danger" onclick="deleteByCategory()"
-                  title="Elimina tutti i prodotti di una categoria">
-            <i class="fas fa-layer-group"></i> Elimina per Categoria
-          </button>
-          <button class="admin-action-btn danger" onclick="batchDeleteProducts()"
-                  title="Elimina TUTTI i prodotti (attenzione!)">
-            <i class="fas fa-broom"></i> Elimina Tutto
-          </button>
-        </div>
-        
-        <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-top: 1rem; border-left: 4px solid #ffc107;">
-          <p style="margin: 0; font-size: 0.9rem; color: #856404;">
-            <i class="fas fa-exclamation-triangle"></i> <strong>Attenzione:</strong> 
-            L'eliminazione di prodotti non può essere annullata. I prodotti real-time di Firebase verranno eliminati solo se si hanno i permessi.
-          </p>
-        </div>
+      <div class="admin-actions" style="margin-top:0.5rem">
+        <button class="admin-action-btn warning" onclick="backupData()">
+          <i class="fas fa-save"></i> Backup Dati
+        </button>
+        <button class="admin-action-btn danger" onclick="clearAllData()">
+          <i class="fas fa-trash"></i> Cancella Tutto
+        </button>
       </div>
     </div>
     
@@ -1734,272 +1572,104 @@ footer{
        <a href="javascript:void(0)" onclick="openCookieSettings()" style="color:#004080; font-weight:bold;">Gestisci le tue preferenze cookie</a>.</p>
   </section>
 
- <!-- ==================== 完整的GDPR隐私政策部分 ==================== -->
-<section id="privacy-policy" class="privacy-policy-section" style="background: #f8f9fa; padding: 2rem; margin-top: 2rem; border-radius: 8px; border-left: 4px solid #004080;">
-  <h2 style="color: #004080; margin-bottom: 1.5rem; border-bottom: 2px solid #ff6b00; padding-bottom: 0.5rem;">Informativa sulla Privacy - GDPR Compliant</h2>
-  
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-user-tie"></i> Titolare del Trattamento dei Dati</h3>
-    <p><strong>Supershop Bisagno S.R.L.</strong><br>
-    Lungobisagno Istria, 29F, 16139 Genova GE<br>
-    P.IVA: 02596100996 | REA: GE - 497926<br>
-    Email: <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a></p>
-    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">In qualità di Titolare del Trattamento, La informiamo che i suoi dati personali saranno trattati nel rispetto della normativa vigente, in particolare del Regolamento UE 2016/679 (GDPR).</p>
-  </div>
-
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-database"></i> Tipi di Dati Raccolti</h3>
-    <p>Il sito raccoglie i seguenti dati personali[citation:1][citation:3]:</p>
-    <ul style="margin-left: 1.5rem;">
-      <li><strong>Dati di navigazione</strong>: indirizzo IP, tipo di browser, dispositivo utilizzato, orario di accesso, pagine visitate[citation:5][citation:8]</li>
-      <li><strong>Dati di utilizzo</strong>: pagine visitate, tempo di permanenza, percorsi di navigazione[citation:3]</li>
-      <li><strong>Dati di contatto</strong>: quando ci contatti via email o tramite moduli di contatto[citation:1]</li>
-      <li><strong>Dati tecnici</strong>: cookie e tecnologie simili[citation:1][citation:7]</li>
-      <li><strong>Dati di localizzazione</strong>: informazioni generali sulla posizione derivate dall'IP[citation:4]</li>
-    </ul>
-    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;"><i class="fas fa-info-circle"></i> <strong>Nota:</strong> Non raccogliamo dati sensibili (come informazioni sanitarie, religiosi, etc.) attraverso questo sito[citation:1].</p>
-  </div>
-
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-bullseye"></i> Finalità e Base Giuridica del Trattamento</h3>
-    <p>I suoi dati vengono trattati per le seguenti finalità[citation:1][citation:5]:</p>
+  <!-- ==================== PRIVACY POLICY - GDPR COMPLIANT ==================== -->
+  <section id="privacy-policy" class="privacy-policy-section">
+    <h2 style="color:#004080; margin-bottom:1.5rem;">Informativa Privacy - GDPR</h2>
     
-    <div style="background: #f0f7ff; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
-      <h4 style="color: #004080; margin-bottom: 0.5rem;">Base Giuridica: Esecuzione del Contratto (Art. 6.1.b GDPR)</h4>
-      <ul style="margin-left: 1.5rem;">
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Titolare del Trattamento dei Dati</h3>
+      <p><strong>Supershop Bisagno S.R.L.</strong><br>
+      Lungobisagno Istria, 29F, 16139 Genova GE<br>
+      P.IVA: 02596100996 | REA: GE - 497926<br>
+      Email: supershopbisagnosrl@gmail.com</p>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Tipi di Dati Raccolti</h3>
+      <p>Il sito raccoglie i seguenti dati personali:</p>
+      <ul>
+        <li><strong>Dati di navigazione</strong>: indirizzo IP, browser, dispositivo, orario di accesso</li>
+        <li><strong>Dati di utilizzo</strong>: pagine visitate, tempo di permanenza</li>
+        <li><strong>Dati di contatto</strong>: quando ci contatti via email</li>
+        <li><strong>Cookie e tecnologie simili</strong></li>
+      </ul>
+    </div>
+
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Finalità del Trattamento</h3>
+      <ul>
         <li>Fornire i servizi richiesti attraverso il sito web</li>
-        <li>Gestire le richieste di informazioni sui prodotti</li>
-        <li>Comunicare variazioni dei servizi[citation:4]</li>
+        <li>Rispondere alle richieste di informazioni via email</li>
+        <li>Migliorare l'esperienza di navigazione degli utenti</li>
+        <li>Adempiere agli obblighi di legge</li>
       </ul>
     </div>
 
-    <div style="background: #f0f7ff; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
-      <h4 style="color: #004080; margin-bottom: 0.5rem;">Base Giuridica: Legittimo Interesse (Art. 6.1.f GDPR)</h4>
-      <ul style="margin-left: 1.5rem;">
-        <li>Migliorare la qualità del sito e l'esperienza utente</li>
-        <li>Prevenire frodi e garantire la sicurezza del sito[citation:4]</li>
-        <li>Analisi statistiche anonime dell'utilizzo del sito[citation:8]</li>
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Base Giuridica</h3>
+      <p>Il trattamento dei dati si basa su:</p>
+      <ul>
+        <li><strong>Consenso dell'interessato</strong> (per i cookie)</li>
+        <li><strong>Legittimo interesse</strong> (per la sicurezza del sito)</li>
+        <li><strong>Adempimento contrattuale</strong> (per rispondere alle richieste)</li>
       </ul>
     </div>
 
-    <div style="background: #f0f7ff; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
-      <h4 style="color: #004080; margin-bottom: 0.5rem;">Base Giuridica: Consenso (Art. 6.1.a GDPR)</h4>
-      <ul style="margin-left: 1.5rem;">
-        <li>Cookie di marketing e profilazione (solo con consenso esplicito)</li>
-        <li>Comunicazioni di marketing diretto[citation:1]</li>
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Servizi di Terze Parti</h3>
+      <p>Utilizziamo i seguenti servizi che possono raccogliere dati:</p>
+      <ul>
+        <li><strong>Firebase</strong> (Google): hosting database e sincronizzazione prodotti</li>
+        <li><strong>Google Maps</strong>: visualizzazione mappa e posizione negozio</li>
+        <li><strong>FontAwesome</strong>: icone e elementi grafici</li>
       </ul>
-    </div>
-  </div>
-
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-share-alt"></i> Condivisione dei Dati con Terze Parti</h3>
-    <p>I suoi dati potrebbero essere condivisi con[citation:1][citation:4]:</p>
-    
-    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
-      <thead>
-        <tr style="background: #004080; color: white;">
-          <th style="padding: 0.8rem; text-align: left;">Categoria</th>
-          <th style="padding: 0.8rem; text-align: left;">Finalità</th>
-          <th style="padding: 0.8rem; text-align: left;">Base Giuridica</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;">Fornitori di servizi IT</td>
-          <td style="padding: 0.8rem;">Hosting, manutenzione, supporto tecnico</td>
-          <td style="padding: 0.8rem;">Legittimo interesse</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;">Google Analytics</td>
-          <td style="padding: 0.8rem;">Analisi statistiche del traffico</td>
-          <td style="padding: 0.8rem;">Consenso</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;">Autorità competenti</td>
-          <td style="padding: 0.8rem;">Adempimenti legali</td>
-          <td style="padding: 0.8rem;">Obbligo legale</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-top: 1rem; border-left: 4px solid #ffc107;">
-      <p style="margin: 0; color: #856404;"><i class="fas fa-exclamation-triangle"></i> <strong>Trasferimenti internazionali:</strong> Alcuni servizi potrebbero comportare il trasferimento di dati al di fuori dello Spazio Economico Europeo. In tali casi, adotteremo le garanzie contrattuali appropriate[citation:4].</p>
-    </div>
-  </div>
-
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-shield-alt"></i> Misure di Sicurezza</h3>
-    <p>Adottiamo misure tecniche e organizzative adeguate per proteggere i suoi dati personali[citation:1][citation:7]:</p>
-    <ul style="margin-left: 1.5rem;">
-      <li><strong>Crittografia</strong> dei dati in transito (HTTPS/TLS)</li>
-      <li><strong>Accesso limitato</strong> solo al personale autorizzato</li>
-      <li><strong>Backup regolari</strong> e sistemi di recovery</li>
-      <li><strong>Monitoraggio continuo</strong> per prevenire accessi non autorizzati</li>
-      <li><strong>Procedure di notifica</strong> in caso di violazione dei dati[citation:4]</li>
-    </ul>
-    
-    <div style="background: #e8f5e8; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
-      <p style="margin: 0; color: #2d5a2d;"><i class="fas fa-check-circle"></i> <strong>Conformità certificata:</strong> I nostri fornitori cloud adottano standard di sicurezza riconosciuti a livello internazionale (ISO 27001, SOC 2)[citation:7].</p>
-    </div>
-  </div>
-
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-clock"></i> Conservazione dei Dati</h3>
-    <p>Conserviamo i suoi dati personali solo per il tempo necessario al raggiungimento delle finalità per cui sono stati raccolti[citation:1][citation:5]:</p>
-    
-    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
-      <thead>
-        <tr style="background: #004080; color: white;">
-          <th style="padding: 0.8rem; text-align: left;">Tipologia Dati</th>
-          <th style="padding: 0.8rem; text-align: left;">Periodo di Conservazione</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;">Dati di navigazione (log)</td>
-          <td style="padding: 0.8rem;">14 giorni[citation:8]</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;">Dati di contatto per richieste</td>
-          <td style="padding: 0.8rem;">24 mesi dall'ultimo contatto</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;">Cookie tecnici</td>
-          <td style="padding: 0.8rem;">Durata della sessione o come specificato</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;">Dati per adempimenti legali</td>
-          <td style="padding: 0.8rem;">Come richiesto dalla legge (es. 10 anni per documenti fiscali)</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-user-cog"></i> I Suoi Diritti GDPR</h3>
-    <p>In conformità con il GDPR, Lei ha i seguenti diritti[citation:1][citation:4]:</p>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
-      <div style="background: #e3f2fd; padding: 1rem; border-radius: 6px; border-left: 4px solid #2196f3;">
-        <h4 style="color: #004080; margin-bottom: 0.5rem;">Diritto di Accesso (Art. 15)</h4>
-        <p style="margin: 0; font-size: 0.9rem;">Ottenere la conferma che i suoi dati siano trattati e accedere agli stessi.</p>
-      </div>
-      <div style="background: #e3f2fd; padding: 1rem; border-radius: 6px; border-left: 4px solid #2196f3;">
-        <h4 style="color: #004080; margin-bottom: 0.5rem;">Diritto di Rettifica (Art. 16)</h4>
-        <p style="margin: 0; font-size: 0.9rem;">Correggere dati inesatti o completare quelli incompleti.</p>
-      </div>
-      <div style="background: #e3f2fd; padding: 1rem; border-radius: 6px; border-left: 4px solid #2196f3;">
-        <h4 style="color: #004080; margin-bottom: 0.5rem;">Diritto alla Cancellazione (Art. 17)</h4>
-        <p style="margin: 0; font-size: 0.9rem;">Cancellare i suoi dati ("diritto all'oblio").</p>
-      </div>
-      <div style="background: #e3f2fd; padding: 1rem; border-radius: 6px; border-left: 4px solid #2196f3;">
-        <h4 style="color: #004080; margin-bottom: 0.5rem;">Diritto di Limitazione (Art. 18)</h4>
-        <p style="margin: 0; font-size: 0.9rem;">Limitare il trattamento in specifiche circostanze.</p>
-      </div>
-      <div style="background: #e3f2fd; padding: 1rem; border-radius: 6px; border-left: 4px solid #2196f3;">
-        <h4 style="color: #004080; margin-bottom: 0.5rem;">Diritto alla Portabilità (Art. 20)</h4>
-        <p style="margin: 0; font-size: 0.9rem;">Ricevere i dati in formato strutturato e trasferirli.</p>
-      </div>
-      <div style="background: #e3f2fd; padding: 1rem; border-radius: 6px; border-left: 4px solid #2196f3;">
-        <h4 style="color: #004080; margin-bottom: 0.5rem;">Diritto di Opposizione (Art. 21)</h4>
-        <p style="margin: 0; font-size: 0.9rem;">Opporsi al trattamento per motivi legittimi.</p>
-      </div>
+      <p>Questi servizi potrebbero trasferire dati al di fuori dell'UE in paesi con adeguate tutele privacy.</p>
     </div>
 
-    <div style="background: #e8f5e8; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
-      <p style="margin: 0; color: #2d5a2d;"><i class="fas fa-info-circle"></i> <strong>Come esercitare i diritti:</strong> Può esercitare i suoi diritti inviando una richiesta a <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a>. Risponderemo entro 30 giorni.</p>
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Conservazione dei Dati</h3>
+      <p>I dati personali sono conservati per il tempo strettamente necessario al conseguimento delle finalità per lesquali sono stati raccolti, salvo diversi obblighi di legge.</p>
     </div>
-  </div>
 
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-cookie-bite"></i> Cookie Policy Dettagliata</h3>
-    <p>Utilizziamo diverse categorie di cookie[citation:1][citation:5]:</p>
-    
-    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
-      <thead>
-        <tr style="background: #004080; color: white;">
-          <th style="padding: 0.8rem; text-align: left;">Categoria</th>
-          <th style="padding: 0.8rem; text-align: left;">Finalità</th>
-          <th style="padding: 0.8rem; text-align: left;">Base Giuridica</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;"><strong>Cookie Tecnici</strong></td>
-          <td style="padding: 0.8rem;">Funzionamento base del sito, sicurezza</td>
-          <td style="padding: 0.8rem;">Legittimo interesse</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;"><strong>Cookie Analitici</strong></td>
-          <td style="padding: 0.8rem;">Analisi statistiche anonime (Google Analytics)</td>
-          <td style="padding: 0.8rem;">Consenso</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;"><strong>Cookie di Profilazione</strong></td>
-          <td style="padding: 0.8rem;">Pubblicità personalizzata, targeting</td>
-          <td style="padding: 0.8rem;">Consenso esplicito</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 0.8rem;"><strong>Cookie Social Media</strong></td>
-          <td style="padding: 0.8rem;">Condivisione contenuti, interazione social</td>
-          <td style="padding: 0.8rem;">Consenso</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
-      <p style="margin: 0; color: #856404;"><i class="fas fa-cog"></i> <strong>Gestione dei Cookie:</strong> Può gestire le sue preferenze cookie in qualsiasi momento cliccando sul link "Gestisci Cookie" nel footer del sito o tramite le impostazioni del browser.</p>
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Diritti dell'Interessato</h3>
+      <p>Ai sensi degli articoli 15-22 GDPR, hai diritto a:</p>
+      <ul>
+        <li>Accesso ai tuoi dati personali</li>
+        <li>Rettifica dei dati inesatti</li>
+        <li>Cancellazione dei dati (diritto all'oblio)</li>
+        <li>Limitazione del trattamento</li>
+        <li>Portabilità dei dati</li>
+        <li>Opposizione al trattamento</li>
+        <li>Revoca del consenso in qualsiasi momento</li>
+      </ul>
+      <p>Per esercitare questi diritti, contattaci all'indirizzo email: supershopbisagnosrl@gmail.com</p>
     </div>
-  </div>
 
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-child"></i> Protezione dei Minori</h3>
-    <p>Il nostro sito non è destinato a minori di 16 anni. Non raccogliamo consapevolmente dati personali di minori di 16 anni senza il consenso verificabile dei genitori[citation:4].</p>
-    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Se scoprissimo di aver raccolto dati personali di un minore senza il necessario consenso parentale, prenderemo immediatamente provvedimenti per eliminare tali dati.</p>
-  </div>
-
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-exclamation-triangle"></i> Reclami all'Autorità Garante</h3>
-    <p>Ha il diritto di proporre reclamo all'Autorità di controllo competente (Garante per la Protezione dei Dati Personali) se ritiene che il trattamento dei suoi dati personali violi il GDPR[citation:1].</p>
-    <p style="margin-top: 0.5rem;"><strong>Autorità Garante per la Protezione dei Dati Personali</strong><br>
-    Piazza di Monte Citorio, 121<br>
-    00186 Roma<br>
-    Email: <a href="mailto:protocollo@gpdp.it">protocollo@gpdp.it</a><br>
-    PEC: <a href="mailto:protocollo@pec.gpdp.it">protocollo@pec.gpdp.it</a></p>
-  </div>
-
-  <div class="privacy-section-block" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="color: #004080; margin-bottom: 1rem;"><i class="fas fa-sync-alt"></i> Aggiornamenti alla Privacy Policy</h3>
-    <p>Questa privacy policy potrebbe essere aggiornata periodicamente per riflettere cambiamenti nelle nostre pratiche di trattamento dati o per adempiere a nuovi obblighi legali.</p>
-    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">La data dell'ultimo aggiornamento è indicata in fondo alla pagina. Le modifiche significative saranno comunicate attraverso avvisi prominenti sul nostro sito.</p>
-  </div>
-
-  <div class="privacy-section-block" style="background: #004080; color: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
-    <h3 style="margin-bottom: 1rem;"><i class="fas fa-question-circle"></i> Domande o Esercizio dei Diritti?</h3>
-    <p style="margin-bottom: 1rem;">Per qualsiasi domanda su questa privacy policy o per esercitare i suoi diritti GDPR, non esiti a contattarci:</p>
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
-      <a href="mailto:supershopbisagnosrl@gmail.com" style="background: #ff6b00; color: white; padding: 0.8rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: bold; transition: all 0.3s ease;">
-        <i class="fas fa-envelope"></i> Invia Email
-      </a>
-      <button onclick="openCookieSettings()" style="background: transparent; color: white; border: 2px solid white; padding: 0.8rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">
-        <i class="fas fa-cog"></i> Gestisci Cookie
-      </button>
+    <div class="privacy-section-block">
+      <h3 style="color:#004080;">Cookie Policy</h3>
+      <p>Utilizziamo i seguenti tipi di cookie:</p>
+      <ul>
+        <li><strong>Cookie tecnici</strong>: necessari per il funzionamento del sito</li>
+        <li><strong>Cookie di terze parti</strong>: Google Maps, Firebase, FontAwesome</li>
+        <li><strong>Cookie di preferenze</strong>: per ricordare le tue scelte</li>
+      </ul>
+      <p>Puoi gestire le tue preferenze cookie attraverso il banner apposito.</p>
     </div>
-  </div>
 
-  <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd;">
-    <p style="color: #666; font-size: 0.9rem;"><i class="fas fa-clock"></i> <strong>Ultimo aggiornamento:</strong> 18 Novembre 2024</p>
-    <p style="color: #666; font-size: 0.8rem; margin-top: 0.5rem;">Questa politica è conforme al Regolamento UE 2016/679 (GDPR) e al D.Lgs. 196/2003 come modificato dal D.Lgs. 101/2018.</p>
-  </div>
-</section>
-  <!-- 其余HTML内容保持不变 -->
-
+    <div style="background:#e8f4ff; padding:1.5rem; border-radius:8px; text-align:center;">
+      <p><strong>Ultimo aggiornamento:</strong> 15 Gennaio 2025</p>
+      <p>Per qualsiasi domanda sulla privacy, contattaci a: <a href="mailto:supershopbisagnosrl@gmail.com">supershopbisagnosrl@gmail.com</a></p>
+    </div>
+  </section>
 </main>
 
+<!-- 优化的页脚 -->
 <footer>
   <div class="footer-content">
     <p>© <span id="year"></span> Supershop Bisagno S.R.L. — Tutti i diritti riservati</p>
     <p>P.IVA: 02596100996 | REA: GE - 497926</p>
+    <!-- 添加号召性用语 -->
     <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 6px;">
       <p style="margin: 0; font-size: 0.9rem;">
         <i class="fas fa-qrcode"></i> 
@@ -2011,33 +1681,129 @@ footer{
 
 <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
 
-<!-- 产品模态框 -->
-<div id="productModal">
-  <div>
-    <div style="padding:2rem;">
-      <button onclick="closeProductModal()">✖</button>
-      <img id="modalImage" src="" alt="" 
-           style="width:100%;max-height:400px;object-fit:contain;border-radius:8px;margin-bottom:1.5rem;background:#f8f9fa;padding:1rem;">
-      <h2 id="modalName" style="margin-bottom:1rem;color:#333;font-size:1.5rem;line-height:1.3;"></h2>
-      
-      <div id="modalPrice" style="margin-bottom:1rem;"></div>
-      
-      <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;padding:1rem;background:#f8f9fa;border-radius:8px;">
-        <span id="modalCategory" style="color:#666;"></span>
-        <span id="modalBarcode" style="font-family:monospace;color:#888;"></span>
+<!-- ==================== PRODUCT MODAL ==================== -->
+<div id="productModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;padding:1rem;">
+  <div style="background:white;border-radius:10px;max-width:600px;width:100%;padding:1.5rem;position:relative;">
+    <button onclick="closeProductModal()" style="position:absolute;top:10px;right:10px;border:none;background:none;font-size:1.5rem;cursor:pointer;">✖</button>
+    <img id="modalImage" src="" alt="" style="width:100%;border-radius:8px;margin-bottom:1rem;object-fit:cover;">
+    <h2 id="modalName" style="margin-bottom:0.5rem;"></h2>
+    <p id="modalPrice"></p>
+    <p id="modalCategory"></p>
+    <p id="modalBarcode" style="font-family:monospace;color:#666;"></p>
+    <p id="modalDescription" style="margin-top:1rem;"></p>
+  </div>
+</div>
+
+<!-- 优惠预览模态框 -->
+<div id="offerPreviewModal" class="offer-preview-modal">
+  <div class="offer-preview-content">
+    <div style="padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0; color: var(--primary-color);">
+        <i class="fas fa-eye"></i> Anteprima Offerta
+      </h3>
+      <button onclick="closeOfferPreview()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">✖</button>
+    </div>
+    <div id="offerPreviewContent" style="padding: 2rem;"></div>
+  </div>
+</div>
+
+<!-- A4黑白海报生成器 - 电脑端优化版 -->
+<div id="poster-generator" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; justify-content:center; align-items:center; padding:20px; overflow:auto;">
+  <div style="background:white; border-radius:12px; width:95%; max-width:1200px; max-height:95vh; padding:25px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.3); overflow-y:auto;">
+    <!-- 关闭按钮 -->
+    <button onclick="closePosterGenerator()" 
+            style="position:absolute; top:15px; right:15px; border:none; background:#ff4444; color:white; width:40px; height:40px; border-radius:50%; font-size:1.5rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10001; box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+      ✖
+    </button>
+    
+    <h2 style="color:#000; margin-bottom:20px; text-align:center; padding-right:40px;">
+      <i class="fas fa-print"></i> Generatore Poster Promozionale
+    </h2>
+    
+    <div style="display:grid; grid-template-columns:350px 1fr; gap:30px; margin-bottom:25px;">
+      <!-- 左侧：控制面板 -->
+      <div style="border-right:2px solid #eee; padding-right:25px;">
+        <h3 style="color:#000; margin-bottom:20px; font-size:1.3rem; border-bottom:2px solid #000; padding-bottom:10px;">Configurazione</h3>
+        
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Titolo Principale:</label>
+          <input type="text" id="posterTitle" value="🎉 SUPER PROMOZIONI" 
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;">
+        </div>
+        
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Sottotitolo:</label>
+          <input type="text" id="posterSubtitle" value="SCONTI FINO AL 70% SU ARTICOLI SELEZIONATI" 
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;">
+        </div>
+        
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Prodotti in Promozione:</label>
+          <textarea id="featuredProducts" style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:0.9rem; height:120px; resize:vertical; background:#f9f9f9;">• Articoli per la casa
+• Decorazioni e accessori
+• Idee regalo
+• Prodotti stagionali
+• Piccoli elettrodomestici
+• Prodotti per animali</textarea>
+          <small style="color:#666; font-size:0.8rem;">Separare ogni prodotto con una nuova riga</small>
+        </div>
+        
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px; font-weight:bold; color:#333;">Data di Scadenza:</label>
+          <input type="text" id="expiryDate" value="31 DICEMBRE 2025" 
+                 style="width:100%; padding:12px; border:2px solid #ddd; border-radius:6px; font-size:1rem; background:#f9f9f9;"
+                 placeholder="es: 15 GENNAIO 2026">
+        </div>
+        
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:25px; padding:15px; background:#f0f0f0; border-radius:6px;">
+          <input type="checkbox" id="includeQR" checked style="width:20px; height:20px;">
+          <label for="includeQR" style="font-weight:bold; margin:0; color:#333;">Includi QR Code</label>
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-top:30px;">
+          <button onclick="updatePosterPreview()" 
+                  style="flex:1; padding:15px; background:#666; color:white; border:none; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s;">
+            <i class="fas fa-sync"></i> Aggiorna
+          </button>
+          <button onclick="printPoster()" 
+                  style="flex:1; padding:15px; background:#000; color:white; border:none; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s;">
+            <i class="fas fa-print"></i> Stampa
+          </button>
+        </div>
+
+        <div style="margin-top:20px; padding:15px; background:#e8f4ff; border-radius:6px; border-left:4px solid #0066cc;">
+          <h4 style="margin:0 0 8px 0; color:#0066cc; font-size:0.9rem;">💡 Suggerimenti:</h4>
+          <ul style="margin:0; padding-left:15px; font-size:0.8rem; color:#333;">
+            <li>Usa testo breve e impatto</li>
+            <li>Massimo 6-7 prodotti</li>
+            <li>Controlla l'anteprima prima di stampare</li>
+          </ul>
+        </div>
       </div>
       
-      <div style="border-top:1px solid #eee;padding-top:1.5rem;">
-        <h3 style="margin-bottom:0.5rem;color:#333;">Descrizione</h3>
-        <p id="modalDescription" style="line-height:1.6;color:#555;margin:0;"></p>
+      <!-- 右侧：预览区域 -->
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+          <h3 style="color:#000; margin:0; font-size:1.3rem;">Anteprima Poster A4</h3>
+          <div style="font-size:0.9rem; color:#666; background:#f0f0f0; padding:5px 10px; border-radius:4px;">
+            <i class="fas fa-info-circle"></i> Dimensioni: 210mm × 297mm
+          </div>
+        </div>
+        
+        <div id="posterPreview" 
+             style="border:3px solid #666; background:#fff; min-height:500px; border-radius:8px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+          <!-- 预览内容将通过JavaScript生成 -->
+        </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- 实际打印的海报内容 -->
+<div id="printable-poster" style="display:none;"></div>
+
 <!-- Firebase SDK -->
 <script type="module">
-  // Firebase配置和初始化代码
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
   import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
@@ -2132,9 +1898,9 @@ footer{
 </script>
 
 <script>
-// ==================== 完整功能JavaScript代码 ====================
+// ==================== 统一数据管理版本 ====================
 
-// 配置常量
+// ==================== 配置常量 ====================
 const ADMIN_CONFIG = {
   ENABLED: true,
   BASE_PASSWORD: 'supershop',
@@ -2144,788 +1910,532 @@ const ADMIN_CONFIG = {
 
 const DEFAULT_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1tYWdpbmUgbm9uIGNhcmljYXRhPC90ZXh0Pjwvc3ZnPg==';
 
-// 全局变量
-let products = [];
+// ==================== 全局变量 ====================
+let products = [
+  {id:"8021785862708",name:"ANGELO CERAMICA A2MOD NAT CM7X5XH12",originalPrice:"€3,50",discountPrice:"€1,90",discountPercentage:45.71,category:"natale",image:"https://img.heliar.top/file/1762764412602_IMG_20251110_094009.jpg",description:"ANGELO CERAMICA A2MOD NAT CM7X5XH12"},
+  {id:"8021785780187",name:"BABBO NAT TERRACOT A2M CM6,5X6X11,5",originalPrice:"€3,90",discountPrice:"€1,50",discountPercentage:61.54,category:"natale",image:"https://img.heliar.top/file/1762764414728_IMG_20251110_094052.jpg",description:"BABBO NAT TERRACOT A2M CM6,5X6X11,5"},
+  {id:"8058641713447",name:"71344 SCHIACCIANOCICON MUSICA E LUCE LED TIMER 6/1",price:"€49,90",category:"natale",image:"https://img.heliar.top/file/1762764417669_IMG_20251110_094300.jpg",description:"71344 SCHIACCIANOCICON MUSICA E LUCE LED TIMER 6/1"},
+  {id:"8057586069817",name:"S/3 PIGNE SEGNAPOSTO CER NAT D6XH16",originalPrice:"€12,90",discountPrice:"€6,90",discountPercentage:46.51,category:"natale",image:"https://img.heliar.top/file/1762764419280_IMG_20251110_093022.jpg",description:"S/3 PIGNE SEGNAPOSTO CER NAT D6XH16"},
+  {id:"8033113579493",name:"TAPPETO PER ALBERO DI NATALE 60CM 2ASS ROSSO HY190",originalPrice:"€1,90",discountPrice:"€1,00",discountPercentage:47.37,category:"natale",image:"https://img.heliar.top/file/1762764427010_IMG_20251110_092743.jpg",description:"TAPPETO PER ALBERO DI NATALE 60CM 2ASS ROSSO HY190"},
+  {id:"8057586066489",name:"FARO PLASTICA 30LED NAT CM40X40XH177",originalPrice:"€109,90",discountPrice:"€69,90",discountPercentage:36.4,category:"natale",image:"https://img.heliar.top/file/1762764430670_IMG_20251110_092627.jpg",description:"FARO PLASTICA 30LED NAT CM40X40XH177"},
+  {id:"8021785780385",name:"BIMBO MAGNESIA A2M NAT 24X15,5X39,5",originalPrice:"€44,90",discountPrice:"€19,90",discountPercentage:55.68,category:"natale",image:"https://img.heliar.top/file/1762764425299_IMG_20251110_092849.jpg",description:"BIMBO MAGNESIA A2M NAT 24X15,5X39,5"},
+  {id:"8021785780446",name:"BIMBO MAGNESIA A2M NAT 39,5X24,5X42",originalPrice:"€69,90",discountPrice:"€29,90",discountPercentage:57.22,category:"natale",image:"https://img.heliar.top/file/1762764423686_IMG_20251110_092904.jpg",description:"BIMBO MAGNESIA A2M NAT 39,5X24,5X42"}
+];
+
+// 初始化全局变量
+window.currentRealtimeProducts = window.currentRealtimeProducts || {};
+window.firebaseAvailable = window.firebaseAvailable || false;
+
 let adminAuthenticated = false;
 let currentPage = 1;
 const productsPerPage = 8;
 let filteredProducts = [];
 
-// Cookie管理
+// ==================== COOKIE MANAGEMENT - GDPR COMPLIANT ====================
 let cookiesAccepted = false;
 let cookiePreferences = {
-  necessary: true,
+  necessary: true,  // Sempre attivi
   maps: false,
   firebase: false,
   analytics: false
 };
 
-// ==================== 初始化函数 ====================
-function enhancedInit() {
-  console.log("🚀 Avvio inizializzazione avanzata");
+// Inizializzazione cookie
+function initCookieBanner() {
+  const savedPreferences = getCookie('cookiePreferences');
   
-  // 设置基础信息
-  document.getElementById('year').textContent = new Date().getFullYear();
-  document.getElementById('hiddenAdminBtn').style.display = 'block';
-  
-  // 初始化产品数据
-  const savedProducts = loadStorage('supershop_products') || [];
-  if (savedProducts.length > 0) {
-    products = [...savedProducts];
-  }
-  
-  // 立即显示产品
-  renderProducts();
-  updateAdminStats();
-  
-  // 初始化Cookie系统
-  initCookieBanner();
-  
-  // 确保优惠内容立即显示
-  setTimeout(() => {
-    ensureOfferContent();
-  }, 500);
-  
-  // 设置事件监听器
-  setupEventListeners();
-}
-
-// ==================== FIREBASE UPLOAD FUNCTIONS ====================
-
-/**
- * 上传所有本地产品到Firebase
- */
-async function uploadToFirebase() {
-  if (!window.firebaseAvailable || !window.firebaseDatabase) {
-    alert("❌ Firebase不可用！请检查网络连接和Firebase配置。");
-    return;
-  }
-
-  if (products.length === 0) {
-    alert("❌ 没有本地产品可上传！");
-    return;
-  }
-
-  if (!confirm(`⚠️ 即将上传 ${products.length} 个产品到Firebase实时数据库。\n\n此操作将覆盖Firebase中的现有产品数据。\n\n确定要继续吗？`)) {
-    return;
-  }
-
-  showSyncStatus('开始上传产品到Firebase...', 'syncing');
-
-  try {
-    let successCount = 0;
-    let errorCount = 0;
-    let skippedCount = 0;
-
-    // 批量上传产品
-    for (let i = 0; i < products.length; i++) {
-      const product = products[i];
-      
-      try {
-        // 检查产品数据是否完整
-        if (!product.id || !product.name) {
-          console.warn(`跳过产品 ${i}: 缺少ID或名称`, product);
-          skippedCount++;
-          continue;
-        }
-
-        // 准备Firebase数据格式
-        const firebaseProduct = {
-          name: product.name,
-          category: product.category || 'regalo',
-          price: parsePriceToNumber(product.price) || 0,
-          image: product.image || DEFAULT_IMAGE,
-          description: product.description || product.name,
-          isDiscount: false,
-          lastUpdated: new Date().toISOString(),
-          createdAt: new Date().toISOString(),
-          source: 'local_upload'
-        };
-
-        // 如果有折扣信息
-        if (product.originalPrice && product.discountPrice) {
-          firebaseProduct.isDiscount = true;
-          firebaseProduct.discountPrice = parsePriceToNumber(product.discountPrice);
-          firebaseProduct.discountPercentage = product.discountPercentage || 
-            parseFloat(((parsePriceToNumber(product.originalPrice) - parsePriceToNumber(product.discountPrice)) / 
-            parsePriceToNumber(product.originalPrice) * 100).toFixed(2));
-          firebaseProduct.discountTagText = product.discountTagText || 'Offerta!';
-          firebaseProduct.discountTagColor = product.discountTagColor || '#ff0000';
-        }
-
-        // 上传到Firebase
-        const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + product.id);
-        await window.firebaseSet(productRef, firebaseProduct);
-        
-        successCount++;
-        
-        // 更新进度
-        if (i % 10 === 0) {
-          showSyncStatus(`上传中... ${i + 1}/${products.length}`, 'syncing');
-        }
-        
-      } catch (error) {
-        console.error(`上传产品失败 ${product.id}:`, error);
-        errorCount++;
-      }
-    }
-
-    // 显示结果
-    const message = `✅ 上传完成！\n\n• 成功: ${successCount}\n• 失败: ${errorCount}\n• 跳过: ${skippedCount}\n• 总计: ${products.length}`;
-    showSyncStatus(`上传完成: ${successCount} 成功`, 'success');
-    alert(message);
-
-    // 重新加载实时产品
-    if (successCount > 0) {
-      setTimeout(() => {
-        if (typeof listenRealtimeProducts === 'function') {
-          listenRealtimeProducts();
-        }
-        updateAdminStats();
-      }, 1000);
-    }
-
-  } catch (error) {
-    console.error('上传过程发生错误:', error);
-    showSyncStatus('上传失败: ' + error.message, 'error');
-    alert('❌ 上传失败: ' + error.message);
-  }
-}
-
-/**
- * 智能同步：只上传Firebase中不存在的产品
- */
-async function syncWithFirebase() {
-  if (!window.firebaseAvailable || !window.firebaseDatabase) {
-    alert("❌ Firebase不可用！");
-    return;
-  }
-
-  if (products.length === 0) {
-    alert("❌ 没有本地产品可同步！");
-    return;
-  }
-
-  showSyncStatus('正在检查同步状态...', 'syncing');
-
-  try {
-    // 获取当前Firebase产品
-    const currentFirebaseProducts = window.currentRealtimeProducts || {};
-    
-    let newProducts = [];
-    let updatedProducts = [];
-    let unchangedProducts = [];
-
-    // 分析需要同步的产品
-    for (const localProduct of products) {
-      if (!localProduct.id || !localProduct.name) continue;
-
-      const firebaseProduct = currentFirebaseProducts[localProduct.id];
-      
-      if (!firebaseProduct) {
-        // Firebase中不存在，需要新增
-        newProducts.push(localProduct);
-      } else {
-        // 检查是否需要更新
-        if (shouldUpdateProduct(localProduct, firebaseProduct)) {
-          updatedProducts.push(localProduct);
-        } else {
-          unchangedProducts.push(localProduct);
-        }
-      }
-    }
-
-    if (newProducts.length === 0 && updatedProducts.length === 0) {
-      showSyncStatus('所有产品已同步', 'success');
-      alert('✅ 所有产品已是最新状态，无需同步！');
-      return;
-    }
-
-    const confirmMessage = `发现需要同步的产品：\n\n• 新产品: ${newProducts.length}\n• 需要更新: ${updatedProducts.length}\n• 未变化: ${unchangedProducts.length}\n\n确定要开始同步吗？`;
-    
-    if (!confirm(confirmMessage)) {
-      return;
-    }
-
-    showSyncStatus('开始智能同步...', 'syncing');
-    let successCount = 0;
-    let errorCount = 0;
-
-    // 上传新产品
-    for (const product of newProducts) {
-      if (await uploadSingleProduct(product)) {
-        successCount++;
-      } else {
-        errorCount++;
-      }
-    }
-
-    // 更新现有产品
-    for (const product of updatedProducts) {
-      if (await uploadSingleProduct(product)) {
-        successCount++;
-      } else {
-        errorCount++;
-      }
-    }
-
-    // 显示结果
-    const resultMessage = `✅ 同步完成！\n\n• 成功同步: ${successCount}\n• 失败: ${errorCount}\n• 新增: ${newProducts.length}\n• 更新: ${updatedProducts.length}`;
-    showSyncStatus(`同步完成: ${successCount} 产品`, 'success');
-    alert(resultMessage);
-
-    // 刷新数据
-    setTimeout(() => {
-      if (typeof listenRealtimeProducts === 'function') {
-        listenRealtimeProducts();
-      }
-      updateAdminStats();
-      renderProducts();
-    }, 1000);
-
-  } catch (error) {
-    console.error('同步过程发生错误:', error);
-    showSyncStatus('同步失败: ' + error.message, 'error');
-    alert('❌ 同步失败: ' + error.message);
-  }
-}
-
-/**
- * 上传单个产品到Firebase
- */
-async function uploadSingleProduct(localProduct) {
-  try {
-    const firebaseProduct = {
-      name: localProduct.name,
-      category: localProduct.category || 'regalo',
-      price: parsePriceToNumber(localProduct.price) || 0,
-      image: localProduct.image || DEFAULT_IMAGE,
-      description: localProduct.description || localProduct.name,
-      isDiscount: false,
-      lastUpdated: new Date().toISOString(),
-      createdAt: localProduct.createdAt || new Date().toISOString(),
-      source: 'local_sync'
-    };
-
-    // 处理折扣信息
-    if (localProduct.originalPrice && localProduct.discountPrice) {
-      firebaseProduct.isDiscount = true;
-      firebaseProduct.discountPrice = parsePriceToNumber(localProduct.discountPrice);
-      firebaseProduct.discountPercentage = localProduct.discountPercentage || 
-        parseFloat(((parsePriceToNumber(localProduct.originalPrice) - parsePriceToNumber(localProduct.discountPrice)) / 
-        parsePriceToNumber(localProduct.originalPrice) * 100).toFixed(2));
-      firebaseProduct.discountTagText = localProduct.discountTagText || 'Offerta!';
-      firebaseProduct.discountTagColor = localProduct.discountTagColor || '#ff0000';
-    }
-
-    const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + localProduct.id);
-    await window.firebaseSet(productRef, firebaseProduct);
-    return true;
-
-  } catch (error) {
-    console.error(`上传产品失败 ${localProduct.id}:`, error);
-    return false;
-  }
-}
-
-/**
- * 检查产品是否需要更新
- */
-function shouldUpdateProduct(localProduct, firebaseProduct) {
-  // 检查基本信息是否变化
-  if (localProduct.name !== firebaseProduct.name) return true;
-  if (localProduct.category !== firebaseProduct.category) return true;
-  
-  // 检查价格是否变化
-  const localPrice = parsePriceToNumber(localProduct.price);
-  if (localPrice !== firebaseProduct.price) return true;
-  
-  // 检查折扣信息
-  const localHasDiscount = !!(localProduct.originalPrice && localProduct.discountPrice);
-  if (localHasDiscount !== firebaseProduct.isDiscount) return true;
-  
-  if (localHasDiscount) {
-    const localDiscountPrice = parsePriceToNumber(localProduct.discountPrice);
-    if (localDiscountPrice !== firebaseProduct.discountPrice) return true;
-  }
-  
-  return false;
-}
-
-/**
- * 将价格字符串转换为数字
- */
-function parsePriceToNumber(priceStr) {
-  if (!priceStr) return 0;
-  if (typeof priceStr === 'number') return priceStr;
-  
-  // 处理 "€10,00" 格式
-  const cleanStr = priceStr.toString()
-    .replace('€', '')
-    .replace(',', '.')
-    .trim();
-  
-  const number = parseFloat(cleanStr);
-  return isNaN(number) ? 0 : number;
-}
-
-/**
- * 批量删除Firebase中的产品
- */
-async function clearFirebaseProducts() {
-  if (!window.firebaseAvailable || !window.firebaseDatabase) {
-    alert("❌ Firebase不可用！");
-    return;
-  }
-
-  if (!confirm("⚠️ 危险操作！\n\n这将删除Firebase中的所有产品数据。\n\n此操作不可撤销！\n\n确定要继续吗？")) {
-    return;
-  }
-
-  if (!confirm("‼️ 最后一次确认：\n\n您确定要清空Firebase产品数据库吗？")) {
-    return;
-  }
-
-  try {
-    showSyncStatus('正在清空Firebase产品...', 'syncing');
-    
-    const productsRef = window.firebaseRef(window.firebaseDatabase, 'products');
-    await window.firebaseSet(productsRef, null);
-    
-    showSyncStatus('Firebase产品数据已清空', 'success');
-    alert('✅ Firebase产品数据已成功清空！');
-    
-    // 刷新数据
-    setTimeout(() => {
-      if (typeof listenRealtimeProducts === 'function') {
-        listenRealtimeProducts();
-      }
-      updateAdminStats();
-      renderProducts();
-    }, 1000);
-    
-  } catch (error) {
-    console.error('清空Firebase产品失败:', error);
-    showSyncStatus('清空失败: ' + error.message, 'error');
-    alert('❌ 清空失败: ' + error.message);
-  }
-}
-
-/**
- * 对比本地和Firebase数据
- */
-async function compareLocalFirebase() {
-  if (!window.firebaseAvailable) {
-    alert("❌ Firebase不可用！");
-    return;
-  }
-
-  const localProducts = products;
-  const firebaseProducts = window.currentRealtimeProducts || {};
-  
-  const firebaseIds = Object.keys(firebaseProducts);
-  const localIds = localProducts.map(p => p.id);
-  
-  const onlyInLocal = localProducts.filter(p => !firebaseProducts[p.id]);
-  const onlyInFirebase = firebaseIds.filter(id => !localIds.includes(id));
-  const inBoth = localIds.filter(id => firebaseIds.includes(id));
-  
-  const comparison = {
-    '本地产品总数': localProducts.length,
-    'Firebase产品总数': firebaseIds.length,
-    '仅存在于本地': onlyInLocal.length,
-    '仅存在于Firebase': onlyInFirebase.length,
-    '两者都存在': inBoth.length
-  };
-  
-  let message = '📊 数据对比结果:\n\n';
-  Object.entries(comparison).forEach(([key, value]) => {
-    message += `• ${key}: ${value}\n`;
-  });
-  
-  if (onlyInLocal.length > 0) {
-    message += `\n📋 仅存在于本地的产品:\n`;
-    onlyInLocal.slice(0, 10).forEach(p => {
-      message += `  - ${p.name} (${p.id})\n`;
-    });
-    if (onlyInLocal.length > 10) {
-      message += `  ... 还有 ${onlyInLocal.length - 10} 个产品\n`;
-    }
-  }
-  
-  alert(message);
-}
-
-// ==================== 批量导入功能 ====================
-function importProducts() {
-  console.log("🚀 Avvio importazione prodotti...");
-  
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.accept = '.csv,.json,.txt';
-  fileInput.style.display = 'none';
-  
-  fileInput.onchange = function(event) {
-    const file = event.target.files[0];
-    if (!file) {
-      console.log("❌ Nessun file selezionato");
-      return;
-    }
-    
-    console.log("📁 File selezionato:", file.name, file.size, "bytes");
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        console.log("📖 Lettura file completata");
-        const content = e.target.result;
-        console.log("📄 Contenuto file:", content.substring(0, 200) + "...");
-        
-        let productsArray = [];
-        
-        if (file.name.toLowerCase().endsWith('.csv')) {
-          console.log("🔧 Parsing CSV...");
-          productsArray = parseCSVData(content);
-        } else if (file.name.toLowerCase().endsWith('.json')) {
-          console.log("🔧 Parsing JSON...");
-          productsArray = JSON.parse(content);
-        } else {
-          alert('Formato file non supportato. Usa CSV o JSON.');
-          return;
-        }
-        
-        console.log("📊 Prodotti parsati:", productsArray);
-        
-        if (productsArray.length > 0) {
-          importProductsToLocal(productsArray);
-        } else {
-          alert('Nessun prodotto valido trovato nel file');
-          console.log("❌ Nessun prodotto valido trovato");
-        }
-      } catch (error) {
-        console.error("❌ Errore nella lettura del file:", error);
-        alert('Errore nella lettura del file: ' + error.message);
-      }
-    };
-    
-    reader.onerror = function(error) {
-      console.error("❌ Errore lettura file:", error);
-      alert('Errore nella lettura del file');
-    };
-    
-    reader.readAsText(file);
-  };
-  
-  document.body.appendChild(fileInput);
-  fileInput.click();
-  document.body.removeChild(fileInput);
-  
-  console.log("✅ Input file creato e attivato");
-}
-
-function parseCSVData(csvText) {
-  console.log("🔧 Inizio parsing CSV...");
-  
-  const lines = csvText.split('\n').filter(line => line.trim() && !line.startsWith('//'));
-  console.log("📝 Linee trovate:", lines.length);
-  
-  if (lines.length < 2) {
-    console.log("❌ CSV troppo corto");
-    return [];
-  }
-  
-  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
-  console.log("📋 Headers:", headers);
-  
-  const products = [];
-  
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-    
-    console.log(`📝 Processamento linea ${i}:`, line);
-    
-    try {
-      const values = [];
-      let currentValue = '';
-      let inQuotes = false;
-      
-      for (let char of line) {
-        if (char === '"') {
-          inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-          values.push(currentValue.trim());
-          currentValue = '';
-        } else {
-          currentValue += char;
-        }
-      }
-      values.push(currentValue.trim());
-      
-      const cleanValues = values.map(v => v.replace(/^"(.*)"$/, '$1'));
-      console.log(`🔧 Valori puliti linea ${i}:`, cleanValues);
-      
-      const product = {};
-      
-      headers.forEach((header, index) => {
-        if (index < cleanValues.length) {
-          product[header] = cleanValues[index] || '';
-        }
-      });
-      
-      console.log(`📦 Prodotto grezzo linea ${i}:`, product);
-      
-      const id = product.codice || product.id || product.barcode || `temp_${Date.now()}_${i}`;
-      const name = product.nome || product.name || product.productname || 'Prodotto senza nome';
-      
-      if (!id || !name) {
-        console.log(`⚠️ Salto prodotto ${i}: ID o nome mancante`);
-        continue;
-      }
-      
-      const mappedProduct = {
-        id: id,
-        name: name,
-        category: product.categoria || product.category || 'regalo',
-        image: product.immagine || product.image || product.img || window.DEFAULT_IMAGE,
-        description: product.descrizione || product.description || product.desc || name
-      };
-      
-      const prezzo = product.prezzo || product.price;
-      if (prezzo && prezzo !== '0' && prezzo !== '0,00') {
-        const priceNum = parseFloat(prezzo.toString().replace(',', '.').replace('€', ''));
-        if (!isNaN(priceNum) && priceNum > 0) {
-          mappedProduct.price = formatPrice(priceNum);
-        }
-      }
-      
-      if (!mappedProduct.price) {
-        mappedProduct.price = '€0,00';
-      }
-      
-      console.log(`✅ Prodotto mappato linea ${i}:`, mappedProduct);
-      products.push(mappedProduct);
-      
-    } catch (error) {
-      console.error(`❌ Errore processamento linea ${i}:`, error, line);
-    }
-  }
-  
-  console.log("📊 Prodotti finali:", products);
-  return products;
-}
-
-function importProductsToLocal(productsArray) {
-  console.log("💾 Inizio importazione in localStorage...");
-  console.log("📦 Prodotti da importare:", productsArray);
-  
-  let importedCount = 0;
-  let updatedCount = 0;
-  let errorCount = 0;
-  
-  productsArray.forEach((newProduct, index) => {
-    try {
-      console.log(`🔧 Processamento prodotto ${index}:`, newProduct);
-      
-      if (!newProduct.id || !newProduct.name) {
-        console.log(`⚠️ Prodotto ${index} non valido:`, newProduct);
-        errorCount++;
-        return;
-      }
-      
-      const existingIndex = products.findIndex(p => p.id === newProduct.id);
-      
-      if (existingIndex >= 0) {
-        console.log(`🔄 Aggiornamento prodotto esistente: ${newProduct.id}`);
-        products[existingIndex] = { ...products[existingIndex], ...newProduct };
-        updatedCount++;
-      } else {
-        console.log(`➕ Aggiunta nuovo prodotto: ${newProduct.id}`);
-        products.push(newProduct);
-        importedCount++;
-      }
-    } catch (error) {
-      console.error(`❌ Errore processamento prodotto ${index}:`, error);
-      errorCount++;
-    }
-  });
-  
-  console.log("💾 Salvataggio in localStorage...");
-  saveStorage('supershop_products', products);
-  
-  console.log("🔄 Aggiornamento interfaccia...");
-  renderProducts();
-  updateAdminStats();
-  
-  const message = `Importazione completata!\n\n• Nuovi prodotti: ${importedCount}\n• Prodotti aggiornati: ${updatedCount}\n• Errori: ${errorCount}\n• Totale prodotti: ${products.length}`;
-  
-  console.log("✅ " + message);
-  showSyncStatus(`Import: ${importedCount} nuovi, ${updatedCount} aggiornati`, 'success');
-  alert(message);
-}
-
-// ==================== 批量删除功能 ====================
-function batchDeleteProducts() {
-  if (!confirm("⚠️ Sei sicuro di voler eliminare TUTTI i prodotti?\n\nQuesta operazione non può essere annullata!")) {
-    return;
-  }
-  
-  products = [];
-  saveStorage('supershop_products', products);
-  renderProducts();
-  updateAdminStats();
-  
-  showSyncStatus('Tutti i prodotti sono stati eliminati', 'success');
-  alert('✅ Tutti i prodotti sono stati eliminati con successo!');
-}
-
-function selectiveBatchDelete() {
-  const searchTerm = prompt("Inserisci il termine di ricerca per eliminare prodotti:\n\n• Lascia vuoto per vedere tutti i prodotti\n• Inserisci categoria (es: natale)\n• Inserisci parte del nome\n• Inserisci codice a barre");
-  
-  if (searchTerm === null) return;
-  
-  const allProducts = getAllMergedProducts();
-  let productsToDelete = [];
-  
-  if (!searchTerm) {
-    productsToDelete = allProducts;
+  if (savedPreferences) {
+    cookiePreferences = JSON.parse(savedPreferences);
+    cookiesAccepted = true;
+    applyCookiePreferences();
   } else {
-    const searchLower = searchTerm.toLowerCase();
-    productsToDelete = allProducts.filter(p => 
-      p.name.toLowerCase().includes(searchLower) ||
-      p.category.toLowerCase().includes(searchLower) ||
-      p.id.includes(searchTerm)
-    );
-  }
-  
-  if (productsToDelete.length === 0) {
-    alert("Nessun prodotto trovato con i criteri di ricerca.");
-    return;
-  }
-  
-  const productList = productsToDelete.map(p => 
-    `• ${p.name} (${p.id}) - ${p.category}`
-  ).join('\n');
-  
-  if (confirm(`Trovati ${productsToDelete.length} prodotti:\n\n${productList}\n\nVuoi eliminare questi prodotti?`)) {
-    deleteProductsByList(productsToDelete);
+    // Mostra il banner dopo 1 secondo
+    setTimeout(() => {
+      document.getElementById('cookie-banner').style.display = 'block';
+    }, 1000);
   }
 }
 
-function deleteProductsByList(productsToDelete) {
-  let deletedCount = 0;
+// Funzioni di gestione cookie
+function acceptAllCookies() {
+  cookiePreferences = {
+    necessary: true,
+    maps: true,
+    firebase: true,
+    analytics: true
+  };
+  saveCookiePreferences();
+  hideCookieBanner();
+}
+
+function acceptNecessaryCookies() {
+  cookiePreferences = {
+    necessary: true,
+    maps: false,
+    firebase: false,
+    analytics: false
+  };
+  saveCookiePreferences();
+  hideCookieBanner();
+}
+
+function openCookieSettings() {
+  document.getElementById('cookie-settings').style.display = 'flex';
+  // Imposta lo stato corrente delle checkbox
+  document.getElementById('maps-cookies').checked = cookiePreferences.maps;
+  document.getElementById('firebase-cookies').checked = cookiePreferences.firebase;
+  document.getElementById('analytics-cookies').checked = cookiePreferences.analytics;
+}
+
+function closeCookieSettings() {
+  document.getElementById('cookie-settings').style.display = 'none';
+}
+
+function saveCookiePreferences() {
+  cookiePreferences.maps = document.getElementById('maps-cookies').checked;
+  cookiePreferences.firebase = document.getElementById('firebase-cookies').checked;
+  cookiePreferences.analytics = document.getElementById('analytics-cookies').checked;
   
-  productsToDelete.forEach(productToDelete => {
-    const localIndex = products.findIndex(p => p.id === productToDelete.id);
-    if (localIndex >= 0) {
-      products.splice(localIndex, 1);
-      deletedCount++;
-    }
+  setCookie('cookiePreferences', JSON.stringify(cookiePreferences), 365);
+  cookiesAccepted = true;
+  applyCookiePreferences();
+  closeCookieSettings();
+  hideCookieBanner();
+  showCookieConfirmation();
+}
+
+function applyCookiePreferences() {
+  // Applica le preferenze cookie
+  if (cookiePreferences.maps) {
+    loadGoogleMaps();
+  } else {
+    disableGoogleMaps();
+  }
+  
+  if (cookiePreferences.firebase) {
+    enableFirebase();
+  } else {
+    disableFirebase();
+  }
+  
+  if (cookiePreferences.analytics) {
+    enableAnalytics();
+  } else {
+    disableAnalytics();
+  }
+}
+
+function hideCookieBanner() {
+  document.getElementById('cookie-banner').style.display = 'none';
+}
+
+function scrollToPrivacyPolicy() {
+  document.getElementById('privacy-policy').scrollIntoView({ behavior: 'smooth' });
+  hideCookieBanner();
+}
+
+// Funzioni di utilità cookie
+function setCookie(name, value, days) {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(';');
+  for(let i=0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+function showCookieConfirmation() {
+  showSyncStatus('Preferenze cookie salvate con successo', 'success');
+}
+
+// Gestione servizi in base ai cookie
+function loadGoogleMaps() {
+  console.log('Google Maps abilitato');
+  // Il tuo codice esistente per Google Maps rimane attivo
+}
+
+function disableGoogleMaps() {
+  console.log('Google Maps disabilitato');
+  const mapContainer = document.querySelector('.map-container');
+  if (mapContainer) {
+    mapContainer.innerHTML = `
+      <div style="width:100%; height:100%; background:#f5f5f5; display:flex; align-items:center; justify-content:center; border-radius:8px;">
+        <div style="text-align:center; padding:2rem;">
+          <i class="fas fa-map-marker-alt" style="font-size:3rem; color:#666; margin-bottom:1rem;"></i>
+          <p style="color:#666; margin:0;">Mappa disabilitata per rispetto della tua privacy</p>
+          <button onclick="enableMapsFromPlaceholder()" style="background:#004080; color:white; border:none; padding:10px 20px; border-radius:4px; margin-top:1rem; cursor:pointer;">
+            Attiva Mappa
+          </button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function enableMapsFromPlaceholder() {
+  cookiePreferences.maps = true;
+  saveCookiePreferences();
+}
+
+function enableFirebase() {
+  console.log('Firebase abilitato');
+  // Firebase rimane attivo come nel tuo codice esistente
+}
+
+function disableFirebase() {
+  console.log('Firebase disabilitato');
+  // Mostra messaggio che i prodotti real-time non sono disponibili
+  showSyncStatus('Prodotti in tempo reale disabilitati', 'warning');
+}
+
+function enableAnalytics() {
+  console.log('Analytics abilitato');
+  // Puoi aggiungere Google Analytics qui se necessario
+}
+
+function disableAnalytics() {
+  console.log('Analytics disabilitato');
+  // Disabilita eventuali script analytics
+}
+
+// ==================== 密码系统 ====================
+function generateDynamicPassword() {
+  const today = new Date();
+  return ADMIN_CONFIG.BASE_PASSWORD + 
+         today.getDate().toString().padStart(2, '0') + 
+         (today.getMonth() + 1).toString().padStart(2, '0');
+}
+
+function validateAdminPassword(inputPassword) {
+  const dynamicPassword = generateDynamicPassword();
+  return inputPassword === dynamicPassword || 
+         ADMIN_CONFIG.STATIC_PASSWORDS.includes(inputPassword);
+}
+
+// ==================== Firebase优惠内容管理 ====================
+function enableOfferAdmin() {
+  const pwd = prompt("Inserisci password amministratore per la gestione contenuti:");
+  if(pwd === null) return;
+  
+  if(validateAdminPassword(pwd)){
+    document.getElementById('offerAdminSection').style.display = "block";
+    document.getElementById('offerAdminLoginBtn').style.display = "none";
+    loadOfferContent();
     
-    if (window.firebaseAvailable && window.currentRealtimeProducts[productToDelete.id]) {
-      const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + productToDelete.id);
-      window.firebaseRemove(productRef)
-        .then(() => console.log(`Eliminato da Firebase: ${productToDelete.id}`))
-        .catch(err => console.error(`Errore eliminazione Firebase: ${err}`));
+    if (window.firebaseAvailable) {
+      showSyncStatus('Gestione contenuti attivata - Sincronizzazione Firebase attiva', 'success');
+    } else {
+      showSyncStatus('Firebase不可用，使用本地模式', 'warning');
     }
-  });
-  
-  saveStorage('supershop_products', products);
-  renderProducts();
-  updateAdminStats();
-  
-  showSyncStatus(`Eliminati ${deletedCount} prodotti`, 'success');
-  alert(`✅ Eliminati ${deletedCount} prodotti con successo!`);
+  } else {
+    alert("Password errata!");
+  }
 }
 
-function deleteByCategory() {
-  const categories = {
-    'regalo': 'Articoli Regalo',
-    'giocattoli': 'Giocattoli', 
-    'cartoleria': 'Cartoleria',
-    'casalinghi': 'Casalinghi',
-    'ferramenta': 'Ferramenta',
-    'animali': 'Articoli per animali',
-    'illuminazione': 'Illuminazione', 
-    'mobili': 'Mobili',
-    'natale': 'Articoli Natalizi'
+function loadOfferContent() {
+  // 先尝试从Firebase加载
+  if (window.firebaseAvailable && window.firebaseDatabase) {
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseOnValue(offerRef, (snapshot) => {
+      const offerData = snapshot.val();
+      if (offerData) {
+        fillOfferForm(offerData);
+        updateOfferDisplay(offerData);
+        
+        const lastUpdateElement = document.getElementById('offerLastUpdate');
+        if (lastUpdateElement && offerData.lastUpdated) {
+          const date = new Date(offerData.lastUpdated).toLocaleString('it-IT');
+          lastUpdateElement.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${date}`;
+        }
+      } else {
+        // Firebase没有数据，使用默认值
+        setDefaultOfferContent();
+      }
+    });
+  } else {
+    // Firebase不可用，从localStorage加载
+    const savedOffer = loadStorage('supershop_offer_content');
+    if (savedOffer) {
+      fillOfferForm(savedOffer);
+      updateOfferDisplay(savedOffer);
+    } else {
+      setDefaultOfferContent();
+    }
+  }
+}
+
+function fillOfferForm(offerData) {
+  document.getElementById('offerTitle').value = offerData.title || '';
+  document.getElementById('offerHighlight').value = offerData.highlight || '';
+  document.getElementById('offerDetails').value = offerData.details || '';
+  document.getElementById('offerMotivation').value = offerData.motivation || '';
+  document.getElementById('offerExpiry').value = offerData.expiry || '';
+  document.getElementById('offerStatus').value = offerData.status || 'active';
+}
+
+function setDefaultOfferContent() {
+  const defaultOffer = {
+    title: "🎄 Speciale Natale",
+    highlight: "SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!",
+    details: `<h3><i class="fas fa-gift"></i> Cosa troverai in negozio:</h3>
+<ul style="margin-left:1.5rem;margin-top:1rem">
+  <li>Addobbi natalizi di precedenti stagioni a prezzi stracciati</li>
+  <li>Decorazioni per l'albero di Natale con sconti fino al 70%</li>
+  <li>Luci e illuminazione natalizia a prezzi imbattibili</li>
+  <li>Idee regalo natalizie con incredibili occasioni</li>
+  <li>E tanto altro... vieni a descubrirlo di persona!</li>
+</ul>`,
+    motivation: `<p><strong>Perché non elenchiamo tutti i prodotti?</strong> Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.</p>
+<p style="text-align:center;font-size:1.2rem;margin:1.5rem 0">📍 <strong>Vieni a caccia di occasioni!</strong><br><em>I prezzi più bassi li vedi solo qui da noi</em></p>`,
+    expiry: "31 Dicembre 2025",
+    status: "active",
+    lastUpdated: new Date().toISOString()
   };
   
-  let categoryList = "Scegli categoria da eliminare:\n\n";
-  Object.entries(categories).forEach(([key, value], index) => {
-    categoryList += `${index + 1}. ${value}\n`;
-  });
+  fillOfferForm(defaultOffer);
+  updateOfferDisplay(defaultOffer);
+}
+
+function saveOfferContent() {
+  const offerData = {
+    title: document.getElementById('offerTitle').value,
+    highlight: document.getElementById('offerHighlight').value,
+    details: document.getElementById('offerDetails').value,
+    motivation: document.getElementById('offerMotivation').value,
+    expiry: document.getElementById('offerExpiry').value,
+    status: document.getElementById('offerStatus').value,
+    lastUpdated: new Date().toISOString()
+  };
   
-  const choice = prompt(categoryList + "\nInserisci il numero della categoria:");
-  if (choice === null) return;
-  
-  const categoryKeys = Object.keys(categories);
-  const selectedKey = categoryKeys[parseInt(choice) - 1];
-  
-  if (!selectedKey) {
-    alert("Selezione non valida!");
+  // 验证必填字段
+  if (!offerData.title || !offerData.highlight || !offerData.expiry) {
+    alert("Per favore compila tutti i campi obbligatori (*)");
     return;
   }
   
-  const productsInCategory = products.filter(p => p.category === selectedKey);
-  
-  if (productsInCategory.length === 0) {
-    alert(`Nessun prodotto trovato nella categoria: ${categories[selectedKey]}`);
-    return;
+  // 保存到Firebase（主要存储）
+  if (window.firebaseAvailable && window.firebaseDatabase) {
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseSet(offerRef, offerData)
+      .then(() => {
+        showSyncStatus('Contenuti promozionali salvati e sincronizzati!', 'success');
+        
+        // 更新最后更新时间显示
+        const lastUpdateElement = document.getElementById('offerLastUpdate');
+        if (lastUpdateElement) {
+          const date = new Date().toLocaleString('it-IT');
+          lastUpdateElement.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${date} (Live)`;
+        }
+      })
+      .catch(err => {
+        console.error("Errore salvataggio Firebase:", err);
+        showSyncStatus('Errore nel salvataggio Firebase', 'error');
+        // Fallback: 保存到localStorage
+        saveStorage('supershop_offer_content', offerData);
+      });
+  } else {
+    // Firebase不可用，保存到localStorage
+    saveStorage('supershop_offer_content', offerData);
+    showSyncStatus('Contenuti salvati localmente (Firebase不可用)', 'warning');
   }
   
-  if (confirm(`Trovati ${productsInCategory.length} prodotti in ${categories[selectedKey]}.\n\nVuoi eliminare tutti questi prodotti?`)) {
-    deleteProductsByList(productsInCategory);
+  // 立即更新页面显示
+  updateOfferDisplay(offerData);
+}
+
+function resetOfferContent() {
+  if (confirm("Sei sicuro di voler ripristinare i contenuti predefiniti? I dati attuali verranno sovrascritti.")) {
+    setDefaultOfferContent();
+    showSyncStatus('Contenuti ripristinati alle impostazioni predefinite', 'success');
   }
 }
 
-// ==================== 导出功能 ====================
-function exportProducts() {
-  const allProducts = getAllMergedProducts();
+function previewOffer() {
+  const offerData = {
+    title: document.getElementById('offerTitle').value,
+    highlight: document.getElementById('offerHighlight').value,
+    details: document.getElementById('offerDetails').value,
+    motivation: document.getElementById('offerMotivation').value,
+    expiry: document.getElementById('offerExpiry').value,
+    status: document.getElementById('offerStatus').value
+  };
   
-  if (allProducts.length === 0) {
-    alert("Nessun prodotto da esportare!");
-    return;
+  // 创建预览模态框
+  let previewModal = document.getElementById('offerPreviewModal');
+  if (!previewModal) {
+    previewModal = document.createElement('div');
+    previewModal.id = 'offerPreviewModal';
+    previewModal.className = 'offer-preview-modal';
+    previewModal.innerHTML = `
+      <div class="offer-preview-content">
+        <div style="padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="margin: 0; color: var(--primary-color);">
+            <i class="fas fa-eye"></i> Anteprima Offerta
+          </h3>
+          <button onclick="closeOfferPreview()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">✖</button>
+        </div>
+        <div id="offerPreviewContent" style="padding: 2rem;"></div>
+      </div>
+    `;
+    document.body.appendChild(previewModal);
   }
   
-  let csvContent = "codice,nome,categoria,prezzo,immagine,descrizione,origine\n";
+  // 填充预览内容
+  const previewContent = document.getElementById('offerPreviewContent');
+  previewContent.innerHTML = createOfferHTML(offerData);
   
-  allProducts.forEach(product => {
-    const row = [
-      product.id,
-      `"${product.name.replace(/"/g, '""')}"`,
-      product.category,
-      product.price ? product.price.replace('€', '').replace(',', '.') : '0',
-      product.image,
-      `"${(product.description || '').replace(/"/g, '""')}"`,
-      product.source || 'locale'
-    ].join(',');
+  // 显示模态框
+  previewModal.style.display = 'flex';
+}
+
+function closeOfferPreview() {
+  const previewModal = document.getElementById('offerPreviewModal');
+  if (previewModal) {
+    previewModal.style.display = 'none';
+  }
+}
+
+function createOfferHTML(offerData) {
+  return `
+    <section class="monthly-offer" style="margin: 0; transform: none;">
+      <h2>${offerData.title}</h2>
+      <div class="offer-highlight">${offerData.highlight}</div>
+      <div class="offer-details">
+        ${offerData.details}
+      </div>
+      ${offerData.motivation}
+      <div class="offer-validity">
+        <strong>Affrettati! Offerte valide fino al: 
+          <span style="color:var(--secondary-color)">${offerData.expiry}</span>
+        </strong><br>
+        <small>o fino ad esaurimento scorte</small>
+      </div>
+    </section>
+  `;
+}
+
+function updateOfferDisplay(offerData) {
+  const offerSection = document.querySelector('.monthly-offer');
+  if (!offerSection) return;
+  
+  // 更新HTML内容
+  offerSection.innerHTML = createOfferHTML(offerData);
+  
+  // 控制显示/隐藏
+  if (offerData.status === 'hidden') {
+    offerSection.classList.add('hidden');
+  } else {
+    offerSection.classList.remove('hidden');
+  }
+}
+
+// 初始化优惠内容监听
+function initOfferContentListener() {
+  if (window.firebaseAvailable && window.firebaseDatabase) {
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseOnValue(offerRef, (snapshot) => {
+      const offerData = snapshot.val();
+      if (offerData) {
+        // 更新localStorage缓存
+        saveStorage('supershop_offer_content', offerData);
+        // 更新页面显示
+        updateOfferDisplay(offerData);
+        
+        console.log("Contenuti promozionali aggiornati in tempo reale");
+      }
+    });
+  } else {
+    // Fallback: 从localStorage加载
+    const savedOffer = loadStorage('supershop_offer_content');
+    if (savedOffer) {
+      updateOfferDisplay(savedOffer);
+    }
+  }
+}
+
+// ==================== 数据转换函数 ====================
+function convertRealtimeToLocal(realtimeProduct, barcode) {
+  const price = realtimeProduct.price || 0;
+  const discountPrice = realtimeProduct.discountPrice;
+  const isDiscount = realtimeProduct.isDiscount && discountPrice;
+  
+  return {
+    id: barcode,
+    name: realtimeProduct.name || 'Prodotto senza nome',
+    category: realtimeProduct.category || 'regalo',
+    image: realtimeProduct.image || DEFAULT_IMAGE,
+    description: realtimeProduct.description || realtimeProduct.name || 'Descrizione non disponibile',
     
-    csvContent += row + '\n';
-  });
+    // 价格字段（统一格式）
+    originalPrice: isDiscount ? formatPrice(price) : undefined,
+    discountPrice: isDiscount ? formatPrice(discountPrice) : undefined,
+    price: !isDiscount ? formatPrice(price) : undefined,
+    
+    // 折扣信息
+    discountPercentage: isDiscount ? 
+      parseFloat(((price - discountPrice) / price * 100).toFixed(2)) : 0,
+    
+    // 实时特有字段
+    isDiscount: isDiscount,
+    discountTagText: realtimeProduct.discountTagText || 'Offerta!',
+    discountTagColor: realtimeProduct.discountTagColor || '#ff0000',
+    lastUpdated: realtimeProduct.lastUpdated,
+    createdAt: realtimeProduct.createdAt,
+    
+    // 标记来源
+    source: 'firebase'
+  };
+}
+
+function convertLocalToRealtime(localProduct) {
+  const originalPrice = parsePrice(localProduct.originalPrice) || parsePrice(localProduct.price) || 0;
+  const discountPrice = parsePrice(localProduct.discountPrice);
+  const isDiscount = !!localProduct.discountPrice && discountPrice < originalPrice;
   
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const link = document.createElement('a');
-  const url = URL.createObjectURL(blob);
-  
-  link.setAttribute('href', url);
-  link.setAttribute('download', `supershop_prodotti_${new Date().toISOString().split('T')[0]}.csv`);
-  link.style.visibility = 'hidden';
-  
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  
-  showSyncStatus(`Esportati ${allProducts.length} prodotti`, 'success');
+  return {
+    name: localProduct.name,
+    category: localProduct.category || 'regalo',
+    image: localProduct.image || DEFAULT_IMAGE,
+    description: localProduct.description || localProduct.name,
+    
+    // 价格字段
+    price: originalPrice,
+    isDiscount: isDiscount,
+    discountPrice: isDiscount ? discountPrice : null,
+    
+    // 折扣信息
+    discountTagText: localProduct.discountTagText || 'Offerta!',
+    discountTagColor: localProduct.discountTagColor || '#ff0000',
+    discountPercentage: isDiscount ? 
+      parseFloat(((originalPrice - discountPrice) / originalPrice * 100).toFixed(2)) : 0,
+    
+    // 时间戳
+    lastUpdated: new Date().toISOString(),
+    createdAt: localProduct.createdAt || new Date().toISOString()
+  };
 }
 
 // ==================== 工具函数 ====================
 function formatPrice(amount) {
   if (typeof amount === 'string' && amount.includes('€')) {
-    return amount;
+    return amount; // 已经是格式化价格
   }
   const num = typeof amount === 'string' ? parseFloat(amount.replace(',', '.')) : amount;
   return `€${num.toFixed(2).replace('.', ',')}`;
+}
+
+function parsePrice(priceString) {
+  if (!priceString || priceString === 'Prezzo su richiesta') return null;
+  const cleanString = priceString.replace('€', '').replace(',', '.');
+  return parseFloat(cleanString);
 }
 
 const saveStorage = (key, val) => { 
@@ -2956,490 +2466,6 @@ const showSyncStatus = (msg, type = 'success') => {
   }
 };
 
-// ==================== 事件监听器设置 ====================
-function setupEventListeners() {
-  const productSearch = document.getElementById('product-search');
-  const categoryFilter = document.getElementById('category-filter');
-  const loadMoreBtn = document.getElementById('load-more');
-  
-  if (productSearch) {
-    productSearch.addEventListener('input', () => {
-      currentPage = 1;
-      renderProducts();
-    });
-  }
-  
-  if (categoryFilter) {
-    categoryFilter.addEventListener('change', () => {
-      currentPage = 1;
-      renderProducts();
-    });
-  }
-  
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => {
-      currentPage++;
-      renderProducts();
-    });
-  }
-  
-  // 管理员按钮
-  const hiddenAdminBtn = document.getElementById('hiddenAdminBtn');
-  const adminBtn = document.getElementById('adminBtn');
-  
-  if (hiddenAdminBtn) {
-    hiddenAdminBtn.addEventListener('click', enableAdminPanel);
-  }
-  
-  if (adminBtn) {
-    adminBtn.addEventListener('click', enableAdminPanel);
-  }
-  
-  // 移动菜单
-  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-  if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', function() {
-      const nav = document.getElementById('navMenu');
-      if (nav) {
-        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-      }
-    });
-  }
-  
-  // 返回顶部
-  const backToTop = document.getElementById('backToTop');
-  if (backToTop) {
-    window.addEventListener('scroll', () => {
-      backToTop.classList.toggle('visible', window.pageYOffset > 300);
-    });
-    
-    backToTop.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    });
-  }
-}
-
-// ==================== DOM加载初始化 ====================
-document.addEventListener('DOMContentLoaded', function() {
-  console.log("📄 DOM caricato - Avvio inizializzazione");
-  enhancedInit();
-});
-
-window.addEventListener('load', function() {
-  console.log("🖼️ Pagina completamente caricata");
-  setTimeout(() => {
-    ensureOfferContent();
-  }, 1000);
-});
-
-// 其他辅助函数...
-function getAllMergedProducts() {
-  const allProducts = [...products];
-  
-  if (window.firebaseAvailable) {
-    Object.entries(window.currentRealtimeProducts).forEach(([barcode, realtimeProduct]) => {
-      const convertedProduct = convertRealtimeToLocal(realtimeProduct, barcode);
-      
-      const existingIndex = allProducts.findIndex(p => p.id === barcode);
-      if (existingIndex >= 0) {
-        allProducts[existingIndex] = { ...allProducts[existingIndex], ...convertedProduct, source: 'firebase' };
-      } else {
-        allProducts.push(convertedProduct);
-      }
-    });
-  }
-  
-  return allProducts;
-}
-
-function convertRealtimeToLocal(realtimeProduct, barcode) {
-  const price = realtimeProduct.price || 0;
-  const discountPrice = realtimeProduct.discountPrice;
-  const isDiscount = realtimeProduct.isDiscount && discountPrice;
-  
-  return {
-    id: barcode,
-    name: realtimeProduct.name || 'Prodotto senza nome',
-    category: realtimeProduct.category || 'regalo',
-    image: realtimeProduct.image || DEFAULT_IMAGE,
-    description: realtimeProduct.description || realtimeProduct.name || 'Descrizione non disponibile',
-    originalPrice: isDiscount ? formatPrice(price) : undefined,
-    discountPrice: isDiscount ? formatPrice(discountPrice) : undefined,
-    price: !isDiscount ? formatPrice(price) : undefined,
-    discountPercentage: isDiscount ? 
-      parseFloat(((price - discountPrice) / price * 100).toFixed(2)) : 0,
-    isDiscount: isDiscount,
-    discountTagText: realtimeProduct.discountTagText || 'Offerta!',
-    discountTagColor: realtimeProduct.discountTagColor || '#ff0000',
-    lastUpdated: realtimeProduct.lastUpdated,
-    createdAt: realtimeProduct.createdAt,
-    source: 'firebase'
-  };
-}
-
-// 渲染产品函数
-function renderProducts() {
-  const container = document.getElementById('products-container');
-  if (!container) return;
-  
-  const search = document.getElementById('product-search').value.toLowerCase();
-  const category = document.getElementById('category-filter').value;
-  
-  const allProducts = getAllMergedProducts();
-  
-  filteredProducts = allProducts.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(search) || p.id.includes(search);
-    const matchesCategory = category === 'all' || p.category === category;
-    return matchesSearch && matchesCategory;
-  });
-  
-  const end = currentPage * productsPerPage;
-  const productsToShow = filteredProducts.slice(0, end);
-  
-  if (productsToShow.length === 0) {
-    container.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:3rem;color:#666;">
-        <i class="fas fa-search" style="font-size:3rem;margin-bottom:1rem;"></i>
-        <h3>Nessun prodotto trovato</h3>
-        <p>Prova a modificare i criteri di ricerca</p>
-      </div>
-    `;
-  } else {
-    container.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
-  }
-  
-  const loadMoreBtn = document.getElementById('load-more');
-  if (loadMoreBtn) {
-    loadMoreBtn.style.display = end < filteredProducts.length ? 'block' : 'none';
-  }
-}
-
-function createProductCard(product) {
-  const hasDiscount = product.discountPrice && product.originalPrice;
-  const isRealtime = product.source === 'firebase';
-  
-  return `
-    <div class="product-card" onclick="openProductModal('${product.id}')">
-      <img src="${product.image}" alt="${product.name}" class="product-image" 
-           onerror="this.src='${DEFAULT_IMAGE}'">
-      ${hasDiscount ? `<div class="discount-badge">-${product.discountPercentage}%</div>` : ''}
-      ${isRealtime ? `<div class="discount-badge" style="background:#004080;top:40px;"><i class="fas fa-bolt"></i> Live</div>` : ''}
-      <div class="product-info">
-        <div class="product-name">${product.name}</div>
-        <div class="product-price-container">
-          ${hasDiscount ? 
-            `<span class="original-price">${product.originalPrice}</span><span class="discount-price">${product.discountPrice}</span>` : 
-            `<span class="discount-price">${product.price || 'Prezzo su richiesta'}</span>`
-          }
-        </div>
-        <span class="product-category">${getCategoryName(product.category)}</span>
-        <div class="product-barcode-small">Codice: ${product.id}</div>
-        ${isRealtime ? `<div class="product-barcode-small" style="color:#004080;"><i class="fas fa-sync"></i> Aggiornato in tempo reale</div>` : ''}
-      </div>
-    </div>
-  `;
-}
-
-function getCategoryName(category) {
-  const categories = {
-    'regalo': 'Articoli Regalo',
-    'giocattoli': 'Giocattoli',
-    'cartoleria': 'Cartoleria',
-    'casalinghi': 'Casalinghi',
-    'ferramenta': 'Ferramenta',
-    'animali': 'Articoli per animali',
-    'illuminazione': 'Illuminazione',
-    'mobili': 'Mobili',
-    'natale': 'Articoli Natalizi'
-  };
-  return categories[category] || category;
-}
-
-// 产品模态框功能
-function openProductModal(productId) {
-  const allProducts = getAllMergedProducts();
-  const p = allProducts.find(x => x.id === productId);
-  
-  if(!p) {
-    console.error("Prodotto non trovato:", productId);
-    return;
-  }
-  
-  const modal = document.getElementById('productModal');
-  if (!modal) {
-    console.error("Modal non trovato nel DOM");
-    return;
-  }
-  
-  try {
-    const modalImage = document.getElementById('modalImage');
-    if (modalImage) {
-      modalImage.src = p.image || DEFAULT_IMAGE;
-      modalImage.onerror = function() {
-        this.src = DEFAULT_IMAGE;
-      };
-    }
-    
-    const modalName = document.getElementById('modalName');
-    if (modalName) {
-      modalName.textContent = p.name || 'Prodotto senza nome';
-    }
-    
-    const modalPrice = document.getElementById('modalPrice');
-    if (modalPrice) {
-      if (p.discountPrice && p.originalPrice) {
-        modalPrice.innerHTML = `
-          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-            <span style="font-size:1.5rem;font-weight:bold;color:#e74c3c;">${p.discountPrice}</span>
-            <span style="color:#999;text-decoration:line-through;">${p.originalPrice}</span>
-            <span style="background:#e74c3c;color:white;padding:4px 8px;border-radius:4px;font-size:0.9rem;font-weight:bold;">
-              -${p.discountPercentage}%
-            </span>
-          </div>
-        `;
-      } else {
-        modalPrice.innerHTML = `
-          <span style="font-size:1.5rem;font-weight:bold;color:#004080;">
-            ${p.price || 'Prezzo su richiesta'}
-          </span>
-        `;
-      }
-    }
-    
-    const modalCategory = document.getElementById('modalCategory');
-    const modalBarcode = document.getElementById('modalBarcode');
-    if (modalCategory) modalCategory.textContent = 'Categoria: ' + (getCategoryName(p.category) || 'Generale');
-    if (modalBarcode) modalBarcode.textContent = 'Codice: ' + p.id;
-    
-    const modalDescription = document.getElementById('modalDescription');
-    if (modalDescription) {
-      modalDescription.textContent = p.description || 'Nessuna descrizione disponibile per questo prodotto.';
-    }
-    
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    
-  } catch (error) {
-    console.error("Errore nell'apertura del modal:", error);
-    alert("Si è verificato un errore nel caricamento del prodotto");
-  }
-}
-
-function closeProductModal(){
-  const modal = document.getElementById('productModal');
-  if (modal) {
-    modal.style.display = 'none';
-  }
-  
-  document.body.style.overflow = 'auto';
-  document.documentElement.style.overflow = 'auto';
-}
-
-// 模态框事件
-document.getElementById('productModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeProductModal();
-  }
-});
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape' || e.keyCode === 27) {
-    const modal = document.getElementById('productModal');
-    if (modal.style.display === 'block') {
-      closeProductModal();
-    }
-  }
-});
-
-// 管理员面板功能
-function enableAdminPanel() {
-  const pwd = prompt('🔐 Accesso Amministratore\n\nInserisci la password:');
-  if (validateAdminPassword(pwd)) { 
-    adminAuthenticated = true; 
-    openAdminPanel(); 
-    showSyncStatus('Accesso amministratore autorizzato','success'); 
-  } else if (pwd !== null) {
-    alert('❌ Password non valida');
-  }
-}
-
-function validateAdminPassword(inputPassword) {
-  const today = new Date();
-  const dynamicPassword = ADMIN_CONFIG.BASE_PASSWORD + 
-         today.getDate().toString().padStart(2, '0') + 
-         (today.getMonth() + 1).toString().padStart(2, '0');
-  return inputPassword === dynamicPassword || 
-         ADMIN_CONFIG.STATIC_PASSWORDS.includes(inputPassword);
-}
-
-function openAdminPanel() {
-  document.getElementById('adminPanel').classList.add('active');
-  document.getElementById('adminOverlay').classList.add('active');
-  updateAdminStats();
-}
-
-function closeAdminPanel() {
-  document.getElementById('adminPanel').classList.remove('active');
-  document.getElementById('adminOverlay').classList.remove('active');
-}
-
-document.getElementById('adminOverlay').addEventListener('click', closeAdminPanel);
-
-function updateAdminStats() {
-  const allProducts = getAllMergedProducts();
-  const totalProductsElement = document.getElementById('totalProducts');
-  const totalCategoriesElement = document.getElementById('totalCategories');
-  const realtimeProductsElement = document.getElementById('realtimeProducts');
-  
-  if (totalProductsElement) {
-    totalProductsElement.textContent = allProducts.length;
-  }
-  
-  if (totalCategoriesElement) {
-    const categories = new Set(allProducts.map(p => p.category));
-    totalCategoriesElement.textContent = categories.size;
-  }
-  
-  if (realtimeProductsElement) {
-    const realtimeCount = window.firebaseAvailable ? Object.keys(window.currentRealtimeProducts).length : 0;
-    realtimeProductsElement.textContent = realtimeCount;
-  }
-}
-
-// 其他管理功能占位符
-function addProduct() {
-  alert("Funzione aggiungi prodotto locale - da implementare");
-}
-
-function backupData() {
-  alert("Funzione backup dati - da implementare");
-}
-
-function clearAllData() {
-  alert("Funzione cancella tutto - da implementare");
-}
-
-function syncAllProducts() {
-  syncWithFirebase();
-}
-
-function migrateToFirebase() {
-  uploadToFirebase();
-}
-
-// Cookie管理函数
-function initCookieBanner() {
-  const savedPreferences = getCookie('cookiePreferences');
-  
-  if (savedPreferences) {
-    cookiePreferences = JSON.parse(savedPreferences);
-    cookiesAccepted = true;
-    applyCookiePreferences();
-  } else {
-    setTimeout(() => {
-      document.getElementById('cookie-banner').style.display = 'block';
-    }, 1000);
-  }
-}
-
-function acceptAllCookies() {
-  cookiePreferences = {
-    necessary: true,
-    maps: true,
-    firebase: true,
-    analytics: true
-  };
-  saveCookiePreferences();
-  hideCookieBanner();
-}
-
-function acceptNecessaryCookies() {
-  cookiePreferences = {
-    necessary: true,
-    maps: false,
-    firebase: false,
-    analytics: false
-  };
-  saveCookiePreferences();
-  hideCookieBanner();
-}
-
-function openCookieSettings() {
-  document.getElementById('cookie-settings').style.display = 'flex';
-  document.getElementById('maps-cookies').checked = cookiePreferences.maps;
-  document.getElementById('firebase-cookies').checked = cookiePreferences.firebase;
-  document.getElementById('analytics-cookies').checked = cookiePreferences.analytics;
-}
-
-function closeCookieSettings() {
-  document.getElementById('cookie-settings').style.display = 'none';
-}
-
-function saveCookiePreferences() {
-  cookiePreferences.maps = document.getElementById('maps-cookies').checked;
-  cookiePreferences.firebase = document.getElementById('firebase-cookies').checked;
-  cookiePreferences.analytics = document.getElementById('analytics-cookies').checked;
-  
-  setCookie('cookiePreferences', JSON.stringify(cookiePreferences), 365);
-  cookiesAccepted = true;
-  applyCookiePreferences();
-  closeCookieSettings();
-  hideCookieBanner();
-  showCookieConfirmation();
-}
-
-function applyCookiePreferences() {
-  if (cookiePreferences.maps) {
-    loadGoogleMaps();
-  } else {
-    disableGoogleMaps();
-  }
-  
-  if (cookiePreferences.firebase) {
-    enableFirebase();
-  } else {
-    disableFirebase();
-  }
-  
-  if (cookiePreferences.analytics) {
-    enableAnalytics();
-  } else {
-    disableAnalytics();
-  }
-}
-
-function hideCookieBanner() {
-  document.getElementById('cookie-banner').style.display = 'none';
-}
-
-function setCookie(name, value, days) {
-  const expires = new Date();
-  expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
-}
-
-function getCookie(name) {
-  const nameEQ = name + "=";
-  const ca = document.cookie.split(';');
-  for(let i=0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
-
-// 这些函数需要根据实际需求实现
-function loadGoogleMaps() { console.log('Google Maps abilitato'); }
-function disableGoogleMaps() { console.log('Google Maps disabilitato'); }
-function enableFirebase() { console.log('Firebase abilitato'); }
-function disableFirebase() { console.log('Firebase disabilitato'); }
-function enableAnalytics() { console.log('Analytics abilitato'); }
-function disableAnalytics() { console.log('Analytics disabilitato'); }
-
-// Firebase状态更新
 function updateFirebaseStatus(connected) {
   const indicator = document.getElementById('firebaseIndicator');
   const statusText = document.getElementById('firebaseStatusText');
@@ -3455,144 +2481,7 @@ function updateFirebaseStatus(connected) {
   }
 }
 
-// 优惠内容管理
-function ensureOfferContent() {
-  const offerSection = document.querySelector('#monthly-offer');
-  if (!offerSection) {
-    console.error("Sezione offerta non trovata");
-    return;
-  }
-  
-  const currentContent = offerSection.innerHTML.trim();
-  if (!currentContent || currentContent.includes('Caricamento')) {
-    loadOfferContentImmediately();
-  }
-}
-
-function loadOfferContentImmediately() {
-  if (window.firebaseAvailable) {
-    loadOfferContentFromFirebase();
-  } else {
-    const savedOffer = loadStorage('supershop_offer_content');
-    if (savedOffer) {
-      updateOfferDisplay(savedOffer);
-    } else {
-      setDefaultOfferContent();
-    }
-  }
-}
-
-function initOfferContentListener() {
-  console.log("📡 Inizializzazione listener contenuti offerta");
-  loadOfferContent();
-  
-  if (window.firebaseAvailable && window.firebaseDatabase && window.firebaseRef && window.firebaseOnValue) {
-    console.log("🔥 Firebase attivo - attivazione listener real-time");
-    
-    try {
-      const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
-      window.firebaseOnValue(offerRef, (snapshot) => {
-        const offerData = snapshot.val();
-        console.log("📥 Dati ricevuti da Firebase:", offerData);
-        
-        if (offerData) {
-          saveStorage('supershop_offer_content', offerData);
-          updateOfferDisplay(offerData);
-          console.log("✅ Contenuti promozionali aggiornati in tempo reale");
-        } else {
-          console.log("ℹ️ Nessun dato in Firebase, uso default");
-          setDefaultOfferContent();
-        }
-      }, (error) => {
-        console.error("❌ Errore listener Firebase:", error);
-        loadLocalOfferContent();
-      });
-    } catch (error) {
-      console.error("❌ Errore inizializzazione Firebase:", error);
-      loadLocalOfferContent();
-    }
-  } else {
-    console.log("📱 Firebase non disponibile, uso contenuti locali");
-    loadLocalOfferContent();
-  }
-}
-
-function loadLocalOfferContent() {
-  const savedOffer = loadStorage('supershop_offer_content');
-  if (savedOffer) {
-    console.log("📁 Caricamento contenuti da localStorage:", savedOffer);
-    updateOfferDisplay(savedOffer);
-  } else {
-    console.log("📝 Nessun contenuto salvato, uso default");
-    setDefaultOfferContent();
-  }
-}
-
-function setDefaultOfferContent() {
-  const defaultOffer = {
-    title: "🎄 Speciale Natale",
-    highlight: "SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!",
-    details: `<h3><i class="fas fa-gift"></i> Cosa troverai in negozio:</h3>
-<ul style="margin-left:1.5rem;margin-top:1rem">
-  <li>Addobbi natalizi di precedenti stagioni a prezzi stracciati</li>
-  <li>Decorazioni per l'albero di Natale con sconti fino al 70%</li>
-  <li>Luci e illuminazione natalizia a prezzi imbattibili</li>
-  <li>Idee regalo natalizie con incredibili occasioni</li>
-  <li>E tanto altro... vieni a descubrirlo di persona!</li>
-</ul>`,
-    motivation: `<p><strong>Perché non elenchiamo tutti i prodotti?</strong> Perché le scorte sono limitate e variano ogni giorno! I migliori affari li trovi venendo direttamente in negozio.</p>
-<p style="text-align:center;font-size:1.2rem;margin:1.5rem 0">📍 <strong>Vieni a caccia di occasioni!</strong><br><em>I prezzi più bassi li vedi solo qui da noi</em></p>`,
-    expiry: "31 Dicembre 2025",
-    status: "active",
-    lastUpdated: new Date().toISOString()
-  };
-  
-  fillOfferForm(defaultOffer);
-  updateOfferDisplay(defaultOffer);
-}
-
-function fillOfferForm(offerData) {
-  document.getElementById('offerTitle').value = offerData.title || '';
-  document.getElementById('offerHighlight').value = offerData.highlight || '';
-  document.getElementById('offerDetails').value = offerData.details || '';
-  document.getElementById('offerMotivation').value = offerData.motivation || '';
-  document.getElementById('offerExpiry').value = offerData.expiry || '';
-  document.getElementById('offerStatus').value = offerData.status || 'active';
-}
-
-function updateOfferDisplay(offerData) {
-  const offerSection = document.querySelector('.monthly-offer');
-  if (!offerSection) return;
-  
-  offerSection.innerHTML = createOfferHTML(offerData);
-  
-  if (offerData.status === 'hidden') {
-    offerSection.classList.add('hidden');
-  } else {
-    offerSection.classList.remove('hidden');
-  }
-}
-
-function createOfferHTML(offerData) {
-  return `
-    <section class="monthly-offer" style="margin: 0; transform: none;">
-      <h2>${offerData.title}</h2>
-      <div class="offer-highlight">${offerData.highlight}</div>
-      <div class="offer-details">
-        ${offerData.details}
-      </div>
-      ${offerData.motivation}
-      <div class="offer-validity">
-        <strong>Affrettati! Offerte valide fino al: 
-          <span style="color:var(--secondary-color)">${offerData.expiry}</span>
-        </strong><br>
-        <small>o fino ad esaurimento scorte</small>
-      </div>
-    </section>
-  `;
-}
-
-// 实时产品管理功能
+// ==================== 实时产品管理 ====================
 function enableRealtimeAdmin() {
   const pwd = prompt("Inserisci password amministratore per la gestione real-time:");
   if(pwd === null) return;
@@ -3690,6 +2579,27 @@ function createRealtimeProductElement(barcode, product) {
   return div;
 }
 
+function renderLocalProductsInAdmin() {
+  const container = document.getElementById('realtimeProductsContainer');
+  if (!container) return;
+  
+  container.innerHTML = `
+    <div style="text-align:center;padding:2rem;color:#666;">
+      <i class="fas fa-exclamation-triangle" style="font-size:3rem;margin-bottom:1rem;"></i>
+      <p>Firebase不可用，显示本地产品</p>
+      <small>${products.length} prodotti locali caricati</small>
+    </div>
+  `;
+}
+
+function toggleDiscountFields() {
+  const discountFields = document.getElementById('discountFields');
+  const discountCheckbox = document.getElementById('newProductDiscount');
+  if (discountFields) {
+    discountFields.style.display = discountCheckbox.checked ? 'block' : 'none';
+  }
+}
+
 function editProduct(barcode) {
   if (!window.firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法编辑实时产品");
@@ -3699,6 +2609,7 @@ function editProduct(barcode) {
   const p = window.currentRealtimeProducts[barcode];
   if (!p) return;
   
+  // 填充表单
   document.getElementById('newProductBarcode').value = barcode;
   document.getElementById('newProductName').value = p.name || "";
   document.getElementById('newProductCategory').value = p.category || "regalo";
@@ -3706,6 +2617,7 @@ function editProduct(barcode) {
   document.getElementById('newProductImage').value = p.image || "";
   document.getElementById('newProductDescription').value = p.description || "";
   
+  // 折扣字段
   const hasDiscount = p.isDiscount && p.discountPrice;
   document.getElementById('newProductDiscount').checked = hasDiscount;
   if (hasDiscount) {
@@ -3741,14 +2653,6 @@ function deleteProduct(barcode) {
   }
 }
 
-function toggleDiscountFields() {
-  const discountFields = document.getElementById('discountFields');
-  const discountCheckbox = document.getElementById('newProductDiscount');
-  if (discountFields) {
-    discountFields.style.display = discountCheckbox.checked ? 'block' : 'none';
-  }
-}
-
 function addOrUpdateProduct() {
   if (!window.firebaseAvailable || !window.firebaseDatabase) {
     alert("Firebase不可用，无法 gestire prodotti real-time");
@@ -3766,6 +2670,7 @@ function addOrUpdateProduct() {
   const discountTagText = isDiscount ? document.getElementById('newDiscountTagText').value.trim() : "";
   const discountTagColor = isDiscount ? document.getElementById('newDiscountTagColor').value : "#ff0000";
 
+  // 验证输入
   if(!barcode || barcode.length < 8) {
     alert("Inserisci un codice a barre valido (almeno 8 caratteri)");
     return;
@@ -3832,7 +2737,7 @@ function resetRealtimeForm() {
   toggleDiscountFields();
 }
 
-// 自动检测条形码
+// 自动检测条形码是否存在
 document.addEventListener('DOMContentLoaded', function() {
   const barcodeInput = document.getElementById('newProductBarcode');
   if (barcodeInput) {
@@ -3862,207 +2767,580 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// 优惠内容管理功能
-function enableOfferAdmin() {
-  const pwd = prompt("Inserisci password amministratore per la gestione contenuti:");
-  if(pwd === null) return;
+// ==================== 产品展示 ====================
+function renderProducts() {
+  const container = document.getElementById('products-container');
+  if (!container) return;
   
-  if(validateAdminPassword(pwd)){
-    document.getElementById('offerAdminSection').style.display = "block";
-    document.getElementById('offerAdminLoginBtn').style.display = "none";
-    loadOfferContent();
-    
-    if (window.firebaseAvailable) {
-      showSyncStatus('Gestione contenuti attivata - Sincronizzazione Firebase attiva', 'success');
-    } else {
-      showSyncStatus('Firebase不可用，使用本地模式', 'warning');
-    }
+  const search = document.getElementById('product-search').value.toLowerCase();
+  const category = document.getElementById('category-filter').value;
+  
+  // 合并所有产品（实时产品优先）
+  const allProducts = getAllMergedProducts();
+  
+  // 过滤产品
+  filteredProducts = allProducts.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(search) || p.id.includes(search);
+    const matchesCategory = category === 'all' || p.category === category;
+    return matchesSearch && matchesCategory;
+  });
+  
+  const end = currentPage * productsPerPage;
+  const productsToShow = filteredProducts.slice(0, end);
+  
+  if (productsToShow.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:3rem;color:#666;">
+        <i class="fas fa-search" style="font-size:3rem;margin-bottom:1rem;"></i>
+        <h3>Nessun prodotto trovato</h3>
+        <p>Prova a modificare i criteri di ricerca</p>
+      </div>
+    `;
   } else {
-    alert("Password errata!");
+    container.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
+  }
+  
+  const loadMoreBtn = document.getElementById('load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.style.display = end < filteredProducts.length ? 'block' : 'none';
   }
 }
 
-function loadOfferContent() {
-  console.log("📥 Caricamento contenuti offerta...");
+function getAllMergedProducts() {
+  const allProducts = [...products];
   
-  if (window.firebaseAvailable && window.firebaseDatabase && window.firebaseRef && window.firebaseOnValue) {
-    console.log("🔥 Tentativo caricamento da Firebase");
-    
-    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
-    window.firebaseOnValue(offerRef, (snapshot) => {
-      const offerData = snapshot.val();
-      if (offerData) {
-        console.log("✅ Dati caricati da Firebase:", offerData);
-        fillOfferForm(offerData);
-        updateOfferDisplay(offerData);
-        
-        const lastUpdateElement = document.getElementById('offerLastUpdate');
-        if (lastUpdateElement && offerData.lastUpdated) {
-          const date = new Date(offerData.lastUpdated).toLocaleString('it-IT');
-          lastUpdateElement.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${date}`;
-        }
+  // 添加或更新实时产品
+  if (window.firebaseAvailable) {
+    Object.entries(window.currentRealtimeProducts).forEach(([barcode, realtimeProduct]) => {
+      const convertedProduct = convertRealtimeToLocal(realtimeProduct, barcode);
+      
+      // 查找现有产品
+      const existingIndex = allProducts.findIndex(p => p.id === barcode);
+      if (existingIndex >= 0) {
+        // 合并产品数据（实时数据优先）
+        allProducts[existingIndex] = { ...allProducts[existingIndex], ...convertedProduct, source: 'firebase' };
       } else {
-        console.log("ℹ️ Nessun dato in Firebase, uso default");
-        setDefaultOfferContent();
+        // 添加新产品
+        allProducts.push(convertedProduct);
       }
-    }, (error) => {
-      console.error("❌ Errore caricamento Firebase:", error);
-      loadLocalOfferContentForAdmin();
     });
-  } else {
-    console.log("📱 Firebase non disponibile, uso localStorage");
-    loadLocalOfferContentForAdmin();
   }
-}
-
-function loadLocalOfferContentForAdmin() {
-  const savedOffer = loadStorage('supershop_offer_content');
-  if (savedOffer) {
-    console.log("📁 Caricamento contenuti admin da localStorage");
-    fillOfferForm(savedOffer);
-    updateOfferDisplay(savedOffer);
-  } else {
-    console.log("📝 Nessun contenuto salvato, uso default per admin");
-    setDefaultOfferContent();
-  }
-}
-
-function saveOfferContent() {
-  const offerData = {
-    title: document.getElementById('offerTitle').value,
-    highlight: document.getElementById('offerHighlight').value,
-    details: document.getElementById('offerDetails').value,
-    motivation: document.getElementById('offerMotivation').value,
-    expiry: document.getElementById('offerExpiry').value,
-    status: document.getElementById('offerStatus').value,
-    lastUpdated: new Date().toISOString()
-  };
   
-  if (!offerData.title || !offerData.highlight || !offerData.expiry) {
-    alert("Per favore compila tutti i campi obbligatori (*)");
+  return allProducts;
+}
+
+function createProductCard(product) {
+  const hasDiscount = product.discountPrice && product.originalPrice;
+  const isRealtime = product.source === 'firebase';
+  
+  return `
+    <div class="product-card" onclick="openProductModal('${product.id}')">
+      <img src="${product.image}" alt="${product.name}" class="product-image" 
+           onerror="this.src='${DEFAULT_IMAGE}'">
+      ${hasDiscount ? `<div class="discount-badge">-${product.discountPercentage}%</div>` : ''}
+      ${isRealtime ? `<div class="discount-badge" style="background:#004080;top:40px;"><i class="fas fa-bolt"></i> Live</div>` : ''}
+      <div class="product-info">
+        <div class="product-name">${product.name}</div>
+        <div class="product-price-container">
+          ${hasDiscount ? 
+            `<span class="original-price">${product.originalPrice}</span><span class="discount-price">${product.discountPrice}</span>` : 
+            `<span class="discount-price">${product.price || 'Prezzo su richiesta'}</span>`
+          }
+        </div>
+        <span class="product-category">${getCategoryName(product.category)}</span>
+        <div class="product-barcode-small">Codice: ${product.id}</div>
+        ${isRealtime ? `<div class="product-barcode-small" style="color:#004080;"><i class="fas fa-sync"></i> Aggiornato in tempo reale</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function getCategoryName(category) {
+  const categories = {
+    'regalo': 'Articoli Regalo',
+    'giocattoli': 'Giocattoli',
+    'cartoleria': 'Cartoleria',
+    'casalinghi': 'Casalinghi',
+    'ferramenta': 'Ferramenta',
+    'animali': 'Articoli per animali',
+    'illuminazione': 'Illuminazione',
+    'mobili': 'Mobili',
+    'natale': 'Articoli Natalizi'
+  };
+  return categories[category] || category;
+}
+
+// ==================== 同步功能 ====================
+function syncAllProducts() {
+  if (!window.firebaseAvailable || !window.firebaseDatabase) {
+    alert("Firebase不可用，无法同步");
     return;
   }
   
-  if (window.firebaseAvailable && window.firebaseDatabase) {
-    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
-    window.firebaseSet(offerRef, offerData)
+  let synced = 0;
+  products.forEach(product => {
+    const barcode = product.id;
+    if (!window.currentRealtimeProducts[barcode]) {
+      const realtimeData = convertLocalToRealtime(product);
+      const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + barcode);
+      window.firebaseSet(productRef, realtimeData)
+        .then(() => synced++)
+        .catch(err => console.error(`Errore sincronizzazione ${barcode}:`, err));
+    }
+  });
+  
+  showSyncStatus(`Sincronizzati ${synced} prodotti con Firebase`, 'success');
+}
+
+function migrateToFirebase() {
+  if (!window.firebaseAvailable || !window.firebaseDatabase) {
+    alert("Firebase不可用，无法 migrare");
+    return;
+  }
+  
+  if (!confirm(`Sei sicuro di voler migrare TUTTI i ${products.length} prodotti locali a Firebase? Questa operazione sovrascriverà i prodotti esistenti.`)) {
+    return;
+  }
+  
+  let migrated = 0;
+  const total = products.length;
+  
+  products.forEach(product => {
+    const barcode = product.id;
+    const realtimeData = convertLocalToRealtime(product);
+    const productRef = window.firebaseRef(window.firebaseDatabase, 'products/' + barcode);
+    
+    window.firebaseSet(productRef, realtimeData)
       .then(() => {
-        showSyncStatus('Contenuti promozionali salvati e sincronizzati!', 'success');
-        
-        const lastUpdateElement = document.getElementById('offerLastUpdate');
-        if (lastUpdateElement) {
-          const date = new Date().toLocaleString('it-IT');
-          lastUpdateElement.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${date} (Live)`;
+        migrated++;
+        if (migrated === total) {
+          showSyncStatus(`Migrazione completata: ${migrated} prodotti`, 'success');
         }
       })
       .catch(err => {
-        console.error("Errore salvataggio Firebase:", err);
-        showSyncStatus('Errore nel salvataggio Firebase', 'error');
-        saveStorage('supershop_offer_content', offerData);
+        console.error(`Errore migrazione ${barcode}:`, err);
+        migrated++;
       });
-  } else {
-    saveStorage('supershop_offer_content', offerData);
-    showSyncStatus('Contenuti salvati localmente (Firebase不可用)', 'warning');
-  }
-  
-  updateOfferDisplay(offerData);
+  });
 }
 
-function resetOfferContent() {
-  if (confirm("Sei sicuro di voler ripristinare i contenuti predefiniti? I dati attuali verranno sovrascritti.")) {
-    setDefaultOfferContent();
-    showSyncStatus('Contenuti ripristinati alle impostazioni predefinite', 'success');
+// ==================== 管理员功能 ====================
+function updateAdminStats() {
+  const allProducts = getAllMergedProducts();
+  const totalProductsElement = document.getElementById('totalProducts');
+  const totalCategoriesElement = document.getElementById('totalCategories');
+  const realtimeProductsElement = document.getElementById('realtimeProducts');
+  
+  if (totalProductsElement) {
+    totalProductsElement.textContent = allProducts.length;
+  }
+  
+  if (totalCategoriesElement) {
+    const categories = new Set(allProducts.map(p => p.category));
+    totalCategoriesElement.textContent = categories.size;
+  }
+  
+  if (realtimeProductsElement) {
+    const realtimeCount = window.firebaseAvailable ? Object.keys(window.currentRealtimeProducts).length : 0;
+    realtimeProductsElement.textContent = realtimeCount;
   }
 }
 
-function previewOffer() {
-  const offerData = {
-    title: document.getElementById('offerTitle').value,
-    highlight: document.getElementById('offerHighlight').value,
-    details: document.getElementById('offerDetails').value,
-    motivation: document.getElementById('offerMotivation').value,
-    expiry: document.getElementById('offerExpiry').value,
-    status: document.getElementById('offerStatus').value
-  };
+// ==================== 初始化 ====================
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('hiddenAdminBtn').style.display = 'block';
   
-  let previewModal = document.getElementById('offerPreviewModal');
-  if (!previewModal) {
-    previewModal = document.createElement('div');
-    previewModal.id = 'offerPreviewModal';
-    previewModal.className = 'offer-preview-modal';
-    previewModal.innerHTML = `
-      <div class="offer-preview-content">
-        <div style="padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
-          <h3 style="margin: 0; color: var(--primary-color);">
-            <i class="fas fa-eye"></i> Anteprima Offerta
-          </h3>
-          <button onclick="closeOfferPreview()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">✖</button>
-        </div>
-        <div id="offerPreviewContent" style="padding: 2rem;"></div>
+  // 初始化产品数据
+  const savedProducts = loadStorage('supershop_products') || [];
+  if (savedProducts.length > 0) {
+    products = [...savedProducts];
+  }
+  
+  // 初始化cookie系统
+  initCookieBanner();
+  
+  // 延迟初始化以确保Firebase已加载
+  setTimeout(() => {
+    renderProducts();
+    updateAdminStats();
+    
+    // 初始化优惠内容监听
+    initOfferContentListener();
+  }, 1000);
+  
+  // 绑定事件
+  const productSearch = document.getElementById('product-search');
+  const categoryFilter = document.getElementById('category-filter');
+  const loadMoreBtn = document.getElementById('load-more');
+  
+  if (productSearch) {
+    productSearch.addEventListener('input', () => {
+      currentPage = 1;
+      renderProducts();
+    });
+  }
+  
+  if (categoryFilter) {
+    categoryFilter.addEventListener('change', () => {
+      currentPage = 1;
+      renderProducts();
+    });
+  }
+  
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+      currentPage++;
+      renderProducts();
+    });
+  }
+  
+  // 管理员按钮事件
+  document.getElementById('hiddenAdminBtn').addEventListener('click', enableAdminPanel);
+  document.getElementById('adminBtn').addEventListener('click', enableAdminPanel);
+  
+  // 移动菜单
+  document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+    const nav = document.getElementById('navMenu');
+    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+  });
+  
+  // 返回顶部
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.pageYOffset > 300);
+  });
+  
+  backToTop.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+// 管理员面板功能
+function enableAdminPanel() {
+  const pwd = prompt('🔐 Accesso Amministratore\n\nInserisci la password:');
+  if (validateAdminPassword(pwd)) { 
+    adminAuthenticated = true; 
+    openAdminPanel(); 
+    showSyncStatus('Accesso amministratore autorizzato','success'); 
+  } else if (pwd !== null) {
+    alert('❌ Password non valida');
+  }
+}
+
+function openAdminPanel() {
+  document.getElementById('adminPanel').classList.add('active');
+  document.getElementById('adminOverlay').classList.add('active');
+  updateAdminStats();
+}
+
+function closeAdminPanel() {
+  document.getElementById('adminPanel').classList.remove('active');
+  document.getElementById('adminOverlay').classList.remove('active');
+}
+
+// 关闭管理员面板点击外部
+document.getElementById('adminOverlay').addEventListener('click', closeAdminPanel);
+
+// 简化版本的其他功能（保持原有功能）
+function addProduct() {
+  alert("Funzione aggiungi prodotto locale - da implementare");
+}
+
+function exportProducts() {
+  alert("Funzione esporta CSV - da implementare");
+}
+
+function importProducts() {
+  alert("Funzione importa CSV - da implementare");
+}
+
+function backupData() {
+  alert("Funzione backup dati - da implementare");
+}
+
+function clearAllData() {
+  alert("Funzione cancella tutto - da implementare");
+}
+
+function openProductModal(productId) {
+  const p = getAllMergedProducts().find(x => x.id === productId);
+  if(!p) return;
+  document.getElementById('modalImage').src = p.image;
+  document.getElementById('modalName').textContent = p.name || '';
+  document.getElementById('modalPrice').textContent = p.discountPrice ? 
+    `Prezzo: ${p.discountPrice} (Originale: ${p.originalPrice})` :
+    `Prezzo: ${p.price || 'N/D'}`;
+  document.getElementById('modalCategory').textContent = 'Categoria: ' + (getCategoryName(p.category)||'');
+  document.getElementById('modalBarcode').textContent = 'Codice: ' + p.id;
+  document.getElementById('modalDescription').textContent = p.description || '';
+  document.getElementById('productModal').style.display = 'flex';
+}
+
+function closeProductModal(){
+  document.getElementById('productModal').style.display = 'none';
+}
+
+// ==================== 海报生成器功能 ====================
+function openPosterGenerator() {
+  document.getElementById('poster-generator').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  updatePosterPreview();
+}
+
+function closePosterGenerator() {
+  document.getElementById('poster-generator').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+// 点击背景关闭
+document.getElementById('poster-generator').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closePosterGenerator();
+  }
+});
+
+// ESC键关闭
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('poster-generator').style.display === 'flex') {
+    closePosterGenerator();
+  }
+});
+
+function updatePosterPreview() {
+  const title = document.getElementById('posterTitle').value;
+  const subtitle = document.getElementById('posterSubtitle').value;
+  const featuredProducts = document.getElementById('featuredProducts').value;
+  const expiryDate = document.getElementById('expiryDate').value;
+  const includeQR = document.getElementById('includeQR').checked;
+
+  const preview = document.getElementById('posterPreview');
+  preview.innerHTML = `
+    <div style="width:595px; height:842px; padding:40px; background:white; font-family:Arial, sans-serif; box-sizing:border-box; margin:0 auto; color:#000; display:flex; flex-direction:column; justify-content:space-between; border:1px solid #ccc;">
+      
+      <!-- Header -->
+      <div style="text-align:center; margin-bottom:30px;">
+        <h1 style="font-weight:900; font-size:42px; margin:0 0 15px 0; background:#000; color:#fff; padding:25px 20px; border-radius:8px; letter-spacing:1px; line-height:1.2;">
+          ${title}
+        </h1>
+        <h2 style="font-weight:bold; font-size:20px; margin:0; border-bottom:3px solid #000; padding-bottom:12px; line-height:1.3;">
+          ${subtitle}
+        </h2>
       </div>
-    `;
-    document.body.appendChild(previewModal);
-  }
-  
-  const previewContent = document.getElementById('offerPreviewContent');
-  previewContent.innerHTML = createOfferHTML(offerData);
-  
-  previewModal.style.display = 'flex';
+      
+      <!-- Main Content -->
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:25px;">
+        
+        <!-- Prodotti in promozione -->
+        <div style="background:#f8f8f8; padding:25px; border-radius:8px; border-left:6px solid #000; flex:1;">
+          <h3 style="font-weight:bold; margin:0 0 20px 0; font-size:22px; text-align:center; color:#000;">🛍️ IN PROMOZIONE</h3>
+          <div style="font-size:16px; line-height:1.6; text-align:center;">
+            ${featuredProducts.split('\n').map(line => `
+              <div style="margin-bottom:12px; padding:8px 0; border-bottom:1px dashed #999;">
+                ${line}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <!-- Call to Action -->
+        <div style="background:#e8e8e8; padding:20px; border-radius:8px; border:3px dashed #666; text-align:center; min-height:80px;">
+          <p style="margin:0 0 10px 0; font-size:18px; font-weight:bold;">
+            🏃‍♂️ APPROFITTA SUBITO!
+          </p>
+          <p style="margin:0; font-size:14px;">
+            Le migliori occasioni ti aspettano in negozio
+          </p>
+        </div>
+        
+        ${includeQR ? `
+        <!-- QR Code -->
+        <div style="text-align:center; min-height:150px;">
+          <div style="display:inline-block; padding:15px; border:3px solid #000; background:#fff; border-radius:8px;">
+            <p style="margin:0 0 12px 0; font-size:16px; font-weight:bold;">📱 SCANSIONA PER TUTTI I PRODOTTI</p>
+            <img src="1000011850.png" alt="QR Code Supershop Bisagno" 
+                 style="width:120px; height:120px; border:2px solid #ccc; padding:5px; background:white; border-radius:5px;">
+          </div>
+        </div>
+        ` : '<div style="min-height:150px;"></div>'}
+        
+      </div>
+      
+      <!-- Footer -->
+      <div style="margin-top:30px;">
+        <!-- Validità -->
+        <div style="background:#000; color:#fff; padding:15px; border-radius:6px; text-align:center; margin-bottom:15px;">
+          <p style="margin:0; font-size:16px; font-weight:bold;">
+            📆 OFFERTE VALIDE FINO AL: ${expiryDate}
+          </p>
+        </div>
+        
+        <!-- Info negozio -->
+        <div style="background:#f0f0f0; padding:15px; border-radius:6px; text-align:center; margin-bottom:15px; border:2px solid #333;">
+          <p style="margin:0 0 8px 0; font-size:14px; font-weight:bold;">
+            🏪 SUPERSHOP BISAGNO S.R.L.
+          </p>
+          <p style="margin:0; font-size:11px;">
+            Lungobisagno Istria, 29F - 16139 Genova GE | 8:45-19:45 | supershopbisagnosrl@gmail.com
+          </p>
+        </div>
+        
+        <!-- Note legali -->
+        <div style="background:#e8e8e8; padding:10px; border-radius:4px; border:1px solid #999;">
+          <p style="margin:0; font-size:9px; color:#666; line-height:1.3; text-align:center;">
+            ⚖️ Le promozioni si applicano esclusivamente a una selezione di articoli. 
+            Le percentuali di sconto possono variare in base al prodotto. 
+            Disponibilità limitata fino ad esaurimento scorte.
+          </p>
+        </div>
+      </div>
+      
+    </div>
+  `;
 }
 
-function closeOfferPreview() {
-  const previewModal = document.getElementById('offerPreviewModal');
-  if (previewModal) {
-    previewModal.style.display = 'none';
-  }
+function printPoster() {
+  const title = document.getElementById('posterTitle').value;
+  const subtitle = document.getElementById('posterSubtitle').value;
+  const featuredProducts = document.getElementById('featuredProducts').value;
+  const expiryDate = document.getElementById('expiryDate').value;
+  const includeQR = document.getElementById('includeQR').checked;
+
+  const printablePoster = document.getElementById('printable-poster');
+  printablePoster.innerHTML = `
+    <div style="width:210mm; height:297mm; padding:15mm; background:white; font-family:Arial, sans-serif; box-sizing:border-box; margin:0 auto; color:#000; display:flex; flex-direction:column; justify-content:space-between; page-break-inside:avoid;">
+      
+      <!-- Header -->
+      <div style="text-align:center; margin-bottom:10mm; flex-shrink:0;">
+        <h1 style="font-weight:900; font-size:36pt; margin:0 0 4mm 0; background:#000; color:#fff; padding:8mm 4mm; border-radius:3mm; letter-spacing:1pt; line-height:1.2;">
+          ${title}
+        </h1>
+        <h2 style="font-weight:bold; font-size:18pt; margin:0; border-bottom:1.5pt solid #000; padding-bottom:2mm; line-height:1.3;">
+          ${subtitle}
+        </h2>
+      </div>
+      
+      <!-- Main Content -->
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:space-around; gap:6mm;">
+        
+        <!-- Prodotti in promozione -->
+        <div style="background:#f8f8f8; padding:6mm; border-radius:3mm; border-left:4pt solid #000; min-height:0; flex:1;">
+          <h3 style="font-weight:bold; margin:0 0 4mm 0; font-size:16pt; text-align:center; color:#000;">🛍️ IN PROMOZIONE</h3>
+          <div style="font-size:12pt; line-height:1.5; text-align:center;">
+            ${featuredProducts.split('\n').map(line => `
+              <div style="margin-bottom:2mm; padding:1mm 0; border-bottom:0.5pt dashed #999;">
+                ${line}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <!-- Call to Action -->
+        <div style="background:#e8e8e8; padding:5mm; border-radius:3mm; border:1.5pt dashed #666; text-align:center; min-height:0; flex-shrink:0;">
+          <p style="margin:0 0 2mm 0; font-size:14pt; font-weight:bold;">
+            🏃‍♂️ APPROFITTA SUBITO!
+          </p>
+          <p style="margin:0; font-size:11pt;">
+            Le migliori occasioni ti aspettano in negozio
+          </p>
+        </div>
+        
+        ${includeQR ? `
+        <!-- QR Code -->
+        <div style="text-align:center; min-height:0; flex-shrink:0;">
+          <div style="display:inline-block; padding:4mm; border:1.5pt solid #000; background:#fff; border-radius:3mm;">
+            <p style="margin:0 0 3mm 0; font-size:12pt; font-weight:bold;">📱 SCANSIONA PER TUTTI I PRODOTTI</p>
+            <img src="1000011850.png" alt="QR Code Supershop Bisagno" 
+                 style="width:60mm; height:60mm; border:1pt solid #ccc; padding:2mm; background:white; border-radius:2mm;">
+          </div>
+        </div>
+        ` : ''}
+        
+      </div>
+      
+      <!-- Footer -->
+      <div style="margin-top:8mm; flex-shrink:0;">
+        <!-- Validità -->
+        <div style="background:#000; color:#fff; padding:4mm; border-radius:2mm; text-align:center; margin-bottom:3mm;">
+          <p style="margin:0; font-size:12pt; font-weight:bold;">
+            📆 OFFERTE VALIDE FINO AL: ${expiryDate}
+          </p>
+        </div>
+        
+        <!-- Info negozio -->
+        <div style="background:#f0f0f0; padding:4mm; border-radius:2mm; text-align:center; margin-bottom:3mm; border:0.5pt solid #333;">
+          <p style="margin:0 0 1mm 0; font-size:10pt; font-weight:bold;">
+            🏪 SUPERSHOP BISAGNO S.R.L.
+          </p>
+          <p style="margin:0; font-size:8pt;">
+            Lungobisagno Istria, 29F - 16139 Genova GE | 8:45-19:45 | supershopbisagnosrl@gmail.com
+          </p>
+        </div>
+        
+        <!-- Note legali -->
+        <div style="background:#e8e8e8; padding:2mm; border-radius:1mm; border:0.5pt solid #999;">
+          <p style="margin:0; font-size:6pt; color:#666; line-height:1.2; text-align:center;">
+            ⚖️ Le promozioni si applicano esclusivamente a una selezione di articoli. 
+            Le percentuali di sconto possono variare in base al prodotto. 
+            Disponibilità limitata fino ad esaurimento scorte.
+          </p>
+        </div>
+      </div>
+      
+    </div>
+  `;
+  
+  // 触发打印
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Poster Promozionale - Supershop Bisagno</title>
+      <style>
+        @media print {
+          @page { 
+            margin: 0; 
+            size: A4;
+          }
+          body { 
+            margin: 0; 
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+          }
+          * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+            box-sizing: border-box;
+          }
+        }
+        body { 
+          font-family: Arial, sans-serif; 
+          margin: 0;
+          padding: 0;
+          background: white;
+        }
+      </style>
+    </head>
+    <body>
+      ${printablePoster.innerHTML}
+      <script>
+        window.onload = function() {
+          window.print();
+          setTimeout(function() { 
+            window.close(); 
+          }, 500);
+        }
+      <\/script>
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
 }
-
-// 测试函数
-window.testOfferContent = function() {
-  console.log("🧪 Test contenuti offerta:");
-  console.log("- Sezione trovata:", !!document.querySelector('#monthly-offer'));
-  console.log("- Contenuto attuale:", document.querySelector('#monthly-offer')?.innerHTML);
-  
-  const testOffer = {
-    title: "🧪 Test Offerta",
-    highlight: "QUESTA È UNA OFFERTA DI TEST!",
-    details: "<p>Se vedi questo messaggio, il sistema offerte funziona correttamente.</p>",
-    motivation: "<p>Test completato con successo!</p>",
-    expiry: "31 Dicembre 2025",
-    status: "active"
-  };
-  
-  updateOfferDisplay(testOffer);
-  alert("Test offerta completato! Controlla la sezione offerte.");
-};
-
-window.forceShowOffers = function() {
-  console.log("🔄 Forzatura visualizzazione offerte...");
-  
-  if (window.firebaseAvailable) {
-    console.log("✅ Firebase disponibile");
-  } else {
-    console.log("⚠️ Firebase non disponibile, uso contenuti locali");
-  }
-  
-  const savedOffer = loadStorage('supershop_offer_content');
-  if (savedOffer) {
-    console.log("📁 Contenuti trovati in localStorage:", savedOffer);
-    updateOfferDisplay(savedOffer);
-  } else {
-    console.log("📝 Nessun contenuto salvato, uso default");
-    setDefaultOfferContent();
-  }
-};
-
-window.resetToDefaultOffers = function() {
-  if (confirm("Sei sicuro di voler ripristinare le offerte ai valori predefiniti?")) {
-    setDefaultOfferContent();
-    alert("Offer ripristinate ai valori predefiniti!");
-  }
-};
-
-console.log("✅ Sistema Supershop Bisagno completamente caricato!");
 </script>
 </body>
 </html>
