@@ -55,6 +55,12 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 .product-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;position:relative;transition:var(--transition)}
 .product-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.15)}
 .product-image{width:100%;height:200px;object-fit:cover;background:#f5f5f5}
+/* 添加到你的 CSS 中 */
+#productModal > div {
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
 .product-info{padding:1rem}.product-name{font-weight:600;margin-bottom:.5rem}
 .product-price-container{margin-bottom:.5rem}.original-price{color:#999;text-decoration:line-through;font-size:.9rem;margin-right:.5rem}.discount-price{color:var(--secondary-color);font-weight:bold;font-size:1.1rem}
 .discount-badge{position:absolute;top:10px;right:10px;background:#e74c3c;color:#fff;padding:.3rem .6rem;border-radius:4px;font-size:.8rem;font-weight:bold;z-index:2}
@@ -659,7 +665,8 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 <!-- 产品详情模态框 -->
 <div id="productModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:10000;justify-content:center;align-items:center;padding:1rem">
   <div style="background:white;border-radius:10px;max-width:600px;width:100%;padding:1.5rem;position:relative">
-    <button onclick="closeProductModal()" style="position:absolute;top:10px;right:10px;border:none;background:none;font-size:1.5rem;cursor:pointer">✖</button>
+    <!-- 添加关闭按钮 -->
+    <span id="closeModal" style="position:absolute;top:10px;right:10px;font-size:28px;cursor:pointer;z-index:10001;color:#333;width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.8);border-radius:50%;">&times;</span>
     <img id="modalImage" src="" alt="" style="width:100%;border-radius:8px;margin-bottom:1rem;object-fit:cover">
     <h2 id="modalName" style="margin-bottom:.5rem"></h2>
     <p id="modalPrice"></p>
@@ -1551,7 +1558,7 @@ function renderMonthlyOffer(o) {
       <p><strong>${o.subtitle}</strong></p>
       <pre style="white-space:pre-wrap;margin:1rem 0">${o.products}</pre>
     </div>
-    <div class="offer-validity">🗓️ 有效期至：${o.expiryDate}</div>
+    <div class="offer-validity">🗓️ Valido fino al：${o.expiryDate}</div>
   `;
 }
 function printPoster() {
@@ -1658,6 +1665,19 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAdminStats();
     renderLocalProductsList();
     listenRealtimeOffer();
+// 添加关闭模态框的功能
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'closeModal') {
+    closeProductModal();
+  }
+});
+
+// 点击模态框外部也关闭
+document.getElementById('productModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeProductModal();
+  }
+});
   }, 1000);
 
   /* 绑定事件 */
