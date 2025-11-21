@@ -1444,12 +1444,15 @@ function renderProducts() {
     <div class="product-card" onclick="openProductModal('${p.id}')">
       <img src="${p.image}" alt="${p.name}" class="product-image" onerror="this.src='${DEFAULT_IMAGE}'">
       ${p.discountPrice ? `<div class="discount-badge">-${p.discountPercentage}%</div>` : ''}
-      ${p.source === 'firebase' ? `<div class="discount-badge" style="background:#004080;top:40px;"><i class="fas fa-bolt"></i> Live</div>` : ''}
+      ${p.source === 'firebase' ? `<div class="discount-badge
+" style="background:#004080;top:40px;"><i class="fas fa-bolt"></i> Live</div>` : ''}
       <div class="product-info">
         <div class="product-name">${p.name}</div>
         <div class="product-price-container">
-          ${p.discountPrice ? `<span class="original-price">${p.originalPrice}</span><span class="discount-price">${p.discountPrice}</span>` : `<span class="discount-price">${p.price || 'Prezzo su richiesta'}</span>`}
-        </div>
+  ${p.discountPrice ? 
+    `<span class="original-price">${p.originalPrice}</span><span class="discount-price">€${p.discountPrice}</span>` : 
+    `<span class="discount-price">€${p.price || 'Prezzo su richiesta'}</span>`}
+</div>
         <span class="product-category">${p.category}</span>
         <div class="product-barcode-small">Codice: ${p.id}</div>
         ${p.source === 'firebase' ? `<div class="product-barcode-small" style="color:#004080;"><i class="fas fa-sync"></i> Aggiornato in tempo reale</div>` : ''}
@@ -1464,8 +1467,7 @@ function openProductModal(productId) {
   if(!p)return;
   document.getElementById('modalImage').src = p.image;
   document.getElementById('modalName').textContent = p.name || '';
-  document.getElementById('modalPrice').textContent = p.discountPrice ? `Prezzo: ${p.discountPrice} (Originale: ${p.originalPrice})` : `Prezzo: ${p.price || 'N/D'}`;
-  document.getElementById('modalCategory').textContent = 'Categoria: ' + (p.category || '');
+  document.getElementById('modalPrice').textContent = p.discountPrice ? `Prezzo: ${p.discountPrice} (Originale: ${p.originalPrice})` : `Prezzo: ${p.price || 'N/D'}`;document.getElementById('modalCategory').textContent = 'Categoria: ' + (p.category || '');
   document.getElementById('modalBarcode').textContent = 'Codice: ' + p.id;
   document.getElementById('modalDescription').textContent = p.description || '';
   document.getElementById('productModal').style.display = 'flex';
