@@ -774,6 +774,43 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 
 <!-- 统一 JS 逻辑 -->
 <script>
+/* ---------- 邮箱登录模态框函数 ---------- */
+function openEmailLoginModal() {
+  const modal = document.getElementById('email-login-modal');
+  if (modal) {
+    modal.style.display = 'flex';
+    // 清空输入框
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPass').value = '';
+  }
+}
+
+function closeEmailLoginModal() {
+  const modal = document.getElementById('email-login-modal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+function enableOldAdmin() {
+  closeEmailLoginModal();
+  enableAdminPanel();
+}
+
+// 点击模态框外部关闭
+document.addEventListener('click', function(e) {
+  const modal = document.getElementById('email-login-modal');
+  if (e.target === modal) {
+    closeEmailLoginModal();
+  }
+});
+
+// ESC键关闭模态框
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeEmailLoginModal();
+  }
+});
 const ADMIN_CONFIG = {
   BASE_PASSWORD: 'supershop',
   STATIC_PASSWORDS: ['Supershop@2019!', 'bisagno2025chen']
