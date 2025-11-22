@@ -7,7 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{--primary-color:#004080;--secondary-color:#ff6b00;--light-color:#f9f9f9;--dark-color:#333;--shadow:0 4px 6px rgba(0,0,0,.1);--transition:all .3s ease}
+:root{--primary-color:#004080;--secondary-color:#ff6b00;--light-color:#f9f9f9;--dark-color:#333;--shadow:0 4px 6px rgba(0,0,0, ...1);--transition:all .3s ease}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;background:var(--light-color);color:var(--dark-color);scroll-behavior:smooth}
 header{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#fff;padding:1rem 0;box-shadow:var(--shadow);position:sticky;top:0;z-index:100}
@@ -21,12 +21,12 @@ nav a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;bac
 nav a:hover::after{width:100%}
 .mobile-menu-btn{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
 #adminBtn{display:none;background:var(--secondary-color);border:none;color:#fff;padding:.5rem .8rem;border-radius:4px;cursor:pointer;opacity:.7;transition:var(--transition)}#adminBtn:hover{opacity:1}
-.hero{background:linear-gradient(rgba(0,64,128,.8),rgba(0,38,77,.9));background-size:cover;background-position:center;color:#fff;text-align:center;padding:5rem 1rem}
+.hero{background:linear-gradient(rgba(0,64,128, ...8),rgba(0,38,77, ...9));background-size:cover;background-position:center;color:#fff;text-align:center;padding:5rem 1rem}
 .hero-content{max-width:800px;margin:0 auto}
 .hero h2{font-size:2.5rem;margin-bottom:1rem}
 .hero p{font-size:1.2rem;margin-bottom:2rem}
 .btn{display:inline-block;background:var(--secondary-color);color:#fff;padding:.8rem 1.5rem;border-radius:4px;text-decoration:none;font-weight:bold;transition:var(--transition)}
-.btn:hover{background:#e55a00;transform:translateY(-3px);box-shadow:0 6px 12px rgba(0,0,0,.15)}
+.btn:hover{background:#e55a00;transform:translateY(-3px);box-shadow:0 6px 12px rgba(0,0,0, ...15)}
 main{max-width:1200px;margin:2rem auto;padding:0 1rem}
 section{background:#fff;border-radius:8px;padding:2rem;margin-bottom:2rem;box-shadow:var(--shadow)}
 h2{color:var(--primary-color);margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:2px solid var(--secondary-color)}
@@ -43,17 +43,17 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 .back-to-top{position:fixed;bottom:20px;right:20px;background:var(--secondary-color);color:#fff;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:var(--shadow);opacity:0;visibility:hidden;z-index:99;transition:var(--transition)}.back-to-top.visible{opacity:1;visibility:visible}
 .monthly-offer{background:#f0f7ff;border-left:4px solid var(--primary-color);padding:1.5rem;margin:2rem 0;border-radius:8px}
 .monthly-offer.hidden{display:none}
-.offer-highlight{background:linear-gradient(135deg,var(--secondary-color),#ff8c00);color:#fff;padding:1rem;border-radius:8px;text-align:center;font-size:1.3rem;font-weight:bold;margin:1.5rem 0;box-shadow:0 4px 8px rgba(0,0,0,.1)}
+.offer-highlight{background:linear-gradient(135deg,var(--secondary-color),#ff8c00);color:#fff;padding:1rem;border-radius:8px;text-align:center;font-size:1.3rem;font-weight:bold;margin:1.5rem 0;box-shadow:0 4px 8px rgba(0,0,0, ...1)}
 .offer-details{background:#fff;padding:1.5rem;border:1px solid #e0e0e0;border-radius:8px;margin:1.5rem 0}
 .offer-validity{background:#fff8e1;padding:1rem;border:1px dashed var(--secondary-color);border-radius:8px;text-align:center;margin-top:1.5rem}
-.products-section{margin-top:2rem}
+products-section{margin-top:2rem}
 .search-filter-container{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;align-items:center}
 .search-box{flex:1;min-width:300px;position:relative}.search-box input{width:100%;padding:.8rem 1rem .8rem 2.5rem;border:1px solid #ddd;border-radius:4px}
 .search-box i{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:#777}
 .filter-select{padding:.8rem 1rem;border:1px solid #ddd;border-radius:4px;background:#fff;cursor:pointer}
-.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;margin-bottom:2rem}
+products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;margin-bottom:2rem}
 .product-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;position:relative;transition:var(--transition)}
-.product-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.15)}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0, ...15)}
 .product-image{width:100%;height:200px;object-fit:cover;background:#f5f5f5}
 /* 添加到你的 CSS 中 */
 #productModal > div {max-height: 90vh;overflow-y: auto;position: relative}
@@ -64,10 +64,10 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 .product-barcode-small{font-size:.7rem;color:#888;font-family:monospace;margin-top:.3rem}
 .load-more-container{text-align:center;margin-top:2rem}.load-more-btn{background:var(--primary-color);color:#fff;border:none;padding:.8rem 1.5rem;border-radius:4px;cursor:pointer;transition:var(--transition)}.load-more-btn:hover{background:#003366}
 .sync-status{position:fixed;top:10px;right:10px;background:#28a745;color:#fff;padding:.5rem 1rem;border-radius:20px;font-size:.8rem;z-index:1000;display:flex;align-items:center;gap:.5rem;box-shadow:var(--shadow)}.sync-status.syncing{background:#ffc107;color:#000}.sync-status.error{background:#dc3545}
-#privacy-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:10000;justify-content:center;align-items:center}
+#privacy-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0, ...5);z-index:10000;justify-content:center;align-items:center}
 #privacy-modal>div{background:#fff;padding:2rem;border-radius:10px;max-width:600px;max-height:80vh;overflow-y:auto;margin:2rem;position:relative}
-.admin-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1rem;border:none;border-radius:6px;color:#fff;font-weight:600;cursor:pointer;transition:all .3s ease}.admin-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
-.admin-panel{display:none;position:fixed;top:0;right:-400px;width:400px;height:100vh;background:#fff;box-shadow:-5px 0 15px rgba(0,0,0,.1);z-index:1000;transition:right .3s ease;overflow-y:auto}.admin-panel.active{display:block;right:0}
+.admin-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1rem;border:none;border-radius:6px;color:#fff;font-weight:600;cursor:pointer;transition:all .3s ease}.admin-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0, ...2)}
+.admin-panel{display:none;position:fixed;top:0;right:-400px;width:400px;height:100vh;background:#fff;box-shadow:-5px 0 15px rgba(0,0,0, ...1);z-index:1000;transition:right .3s ease;overflow-y:auto}.admin-panel.active{display:block;right:0}
 .admin-header{background:var(--primary-color);color:#fff;padding:1.5rem;display:flex;justify-content:space-between;align-items:center}
 .admin-content{padding:1.5rem}.admin-section{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid #eee}
 .admin-section h3{color:var(--primary-color);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
@@ -76,14 +76,14 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 .stat-number{font-size:1.5rem;font-weight:bold;color:var(--primary-color);display:block}.stat-label{font-size:.8rem;color:#666}
 .admin-form-group{margin-bottom:1rem}.admin-form-group label{display:block;margin-bottom:.5rem;font-weight:500}
 .admin-form-control{width:100%;padding:.8rem;border:1px solid #ddd;border-radius:4px;font-size:1rem;font-family:inherit}
-.admin-form-control:focus{border-color:var(--primary-color);outline:none;box-shadow:0 0 0 2px rgba(0,64,128,.1)}
+.admin-form-control:focus{border-color:var(--primary-color);outline:none;box-shadow:0 0 0 2px rgba(0,64,128, ...1)}
 .admin-form-group textarea{height:100px;resize:vertical}
 .admin-actions{display:flex;gap:.5rem;flex-wrap:wrap}
 .admin-action-btn{flex:1;min-width:120px;padding:.8rem;border:none;border-radius:4px;cursor:pointer;font-weight:500;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:.5rem}
 .admin-action-btn.primary{background:var(--primary-color);color:#fff}.admin-action-btn.secondary{background:#6c757d;color:#fff}.admin-action-btn.success{background:#28a745;color:#fff}.admin-action-btn.warning{background:#ffc107;color:#000}.admin-action-btn.danger{background:#dc3545;color:#fff}
-.admin-action-btn:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.2)}
+.admin-action-btn:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0, ...2)}
 .password-hint{background:#fff3cd;border:1px solid #ffeaa7;border-radius:4px;padding:1rem;margin:1rem 0;font-size:.9rem}
-.admin-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:999}.admin-overlay.active{display:block}
+.admin-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0, ...5);z-index:999}.admin-overlay.active{display:block}
 .hidden-admin-btn{position:fixed;top:10px;right:60px;width:30px;height:30px;background:transparent;border:none;cursor:pointer;z-index:101;opacity:.3;transition:opacity .3s ease}.hidden-admin-btn:hover{opacity:.7}
 @keyframes pulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:.8}100%{transform:scale(1);opacity:1}}
 .discount-tag{color:#fff;padding:2px 5px;border-radius:3px;font-size:.8rem;margin-left:5px;display:inline-block;animation:pulse 1.5s infinite}
@@ -91,19 +91,19 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 .realtime-form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1rem}
 .realtime-form-group{display:flex;flex-direction:column}
 .realtime-form-group label{font-weight:500;margin-bottom:.3rem;font-size:.9rem}
-.realtime-form-group input,.realtime-form-group select{padding:.7rem;border:1px solid #ddd;border-radius:4px;font-size:.9rem;width:100%}
+.realtime-form-group input, ...realtime-form-group select{padding:.7rem;border:1px solid #ddd;border-radius:4px;font-size:.9rem;width:100%}
 .realtime-product{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.8rem;padding:.8rem;border:1px solid #e9ecef;border-radius:6px;background:#fff}
 .realtime-product-info{flex:1}.realtime-product-info strong{color:var(--primary-color);display:block;margin-bottom:.2rem}
 .realtime-product-info small{color:#666;font-size:.8rem}.realtime-product-price{font-weight:bold;color:var(--secondary-color)}
 .realtime-product-actions{display:flex;gap:.5rem}.sync-indicator{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.5rem}
 .sync-indicator.online{background:#28a745;animation:pulse 2s infinite}.sync-indicator.offline{background:#dc3545}
-.offer-preview-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:10000;display:none;justify-content:center;align-items:center;padding:2rem}
+.offer-preview-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0, ...8);z-index:10000;display:none;justify-content:center;align-items:center;padding:2rem}
 .offer-preview-content{background:#fff;border-radius:10px;max-width:800px;width:100%;max-height:90vh;overflow:auto;position:relative}
 .qr-code-section{transition:transform .3s ease;text-align:center;margin:2rem 0;padding:1.5rem;background:linear-gradient(135deg,#f0f7ff,#e6f3ff);border-radius:10px;border-left:4px solid var(--primary-color)}
-.qr-code-section:hover{transform:translateY(-5px)}.contact-highlight a:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,107,0,.3)}
+.qr-code-section:hover{transform:translateY(-5px)}.contact-highlight a:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,107,0, ...3)}
 .store-guide{background:#e8f5e8;padding:1rem;border-radius:8px;margin:1rem 0;text-align:center}
-.cookie-banner{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#004080,#00264d);color:#fff;padding:20px;z-index:10000;box-shadow:0 -4px 12px rgba(0,0,0,.3);font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
-.cookie-settings-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:10001;justify-content:center;align-items:center;padding:20px}
+.cookie-banner{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#004080,#00264d);color:#fff;padding:20px;z-index:10000;box-shadow:0 -4px 12px rgba(0,0,0, ...3);font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+.cookie-settings-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0, ...8);z-index:10001;justify-content:center;align-items:center;padding:20px}
 .cookie-settings-content{background:#fff;border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto}
 .privacy-policy-section{background:#f8f9fa;padding:2rem;margin-top:2rem;border-radius:8px;border-left:4px solid #004080}
 .privacy-section-block{background:#fff;padding:1.5rem;border-radius:8px;margin-bottom:1.5rem}
@@ -131,11 +131,11 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 </div>
 <style>
 .top-right-buttons{position:fixed;top:10px;right:10px;z-index:102;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
-.top-right-buttons .admin-btn,.top-right-buttons .hidden-admin-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .2s}
+.top-right-buttons .admin-btn, ...top-right-buttons .hidden-admin-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:none;box-shadow:0 2px 6px rgba(0,0,0, ...25);transition:transform .2s}
 .top-right-buttons .admin-btn{background:var(--secondary-color);color:#fff}
-.top-right-buttons .admin-btn:hover,.top-right-buttons .hidden-admin-btn:hover{transform:translateY(-2px)}
-@media(min-width:769px){.top-right-buttons .admin-btn{width:auto;padding:0 14px;border-radius:18px}.top-right-buttons .admin-btn i{margin-right:6px}}
-@media(max-width:768px){.top-right-buttons{bottom:20px;right:20px;top:auto}.top-right-buttons .admin-btn{width:40px;height:40px;border-radius:50%;padding:0}.top-right-buttons .admin-btn span{display:none}}
+.top-right-buttons .admin-btn:hover, ...top-right-buttons .hidden-admin-btn:hover{transform:translateY(-2px)}
+@media(min-width:769px){ ...top-right-buttons .admin-btn{width:auto;padding:0 14px;border-radius:18px}.top-right-buttons .admin-btn i{margin-right:6px}}
+@media(max-width:768px){ ...top-right-buttons{bottom:20px;right:20px;top:auto}.top-right-buttons .admin-btn{width:40px;height:40px;border-radius:50%;padding:0}.top-right-buttons .admin-btn span{display:none}}
 </style>
 
 <!-- Cookie -->
@@ -650,7 +650,7 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
   <div class="footer-content">
     <p>© <span id="year"></span> Supershop Bisagno S.R.L. — Tutti i diritti riservati</p>
     <p>P.IVA: 02596100996 | REA: GE - 497926</p>
-    <div style="margin-top:1rem;padding:1rem;background:rgba(255,255,255,.1);border-radius:6px">
+    <div style="margin-top:1rem;padding:1rem;background:rgba(255,255,255, ...1);border-radius:6px">
       <p style="margin:0;font-size:.9rem"><i class="fas fa-qrcode"></i> <strong>Scansiona il QR code in negozio</strong> per scoprire tutti i prodotti e le offerte</p>
     </div>
   </div>
@@ -659,7 +659,7 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
 
 <!-- 产品详情模态框 -->
-<div id="productModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:10000;justify-content:center;align-items:center;padding:1rem">
+<div id="productModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0, ...6);z-index:10000;justify-content:center;align-items:center;padding:1rem">
   <div style="background:white;border-radius:10px;max-width:600px;width:100%;padding:1.5rem;position:relative">
     <!-- 添加关闭按钮 -->
     <span id="closeModal" style="position:absolute;top:10px;right:10px;font-size:28px;cursor:pointer;z-index:10001;color:#333;width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.8);border-radius:50%;">&times;</span>
@@ -673,9 +673,9 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
 </div>
 
 <!-- 海报生成器 -->
-<div id="poster-generator" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:10000;justify-content:center;align-items:center;padding:20px;overflow:auto">
-  <div style="background:white;border-radius:12px;width:95%;max-width:1200px;max-height:95vh;padding:25px;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);overflow-y:auto">
-    <button onclick="closePosterGenerator()" style="position:absolute;top:15px;right:15px;border:none;background:#ff4444;color:white;width:40px;height:40px;border-radius:50%;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10001;box-shadow:0 2px 8px rgba(0,0,0,.3)">✖</button>
+<div id="poster-generator" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0, ...9);z-index:10000;justify-content:center;align-items:center;padding:20px;overflow:auto">
+  <div style="background:white;border-radius:12px;width:95%;max-width:1200px;max-height:95vh;padding:25px;position:relative;box-shadow:0 10px 30px rgba(0,0,0, ...3);overflow-y:auto">
+    <button onclick="closePosterGenerator()" style="position:absolute;top:15px;right:15px;border:none;background:#ff4444;color:white;width:40px;height:40px;border-radius:50%;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10001;box-shadow:0 2px 8px rgba(0,0,0, ...3)">✖</button>
     <h2 style="color:#000;margin-bottom:20px;text-align:center;padding-right:40px"><i class="fas fa-print"></i> Generatore Poster Promozionale</h2>
     <div style="display:grid;grid-template-columns:350px 1fr;gap:30px;margin-bottom:25px">
       <div style="border-right:2px solid #eee;padding-right:25px">
@@ -698,7 +698,7 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
       </div>
       <div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><h3 style="color:#000;margin:0;font-size:1.3rem">Anteprima Poster A4</h3><div style="font-size:.9rem;color:#666;background:#f0f0f0;padding:5px 10px;border-radius:4px"><i class="fas fa-info-circle"></i> Dimensioni: 210mm × 297mm</div></div>
-        <div id="posterPreview" style="border:3px solid #666;background:#fff;min-height:500px;border-radius:8px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.1)"><!-- preview injected --></div>
+        <div id="posterPreview" style="border:3px solid #666;background:#fff;min-height:500px;border-radius:8px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0, ...1)"><!-- preview injected --></div>
       </div>
     </div>
   </div>
@@ -1106,7 +1106,7 @@ function closeAdminPanel() {
 /* ---------- 管理员统计 ---------- */
 function updateAdminStats() {
   const localProducts = loadStorage('supershop_local_products')||[];
-  const allProducts = [...products, ...localProducts, ...Object.entries(window.currentRealtimeProducts).map(([id, data]) => ({ id, ...data }))];
+  const allProducts = [..products, ..localProducts, ..Object.entries(window.currentRealtimeProducts).map(([id, data]) => ({ id, ...data }))];
   const totalProductsElement = document.getElementById('totalProducts');
   const totalCategoriesElement = document.getElementById('totalCategories');
   const realtimeProductsElement = document.getElementById('realtimeProducts');
@@ -1427,7 +1427,7 @@ function renderProducts() {
   const search = document.getElementById('product-search').value.toLowerCase();
   const category = document.getElementById('category-filter').value;
   const localProducts = loadStorage('supershop_local_products')||[];
-  const allProducts = [...products, ...localProducts];
+  const allProducts = [..products, ..localProducts];
   Object.entries(window.currentRealtimeProducts).forEach(([barcode, p]) => {
     const existing = allProducts.findIndex(x => x.id === barcode);
     if (existing >= 0) allProducts[existing] = { ...allProducts[existing], ...p, source: 'firebase' };
@@ -1463,7 +1463,7 @@ function renderProducts() {
   if (loadMoreBtn) loadMoreBtn.style.display = end < filteredProducts.length ? 'block' : 'none';
 }
 function openProductModal(productId) {
-  const p = [...products, ...(loadStorage('supershop_local_products')||[]), ...Object.entries(window.currentRealtimeProducts).map(([id, data]) => ({ id, ...data }))].find(x => x.id === productId);
+  const p = [..products, ...(loadStorage('supershop_local_products')||[]), ..Object.entries(window.currentRealtimeProducts).map(([id, data]) => ({ id, ...data }))].find(x => x.id === productId);
   if(!p)return;
   document.getElementById('modalImage').src = p.image;
   document.getElementById('modalName').textContent = p.name || '';
@@ -1554,7 +1554,7 @@ function renderMonthlyOffer(o) {
     <div class="offer-highlight">${o.title}</div>
     <div class="offer-details">
       <p><strong>${o.subtitle}</strong></p>
-      <pre style="white-space:pre-wrap;margin:1rem 0">${o.products}</pre>
+      <pre style="white-space:pre-wrap;margin:1rem 0">${oproducts}</pre>
     </div>
     <div class="offer-validity">🗓️ Valido fino al：${o.expiryDate}</div>
   `;
