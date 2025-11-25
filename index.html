@@ -753,23 +753,23 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
       .catch(err => alert('Login fallito: ' + err.message));
   };
 
- // 连接测试 & 实时监听
-const connectedRef = ref(database, '.info/connected');
-onValue(connectedRef, snap => {
-  window.firebaseAvailable = snap.val() === true;
-  updateFirebaseStatus(window.firebaseAvailable);
-});
+  /* 连接测试 & 实时监听 */
+  const connectedRef = ref(database, '.info/connected');
+  onValue(connectedRef, snap => {
+    window.firebaseAvailable = snap.val() === true;
+    updateFirebaseStatus(window.firebaseAvailable);
+  });
 
-const productsRef = ref(database, 'products');
-onValue(productsRef, snap => {
-  window.currentRealtimeProducts = snap.val() || {};
-  renderRealtimeProducts(window.currentRealtimeProducts);
-  updateAdminStats();
-  renderProducts();
-  const ts = new Date().toLocaleTimeString('it-IT');
-  const el = document.getElementById('lastUpdate');
-  if (el) el.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${ts}`;
-});
+  const productsRef = ref(database, 'products');
+  onValue(productsRef, snap => {
+    window.currentRealtimeProducts = snap.val() || {};
+    renderRealtimeProducts(window.currentRealtimeProducts);
+    updateAdminStats();
+    renderProducts();
+    const ts = new Date().toLocaleTimeString('it-IT');
+    const el = document.getElementById('lastUpdate');
+    if (el) el.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${ts}`;
+  });
 </script>
 
 <!-- 统一 JS 逻辑 -->
@@ -1005,7 +1005,8 @@ function fillOfferForm(offerData){
   document.getElementById('offerExpiry').value = offerData.expiry || '';
   document.getElementById('offerStatus').value = offerData.status || 'active';
 }
-function setDefaultOfferContent() {
+
+function setDefaultOfferContent(){
   const defaultOffer = {
     title: "🎄 Speciale Natale",
     highlight: "SCONTI INCREDIBILI FINO AL 70% SU ALCUNI ARTICOLI NATALIZI!",
@@ -1023,27 +1024,11 @@ function setDefaultOfferContent() {
     status: "active",
     lastUpdated: new Date().toISOString()
   };
-  
-  // 保存到Firebase（如果可用）
-  if (window.firebaseAvailable && window.firebaseDatabase) {
-    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
-    window.firebaseSet(offerRef, defaultOffer)
-      .then(() => {
-        console.log('默认优惠内容已保存到Firebase');
-        updateOfferDisplay(defaultOffer);
-      })
-      .catch(err => {
-        console.error('保存到Firebase失败:', err);
-        updateOfferDisplay(defaultOffer);
-      });
-  } else {
-    // 只保存到本地
-    saveStorage('supershop_offer_content', defaultOffer);
-    updateOfferDisplay(defaultOffer);
-  }
+  fillOfferForm(defaultOffer);
+  updateOfferDisplay(defaultOffer);
 }
 
-function saveOfferContent() {
+function saveOfferContent(){
   const offerData = {
     title: document.getElementById('offerTitle').value,
     highlight: document.getElementById('offerHighlight').value,
@@ -1053,35 +1038,20 @@ function saveOfferContent() {
     status: document.getElementById('offerStatus').value,
     lastUpdated: new Date().toISOString()
   };
-  
-  if (!offerData.title || !offerData.highlight || !offerData.expiry) {
+  if(!offerData.title||!offerData.highlight||!offerData.expiry){
     alert("Compila tutti i campi obbligatori (*)");
     return;
   }
-  
-  // 优先保存到Firebase
-  if (window.firebaseAvailable && window.firebaseDatabase) {
+  if(window.firebaseAvailable && window.firebaseDatabase){
     const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
     window.firebaseSet(offerRef, offerData)
-      .then(() => {
-        showSyncStatus('Contenuti salvati e sincronizzati!', 'success');
-        updateOfferDisplay(offerData);
-        // 同时保存到本地作为备份
-        saveStorage('supershop_offer_content', offerData);
-      })
-      .catch(err => {
-        console.error('Firebase保存错误:', err);
-        // Firebase失败时保存到本地
-        saveStorage('supershop_offer_content', offerData);
-        updateOfferDisplay(offerData);
-        showSyncStatus('Errore salvataggio Firebase, salvato localmente', 'warning');
-      });
+      .then(()=>{showSyncStatus('Contenuti salvati e sincronizzati!', 'success');})
+      .catch(err=>{console.error(err);showSyncStatus('Errore salvataggio Firebase', 'error');});
   } else {
-    // Firebase不可用时只保存到本地
     saveStorage('supershop_offer_content', offerData);
-    updateOfferDisplay(offerData);
     showSyncStatus('Contenuti salvati localmente (Firebase不可用)', 'warning');
   }
+  updateOfferDisplay(offerData);
 }
 
 function resetOfferContent(){
@@ -1726,69 +1696,46 @@ function printPoster() {
 
 /* ---------- 实时监听 Firebase 优惠内容 ---------- */
 function listenRealtimeOffer() {
-  if (!window.firebaseAvailable || !window.firebaseDatabase) {
-    console.log('Firebase不可用，使用本地优惠内容');
-    const localOffer = loadStorage('supershop_offer_content');
-    if (localOffer) {
-      updateOfferDisplay(localOffer);
-    } else {
-      setDefaultOfferContent();
-    }
-    return;
-  }
-  
-  const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+  if (!window.firebaseAvailable) return;
+  const offerRef = window.firebaseRef(window.firebaseDatabase, 'offer');
   window.firebaseOnValue(offerRef, snap => {
     const data = snap.val();
     if (data) {
-      console.log('接收到Firebase优惠内容:', data);
-      updateOfferDisplay(data);
-      saveStorage('supershop_offer_content', data);
-      showSyncStatus('优惠内容已同步', 'success');
+      renderMonthlyOffer(data);           // 实时渲染
+      saveStorage('supershop_offer_content', data); // 同时缓存
     } else {
-      console.log('Firebase没有优惠内容，使用本地数据');
-      const localOffer = loadStorage('supershop_offer_content');
-      if (localOffer) {
-        updateOfferDisplay(localOffer);
-      } else {
-        setDefaultOfferContent();
-      }
+      // Firebase 没数据就回退读本地
+      const local = loadStorage('supershop_offer_content');
+      if (local) renderMonthlyOffer(local);
+      else setDefaultOfferContent(); // 再兜底默认
     }
   });
 }
+
 /* ---------- 初始化 ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
   document.getElementById('hiddenAdminBtn').style.display = 'block';
   initCookieBanner();
-  
   setTimeout(() => {
     renderProducts();
     updateAdminStats();
     renderLocalProductsList();
-    
-    // 确保优惠内容系统正确初始化
-    console.log('初始化优惠内容系统...');
-    listenRealtimeOffer(); // 启动Firebase监听
-    
-    // 添加关闭模态框的功能
-    document.addEventListener('click', function(e) {
-      if (e.target.id === 'closeModal') {
-        closeProductModal();
-      }
-    });
-
-    // 点击模态框外部也关闭
-    const productModal = document.getElementById('productModal');
-    if (productModal) {
-      productModal.addEventListener('click', function(e) {
-        if (e.target === this) {
-          closeProductModal();
-        }
-      });
-    }
-  }, 1000);
+    listenRealtimeOffer();
+// 添加关闭模态框的功能
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'closeModal') {
+    closeProductModal();
+  }
 });
+
+// 点击模态框外部也关闭
+document.getElementById('productModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeProductModal();
+  }
+});
+  }, 1000);
 
   /* 绑定事件 */
   document.getElementById('hiddenAdminBtn').addEventListener('click', enableAdminPanel);
