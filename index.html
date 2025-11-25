@@ -753,23 +753,23 @@ footer{background:linear-gradient(135deg,var(--primary-color),#00264d);color:#ff
       .catch(err => alert('Login fallito: ' + err.message));
   };
 
-  /* 连接测试 & 实时监听 */
-  const connectedRef = ref(database, '.info/connected');
-  onValue(connectedRef, snap => {
-    window.firebaseAvailable = snap.val() === true;
-    updateFirebaseStatus(window.firebaseAvailable);
-  });
+ // 连接测试 & 实时监听
+const connectedRef = ref(database, '.info/connected');
+onValue(connectedRef, snap => {
+  window.firebaseAvailable = snap.val() === true;
+  updateFirebaseStatus(window.firebaseAvailable);
+});
 
-  const productsRef = ref(database, 'products');
-  onValue(productsRef, snap => {
-    window.currentRealtimeProducts = snap.val() || {};
-    renderRealtimeProducts(window.currentRealtimeProducts);
-    updateAdminStats();
-    renderProducts();
-    const ts = new Date().toLocaleTimeString('it-IT');
-    const el = document.getElementById('lastUpdate');
-    if (el) el.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${ts}`;
-  });
+const productsRef = ref(database, 'products');
+onValue(productsRef, snap => {
+  window.currentRealtimeProducts = snap.val() || {};
+  renderRealtimeProducts(window.currentRealtimeProducts);
+  updateAdminStats();
+  renderProducts();
+  const ts = new Date().toLocaleTimeString('it-IT');
+  const el = document.getElementById('lastUpdate');
+  if (el) el.innerHTML = `<i class="fas fa-sync"></i> Ultimo aggiornamento: ${ts}`;
+});
 </script>
 
 <!-- 统一 JS 逻辑 -->
@@ -1743,7 +1743,7 @@ function listenRealtimeOffer() {
     if (data) {
       console.log('接收到Firebase优惠内容:', data);
       updateOfferDisplay(data);
-      saveStorage('supershop_offer_content', data); // 缓存到本地
+      saveStorage('supershop_offer_content', data);
       showSyncStatus('优惠内容已同步', 'success');
     } else {
       console.log('Firebase没有优惠内容，使用本地数据');
@@ -1754,17 +1754,8 @@ function listenRealtimeOffer() {
         setDefaultOfferContent();
       }
     }
-  }, error => {
-    console.error('Firebase监听错误:', error);
-    const localOffer = loadStorage('supershop_offer_content');
-    if (localOffer) {
-      updateOfferDisplay(localOffer);
-    } else {
-      setDefaultOfferContent();
-    }
   });
 }
-
 /* ---------- 初始化 ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
