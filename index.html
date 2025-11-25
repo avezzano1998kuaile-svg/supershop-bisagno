@@ -1595,15 +1595,25 @@ function updatePosterPreview() {
 function saveOfferToFirebase() {
   const offerData = {
     title: document.getElementById('posterTitle').value,
-    subtitle: document.getElementById('posterSubtitle').value,
-    products: document.getElementById('featuredProducts').value,
-    expiryDate: document.getElementById('expiryDate').value
+    highlight: document.getElementById('posterSubtitle').value, // 改为 highlight
+    details: `<div class="offer-details">
+      <p><strong>${document.getElementById('posterSubtitle').value}</strong></p>
+      <pre style="white-space:pre-wrap;margin:1rem 0">${document.getElementById('featuredProducts').value}</pre>
+    </div>`,
+    motivation: `<p style="text-align:center;font-size:1.2rem;margin:1.5rem 0">📍 <strong>Vieni a caccia di occasioni!</strong><br><em>I prezzi più bassi li vedi solo qui da noi</em></p>`,
+    expiry: document.getElementById('expiryDate').value,
+    status: "active",
+    lastUpdated: new Date().toISOString()
   };
+  
   if (window.firebaseAvailable) {
-    const offerRef = window.firebaseRef(window.firebaseDatabase, 'offer');
-    window.firebaseSet(offerRef, offerData);
+    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
+    window.firebaseSet(offerRef, offerData)
+      .then(() => showSyncStatus('Poster salvato e sincronizzato!', 'success'))
+      .catch(err => console.error(err));
   }
   saveStorage('supershop_offer_content', offerData);
+  updateOfferDisplay(offerData); // 立即更新显示
 }
 function renderMonthlyOffer(o) {
   const box = document.getElementById('monthly-offer');
@@ -1697,46 +1707,53 @@ function printPoster() {
 /* ---------- 实时监听 Firebase 优惠内容 ---------- */
 function listenRealtimeOffer() {
   if (!window.firebaseAvailable) return;
-  const offerRef = window.firebaseRef(window.firebaseDatabase, 'offer');
+  // 修改这里：使用与优惠内容管理相同的路径
+  const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
   window.firebaseOnValue(offerRef, snap => {
     const data = snap.val();
     if (data) {
-      renderMonthlyOffer(data);           // 实时渲染
+      updateOfferDisplay(data);           // 使用正确的渲染函数
       saveStorage('supershop_offer_content', data); // 同时缓存
     } else {
       // Firebase 没数据就回退读本地
       const local = loadStorage('supershop_offer_content');
-      if (local) renderMonthlyOffer(local);
+      if (local) updateOfferDisplay(local);
       else setDefaultOfferContent(); // 再兜底默认
     }
   });
 }
-
 /* ---------- 初始化 ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
   document.getElementById('hiddenAdminBtn').style.display = 'block';
   initCookieBanner();
+  
+  // 立即初始化优惠内容
+  loadOfferContent(); // 添加这一行
+  
   setTimeout(() => {
     renderProducts();
     updateAdminStats();
     renderLocalProductsList();
     listenRealtimeOffer();
-// 添加关闭模态框的功能
-document.addEventListener('click', function(e) {
-  if (e.target.id === 'closeModal') {
-    closeProductModal();
-  }
-});
+    
+    // 添加关闭模态框的功能
+    document.addEventListener('click', function(e) {
+      if (e.target.id === 'closeModal') {
+        closeProductModal();
+      }
+    });
 
-// 点击模态框外部也关闭
-document.getElementById('productModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeProductModal();
-  }
-});
+    // 点击模态框外部也关闭
+    const productModal = document.getElementById('productModal');
+    if (productModal) {
+      productModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeProductModal();
+        }
+      });
+    }
   }, 1000);
-
   /* 绑定事件 */
   document.getElementById('hiddenAdminBtn').addEventListener('click', enableAdminPanel);
   document.getElementById('adminBtn').addEventListener('click', enableAdminPanel);
