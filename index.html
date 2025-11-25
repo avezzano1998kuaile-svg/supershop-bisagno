@@ -1502,10 +1502,31 @@ function renderProducts() {
 }
 function openProductModal(productId) {
   const p = [...products, ...(loadStorage('supershop_local_products')||[]), ...Object.entries(window.currentRealtimeProducts).map(([id, data]) => ({ id, ...data }))].find(x => x.id === productId);
-  if(!p)return;
+  if(!p) return;
+  
   document.getElementById('modalImage').src = p.image;
   document.getElementById('modalName').textContent = p.name || '';
-  document.getElementById('modalPrice').textContent = p.discountPrice ? `Prezzo: ${p.discountPrice} (Originale: ${p.originalPrice})` : `Prezzo: ${p.price || 'N/D'}`;document.getElementById('modalCategory').textContent = 'Categoria: ' + (p.category || '');
+  
+  // 修复价格显示逻辑
+  let priceText = '';
+  if (p.discountPrice && p.originalPrice) {
+    // 本地产品格式：字符串 "€3,50"
+    priceText = `Prezzo: ${p.discountPrice} (Originale: ${p.originalPrice})`;
+  } else if (p.isDiscount && p.discountPrice) {
+    // 实时产品格式：数字 3.5
+    priceText = `Prezzo: €${p.discountPrice} (Originale: €${p.price})`;
+  } else if (p.price) {
+    // 只有原价的情况
+    priceText = `Prezzo: ${typeof p.price === 'number' ? '€' + p.price : p.price}`;
+  } else if (p.originalPrice) {
+    // 只有原价的本地产品
+    priceText = `Prezzo: ${p.originalPrice}`;
+  } else {
+    priceText = 'Prezzo: N/D';
+  }
+  
+  document.getElementById('modalPrice').textContent = priceText;
+  document.getElementById('modalCategory').textContent = 'Categoria: ' + (p.category || '');
   document.getElementById('modalBarcode').textContent = 'Codice: ' + p.id;
   document.getElementById('modalDescription').textContent = p.description || '';
   document.getElementById('productModal').style.display = 'flex';
