@@ -1028,31 +1028,44 @@ function setDefaultOfferContent(){
   updateOfferDisplay(defaultOffer);
 }
 
-function saveOfferContent(){
-  const offerData = {
-    title: document.getElementById('offerTitle').value,
-    highlight: document.getElementById('offerHighlight').value,
-    details: document.getElementById('offerDetails').value,
-    motivation: document.getElementById('offerMotivation').value,
-    expiry: document.getElementById('offerExpiry').value,
-    status: document.getElementById('offerStatus').value,
-    lastUpdated: new Date().toISOString()
-  };
-  if(!offerData.title||!offerData.highlight||!offerData.expiry){
-    alert("Compila tutti i campi obbligatori (*)");
+let isSavingOffer = false;
+function saveOfferContent() {
+  if (!window.firebaseAvailable) {
+    alert("Firebase non disponibile");
     return;
   }
-  if(window.firebaseAvailable && window.firebaseDatabase){
-    const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
-    window.firebaseSet(offerRef, offerData)
-      .then(()=>{showSyncStatus('Contenuti salvati e sincronizzati!', 'success');})
-      .catch(err=>{console.error(err);showSyncStatus('Errore salvataggio Firebase', 'error');});
-  } else {
-    saveStorage('supershop_offer_content', offerData);
-    showSyncStatus('Contenuti salvati localmente (Firebase不可用)', 'warning');
-  }
-  updateOfferDisplay(offerData);
+
+  const data = {
+    title: document.getElementById("offerTitle").value.trim(),
+    highlight: document.getElementById("offerHighlight").value.trim(),
+    details: document.getElementById("offerDetails").value.trim(),
+    motivation: document.getElementById("offerMotivation").value.trim(),
+    expiry: document.getElementById("offerExpiry").value.trim(),
+    status: document.getElementById("offerStatus").value,
+    updatedAt: new Date().toISOString()
+  };
+
+  isSavingOffer = true; // 🔒 开锁：正在保存
+
+  const offerRef = firebaseRef(firebaseDatabase, "monthlyOffer");
+
+  firebaseSet(offerRef, data)
+    .then(() => {
+      const ts = new Date().toLocaleString("it-IT");
+      document.getElementById("offerLastUpdate").innerHTML =
+        `✔ Salvato correttamente (${ts})`;
+
+      // ⏱ 延迟解锁，避免 onValue 立刻覆盖
+      setTimeout(() => {
+        isSavingOffer = false;
+      }, 800);
+    })
+    .catch(err => {
+      isSavingOffer = false;
+      alert("Errore salvataggio: " + err.message);
+    });
 }
+
 
 function resetOfferContent(){
   if(confirm("Ripristinare i contenuti predefiniti?")){
@@ -1709,18 +1722,20 @@ function listenRealtimeOffer() {
   if (!window.firebaseAvailable) return;
   // 修改这里：使用与优惠内容管理相同的路径
   const offerRef = window.firebaseRef(window.firebaseDatabase, 'website_content/offer');
-  window.firebaseOnValue(offerRef, snap => {
-    const data = snap.val();
-    if (data) {
-      updateOfferDisplay(data);           // 使用正确的渲染函数
-      saveStorage('supershop_offer_content', data); // 同时缓存
-    } else {
-      // Firebase 没数据就回退读本地
-      const local = loadStorage('supershop_offer_content');
-      if (local) updateOfferDisplay(local);
-      else setDefaultOfferContent(); // 再兜底默认
-    }
-  });
+  window.firebaseonValue(offerRef, snap => {
+  if (isSavingOffer) return; // ⛔ 防止刚保存完就被覆盖
+
+  const data = snap.val();
+  if (!data) return;
+
+  document.getElementById("offerTitle").value = data.title || "";
+  document.getElementById("offerHighlight").value = data.highlight || "";
+  document.getElementById("offerDetails").value = data.details || "";
+  document.getElementById("offerMotivation").value = data.motivation || "";
+  document.getElementById("offerExpiry").value = data.expiry || "";
+  document.getElementById("offerStatus").value = data.status || "active";
+});
+
 }
 /* ---------- 初始化 ---------- */
 document.addEventListener('DOMContentLoaded', () => {
